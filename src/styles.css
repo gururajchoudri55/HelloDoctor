@@ -70,7 +70,8 @@ span{
 }
 
 /* table{
-  background-color: #322b6b;
+  background: linear-gradient(180deg, #2E86C1, #AED6F1);
+
   color:white;
   height:40px;
   border-top-right-radius: 5px;
@@ -148,7 +149,8 @@ table {
 
 
 th {
-  background-color: #322B6B;
+  background: linear-gradient(180deg, #2E86C1, #AED6F1);
+
   color: white;
   text-align: left;
   padding: 10px;
@@ -163,7 +165,8 @@ th {
 
 
 /* th {
-  background-color: #322B6B;
+  background: linear-gradient(180deg, #2E86C1, #AED6F1);
+
   color:white;
   text-align: center;
   padding: 4px;
@@ -292,7 +295,8 @@ button {
 }
 
 .theme-green .bs-datepicker-head {
-  background-color: #322b6b;
+  background: linear-gradient(180deg, #2E86C1, #AED6F1);
+
 }
 
 button:disabled {
@@ -332,7 +336,8 @@ button:disabled {
 
 
 th {
-  background-color: #322b6b;
+  background: linear-gradient(180deg, #2E86C1, #AED6F1);
+
   color: white;
   text-align: center;
   padding: 4px;

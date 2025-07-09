@@ -51,7 +51,8 @@
   }
   
   th {
-    background-color: #322B6B;
+    background: linear-gradient(180deg, #2E86C1, #AED6F1);
+
     color: white;
     text-align: center;
     padding: 5px;

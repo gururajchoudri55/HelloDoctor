@@ -43,7 +43,8 @@
   }
   
   th {
-    background-color: #322B6B;
+    background: linear-gradient(180deg, #2E86C1, #AED6F1);
+
     color: white;
     text-align: center;
     padding: 5px;
@@ -84,7 +85,8 @@
   } */
   
   .Video:hover {
-    background-color: #322B6B;
+    background: linear-gradient(180deg, #2E86C1, #AED6F1);
+
     color: white;
     cursor: pointer;
     padding: 6px;
@@ -217,7 +219,8 @@
 
   .paybutton{
     padding: 3px;
-    background-color: #322b6b;
+    background: linear-gradient(180deg, #2E86C1, #AED6F1);
+
     color:white;
     border-radius: 10px;
     width: 92px;

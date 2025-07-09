@@ -36,7 +36,8 @@
 
 
    th{
-     background-color: #322b6b;
+     background: linear-gradient(180deg, #2E86C1, #AED6F1);
+
      color:white;
    }
 

@@ -5,7 +5,8 @@
   }
   
   .optionsboxdown {
-    background-color:#2e2d6e;;
+    background: linear-gradient(180deg, #2E86C1, #2E86C1);
+;;
     color: white;
     text-align: center;
     padding: 7px;

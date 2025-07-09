@@ -108,7 +108,8 @@
   justify-content: center;
 }
 .loginimge {
-  width: 105px;
+  /* width: 105px; */
+  width: 164px;
 }
 
 @media only screen and (max-width: 600px) {
