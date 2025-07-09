@@ -1,0 +1,117 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.homeCare}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="addnew" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text"
+            placeholder="{{labels.selectDate}}"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search" [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+    <div  class="col-lg-3">
+      <select class="form-control" (change)="GetTypeID($event)">
+        <option value="none">{{labels.selectAppType}}</option>
+        <option value="nurse">{{labels.nurse}} </option>
+        <option value="physio">{{labels.physiotherapist}}</option>
+        <option value="midwife">{{labels.midwife}} </option>
+        <option value="Doctor">{{labels.doctor}}</option>
+      </select>
+    </div>
+          <div class="col-lg-3 countClass">
+            <label>{{labels.totalRevenue}} : {{TotalAmount}}</label>&nbsp;&nbsp;
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+            <tr>
+               <th>{{labels.appointmentDate}}</th>
+               <th>{{labels.appointmenNumber}}</th>
+               <th>{{labels.appointmentType}}</th> 
+               <th>{{labels.provider}}</th>
+               <th>{{labels.patientName}}</th>
+               <th>{{labels.reasonForVisit}}</th>
+               <th>{{labels.mobileNumber}}</th>
+               <th>{{labels.email}}</th>
+               <th>{{labels.paymentType}}</th>
+               <th>{{labels.paidAmount}}</th>
+               <th>{{labels.cliniquerevenue}}</th>
+               <th>{{labels.providerrevenue}}</th>
+             
+              </tr>
+              <tr *ngFor="let details of cancelledlist|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                <td>{{details.appdate}}</td>
+                <td>{{details.appointmentID}}</td>
+                <td style="white-space: nowrap;">{{details.appointmentTypeText}}</td>
+                <td>{{details.doctorName}}</td>
+                <!-- <td>{{details.combinationValue}}</td> -->
+                <td>{{details.patientName}}</td>
+                <td>{{details.reasonForVisit}}</td>
+                <td>{{details.mobileNumber}}</td> 
+                <td>{{details.emailID}}</td>
+                <td>{{details.paymentType}}</td>
+                <td>{{details.paidAmount}}</td>
+                <td>{{details.appointmentPercentage}} %</td>
+                <td>{{details.providerpaidAmount}}</td>
+               
+              </tr>   
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-1">
+          <button class="save" routerLink="/HospitalClinic/HospitalDashboard">{{labels.back}}</button>
+        </div>
+        <div class="col-lg-11" style="text-align: end">
+            <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+                screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                screenReaderCurrentLabel="You're on page">
+            </pagination-controls>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

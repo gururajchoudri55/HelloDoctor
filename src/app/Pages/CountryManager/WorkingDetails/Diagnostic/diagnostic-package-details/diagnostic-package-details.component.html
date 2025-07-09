@@ -1,0 +1,119 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-12">
+      <p class="headings">{{labels.diagnosticTest}}</p>
+    </div>
+    <div class="col-lg-8"></div>
+  </div>
+  <br>
+  <div class="card">
+    <form #diagnosticpackageform="ngForm">
+      <div class="row">
+        <div class="col-lg-3" *ngIf="showdropdown=='1'">
+          <ng-multiselect-dropdown [disabled]="tablecount=='1'" [placeholder]="selectdiagnostic" [settings]="diadd"
+            [data]="diagnosticlist" (onSelect)="GetDiagnosticID($event)">
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="col-lg-3" *ngIf="showdropdown!='1'">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="diagnosticname"
+              name="diagnosticname" disabled placeholder="Package Name" >
+            <label for="floatingInput" class="floatingLabel">{{labels.diagnosticCenterName}}</label>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="packagename"
+              name="packagename" required [disabled]="tablecount=='1'" placeholder="Package Name">
+            <label for="floatingInput" class="floatingLabel">{{labels.packageName}}<span class="required">*</span></label>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <select class="form-control">
+            <option value="0" selected>{{labels.selectTestType}}</option>
+            <option *ngFor="let test of testslist" value={{test.id}}>{{test.name}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3">
+          <ng-multiselect-dropdown [placeholder]="selecttest" [(ngModel)]="selectedItemsRoot" name="selectedItemsRoot"
+            [settings]="testdd" [data]="testlist" (onSelect)="GetTestID($event)">
+          </ng-multiselect-dropdown>
+        </div>
+      </div> <br>
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control inputfield" id="floatingInput" [(ngModel)]="packageprice"
+              name="packageprice" placeholder="Package Price">
+            <label for="floatingInput" class="floatingLabel">{{labels.packagePrice}}<span class="required">*</span></label>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="Description" id="floatingTextarea" [(ngModel)]="description"
+              [disabled]="tablecount=='1'" name="description" required name="description"></textarea>
+            <label for="floatingTextarea">{{labels.packageDescription}}</label>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-lg-9"></div>
+        <div class="col-lg-2">
+          <button type="button" class="save" (click)="adddetails()" [disabled]="diagnosticpackageform.form.invalid">{{labels.add}}</button>&nbsp;
+        </div>
+        <div class="col-lg-1">
+          <button type="button" class="save" style="margin-left: 13px;"
+            routerLink="/countrymanager/DiagnosticPackage">{{labels.cancel}}</button>
+        </div>
+      </div>
+
+
+      <div class="row" *ngIf="tablecount=='1'">
+        <div class="col-lg-12">
+          <table>
+            <thead>
+              <tr>
+                <th>{{labels.diagnosticCenter}}</th>
+                <th>{{labels.package}}</th>
+                <th>{{labels.test}}</th>
+                <th>{{labels.packagePrice}}</th>
+                <th>{{labels.description}}</th>
+                <th>{{labels.actions}}</th>
+              </tr>
+              <tr *ngFor="let details of qwerty">
+                <td>{{details.DiagnosticName}}</td>
+                <td>{{details.PackageName}}</td>
+                <td>{{details.diagnostictestname}}</td>
+                <td>{{details.Price}}</td>
+                <td>{{details.Description}}</td>
+                <td>
+
+                  <img src="assets/Icons/delete.png" (click)="delete(details.sno)">
+
+                </td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div><br>
+
+      <div class="row" *ngIf="tablecount=='1'">
+        <div class="col-lg-12">
+          <button type="button" class="save" (click)="insertdetails()">{{labels.save}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <br>
+
+
+
+
+
+
+</div>

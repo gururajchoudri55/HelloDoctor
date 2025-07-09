@@ -1,0 +1,12 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+  .tests{
+    white-space: nowrap;
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px !important;
+  }

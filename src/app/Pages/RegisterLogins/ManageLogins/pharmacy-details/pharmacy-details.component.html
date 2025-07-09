@@ -1,0 +1,41 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<app-register-provider-sm-s></app-register-provider-sm-s>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{labels.pharmacy}}</p>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <br>
+        <form #PharmaFrom="ngForm">
+        <div class="row">
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectpharmacy" [settings]="pharmacydd" [data]="pharmacyList"
+                (onSelect)="GetPharmacyID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="User Name" required [(ngModel)]="userName" name="userName" >
+                    <label for="floatingInput" class="floatingLabel">{{labels.userName}} <span class="required">*</span></label>
+                </div>
+            </div>
+        </div> <br>
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-1">
+                <button class="save"  (click)="savedetails()" [disabled]="PharmaFrom.form.invalid">{{labels.save}}</button>&nbsp;&nbsp;
+            </div>
+            <div class="col-lg-1">
+                <button class="save" routerLink="/Registerlogins/PharmacyDash">{{labels.back}}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</div>

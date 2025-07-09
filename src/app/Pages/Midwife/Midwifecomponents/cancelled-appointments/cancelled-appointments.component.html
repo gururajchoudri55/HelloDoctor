@@ -1,0 +1,112 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.cancelledAppointments}}</h5>
+        </div>
+        <div class="col-lg-4 buttonsss" >
+          <button class="save" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+      </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text"
+            placeholder="Select Date"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search" [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+          <div class="col-lg-3">
+            <select class="form-control" (change)="getget($event)">
+              <option selected value="5">{{labels.select}}</option>
+              <option value="1">{{labels.visited}}</option>
+              <option value="4">{{labels.notVisited}}</option>
+              <option value="3">{{labels.cancelled}}</option>
+            </select>
+          </div>
+          <div class="col-lg-1"></div>
+          <div class="col-lg-2 countClass">
+            <label>{{labels.count}} :{{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+                    <th id="imp">{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentNo}}</th>
+                    <th>{{labels.midwifeName}}</th>
+                    <th>{{labels.hospital}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.emailID}}</th>
+                    <th>{{labels.address}}</th>
+                    <th id="imp">{{labels.appointmentTime}}</th>
+                    <th>{{labels.reason}}</th>
+                    <th>{{labels.status}}</th>
+                  </tr>
+                  <tr *ngFor="let app of appointmentreportlist|filter:search">
+                    <td>{{app.apptDate}}</td>
+                    <td>{{app.id}}</td>
+                    <td>{{app.name}}</td>
+                    <td>{{app.hospital_ClinicName}}</td>
+                    <td>{{app.patientName}}</td>
+                    <td>{{app.mobileNumber}}</td>
+                    <td>{{app.emailID}}</td>
+                    <td>{{app.address}}</td>
+                    <td>{{app.bookedTime}}</td>
+                    <td>{{app.reasonForVisit}}</td>
+                    <td>
+                      <label *ngIf="app.isVisited=='1'" style="color:yellowgreen">{{labels.visited}}</label>
+                      <label *ngIf="app.midwivesCancelled=='1'" style="color:red">{{labels.midwife}}</label>
+        
+                      <label *ngIf="app.cancelled=='1'" style="color:red">{{labels.patientCancelled}}</label>
+        
+                      <label *ngIf="app.notVisited=='1'" style="color:rgb(23, 206, 115)">{{labels.notVisited}}</label>
+                      <label
+                        *ngIf="app.notVisited=='0'&&app.midwivesCancelled=='0'&&app.isVisited=='0'&&app.cancelled=='0'&&app.accepted=='0'"
+                        style="color:rgb(23, 206, 115)">{{labels.pending}}</label>
+                      <label
+                        *ngIf="app.notVisited=='0'&&app.midwivesCancelled=='0'&&app.isVisited=='0'&&app.cancelled=='0'&&app.accepted=='1'"
+                        style="color:rgb(23, 206, 115)">{{labels.accepted}}</label>
+                    </td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <!-- <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="Previous" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div> -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,42 @@
+<app-sms></app-sms>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4">
+            <input type="radio" value="1" [(ngModel)]="typeID" name="typeID">&nbsp;{{labels.test}}
+        </div>
+        <div class="col-lg-4">
+            <input type="radio" value="2" [(ngModel)]="typeID" name="typeID">&nbsp;{{labels.soapNotes}}
+        </div>
+        <div class="col-lg-4">
+            <input type="radio" value="3" [(ngModel)]="typeID" name="typeID">&nbsp;{{labels.prescription}}
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-lg-4">
+            <input type="radio" value="4" [(ngModel)]="typeID" name="typeID">&nbsp;{{labels.medicalCertificate}}
+        </div>
+        <div class="col-lg-4">
+            <input type="radio" value="5" [(ngModel)]="typeID" name="typeID">&nbsp;{{labels.referalLetter}}
+        </div>
+    </div><br>
+
+    <div class="row" *ngIf="typeID==1||typeID==2||typeID==3||typeID==4||typeID==5">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-6">
+            <ngx-dropzone (change)="onSelect($event)" style="width:100% ;height: auto;">
+                <ngx-dropzone-label> {{labels.photo}}!</ngx-dropzone-label>
+                <ngx-dropzone-preview *ngFor="let f of files1" [removable]="true" (removed)="ondoctorPhotoRemove(f)">
+                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                </ngx-dropzone-preview>
+            </ngx-dropzone>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-lg-12">
+            <button class="save" *ngIf="typeID==1||typeID==2||typeID==4||typeID==5"
+                (click)="InsertDiagnostictestAndSoap()">{{labels.saveSendtoPatient}}</button>
+            <button class="save" *ngIf="typeID==3" (click)="InsertPrescrptionPhoto()">{{labels.saveSendtoPatient}}</button>
+        </div>
+    </div>
+
+</div>

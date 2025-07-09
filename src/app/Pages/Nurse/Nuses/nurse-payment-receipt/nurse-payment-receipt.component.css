@@ -1,0 +1,21 @@
+
+.recepitHeader {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerfront{
+    width: 30%;
+    margin-top: 20px;
+}
+
+.headerContent{
+    width: 37%;
+  }
+
+.headeredge{
+    width: 17%;
+    margin-top: 20px;
+}

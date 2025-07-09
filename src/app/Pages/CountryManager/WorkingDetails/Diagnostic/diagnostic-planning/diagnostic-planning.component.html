@@ -1,0 +1,260 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-8">
+      <h5 class="headings">{{labels.planningDashboard}}</h5>
+    </div>
+    <div class="col-lg-4 buttonsss">
+      <button class="save" routerLink="/countrymanager/DiagnosticPlanningDetails">{{labels.add}}</button>
+    </div>
+
+  </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+  <br>
+  <div class="row">
+    <div class="tab">
+      <button class="tablinks" (click)="openCity($event, 'Diagnosticcenter')" id="defaultOpen">
+      {{labels.diagnosticCenter}}
+      </button>
+      <button class="tablinks" (click)="openCity($event, 'Homesample')">{{labels.homeSample}}</button>
+    </div>
+  </div>
+  <div id="Diagnosticcenter" class="tabcontent">
+    <div class="row" style="margin-top:10px;">
+      <div class="col-lg-3">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="term"
+            name="term">
+          <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <select class="form-control" (change)="GetDiagnosticcenterID($event)">
+          <option value="0">{{labels.selectdiagnosticCenter}}</option>
+          <option *ngFor="let dia of diagnosticlist" value="{{dia.id}}">{{dia.diagnosticCenterName}}</option>
+        </select>
+      </div>
+
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-lg-12" style="overflow: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>{{labels.timings}}</th>
+              <th>{{labels.monday}}</th>
+              <th>{{labels.tuesday}}</th>
+              <th>{{labels.wednesday}}</th>
+              <th>{{labels.thursday}}</th>
+              <th>{{labels.friday}}</th>
+              <th>{{labels.saturday}}</th>
+              <th>{{labels.sunday}}</th>
+            </tr>
+            <tr *ngFor="let details of Workingdetails|filter:term">
+              <td>{{details.slotname}}</td>
+              <td [style.background-color]="details.mondayColor" style="color:white">{{details.monday}}<br>
+
+                {{details.mondayTotalappointments}}<br>
+
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetMondayID(details)">
+
+              </td>
+              <td [style.background-color]="details.tuesdayColor" style="color:white">{{details.tuesday}}<br>
+                {{details.tuesdayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetTuesDayID(details)">
+
+              </td>
+              <td [style.background-color]="details.wednesdayColor" style="color:white">{{details.wednesday}}<br>
+                {{details.wednessdayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetWednessDayID(details)">
+
+              </td>
+              <td [style.background-color]="details.thursdayColor" style="color:white">{{details.thursday}}<br>
+                {{details.thusdayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetThursadyID(details)">
+
+              </td>
+              <td [style.background-color]="details.fridayColor" style="color:white">{{details.friday}}<br>
+
+                {{details.fridayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetFridayID(details)">
+
+              </td>
+              <td [style.background-color]="details.saturdayColor" style="color:white">{{details.saturday}}<br>
+
+                {{details.satdayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetSaturdatID(details)">
+
+              </td>
+              <td [style.background-color]="details.sundayColor" style="color:white">{{details.sunday}}<br>
+
+                {{details.sundayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetSundayID(details)">
+
+              </td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <br>
+  </div>
+
+  <div id="Homesample" class="tabcontent">
+    <div class="row" style="margin-top:10px;">
+
+      <div class="col-lg-3">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="term"
+            name="term">
+          <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <select class="form-control" (change)="GetDiagnosticcenterID($event)">
+          <option value="0">{{labels.selectdiagnosticCenter}}</option>
+          <option *ngFor="let dia of diagnosticlist" value="{{dia.id}}">{{dia.diagnosticCenterName}}</option>
+        </select>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-lg-12" style="overflow: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>{{labels.timings}}</th>
+              <th>{{labels.monday}}</th>
+              <th>{{labels.tuesday}}</th>
+              <th>{{labels.wednesday}}</th>
+              <th>{{labels.thursday}}</th>
+              <th>{{labels.friday}}</th>
+              <th>{{labels.saturday}}</th>
+              <th>{{labels.sunday}}</th>
+            </tr>
+            <tr *ngFor="let details of Workingdetails|filter:term">
+              <td>{{details.slotname}}</td>
+              <td [style.background-color]="details.mondayColor" style="color:white">{{details.monday}}<br>
+                {{details.mondayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetMondayID(details)">
+
+              </td>
+              <td [style.background-color]="details.tuesdayColor" style="color:white">{{details.tuesday}}<br>
+                {{details.tuesdayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetTuesDayID(details)">
+
+              </td>
+              <td [style.background-color]="details.wednesdayColor" style="color:white">{{details.wednesday}}<br>
+                {{details.wednessdayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetWednessDayID(details)">
+
+              </td>
+              <td [style.background-color]="details.thursdayColor" style="color:white">{{details.thursday}}<br>
+                {{details.thusdayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetThursadyID(details)">
+
+
+              </td>
+              <td [style.background-color]="details.fridayColor" style="color:white">{{details.friday}}<br>
+                {{details.fridayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetFridayID(details)">
+
+
+              </td>
+              <td [style.background-color]="details.saturdayColor" style="color:white">{{details.saturday}}<br>
+                {{details.satdayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetSaturdatID(details)">
+
+              </td>
+              <td [style.background-color]="details.sundayColor" style="color:white">{{details.sunday}}<br>
+                {{details.sundayTotalappointments}}<br>
+
+                <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                  style="width: 18px" (click)="GetSundayID(details)">
+
+              </td>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <br>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{labels.edit}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <span *ngIf="typeidss=='1'">
+              <input type="radio" [(ngModel)]="typeid" name="typeid" [value]="1"> &nbsp;
+             {{labels.homeSample}} &nbsp;
+            </span>
+            <span *ngIf="typeidss=='2'">
+              <input type="radio" [(ngModel)]="typeid" name="typeid" [value]="2"> &nbsp;
+              {{labels.diagnosticCenter}} &nbsp;
+            </span>
+            <input type="radio" [(ngModel)]="typeid" name="typeid" [value]="4"> &nbsp;
+            {{labels.notAvailable}} &nbsp;
+          </div><br>
+        </div><br>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="totalappoiments"
+                placeholder="Total Appointments" name="totalappoiments">
+              <label for="floatingInput" class="floatingLabel">{{labels.totalAppointments}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="close"  (click)="updatedetails()" data-bs-dismiss="modal">{{labels.update}}</button>
+      
+      </div>
+    </div>
+  </div>
+</div>

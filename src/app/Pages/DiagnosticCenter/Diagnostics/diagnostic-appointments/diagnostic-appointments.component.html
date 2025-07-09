@@ -1,0 +1,445 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup == 1"></app-toastpopup>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-10">
+            <h5 class="headings">{{labels.bookAppointment}}</h5>
+        </div>
+        <div class="col-lg-2">
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <label>{{labels.Patient}} :</label>
+        </div>
+        <div class="col-lg-4">
+            <ng-multiselect-dropdown [placeholder]="selectPatient" [settings]="patientdd" [data]="patientslist"
+          (onSelect)="GetPatientID($event)" >
+            </ng-multiselect-dropdown>
+        </div>
+        <div class="col-lg-3">
+            <button data-bs-toggle="modal" data-bs-target="#AcceptModal" class="listCss">{{labels.totalPatientList}}</button>
+          </div>
+    </div><br>
+    <div class="row" style="overflow: auto;" *ngIf="showSearchBox=='1'">
+        <br>
+        <div class="col-lg-3"></div>
+        <div class="col-lg-4">
+          <br>
+          <input type="text" class="form-control" placeholder="{{labels.phonumbersearch}}" [(ngModel)]="term" name="term"  (ngModelChange)="Searchpatient(term)">
+        </div>
+      </div>
+
+    <div class="row" *ngIf="searchon=='1'">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10" style="overflow: auto;">
+          <table id="Appointment">
+            <thead>
+              <tr>
+                <th>{{labels.patientName}}</th>
+                <th>{{labels.phoneNumber}}</th>
+                <th>{{labels.email}}</th>
+                <th>{{labels.address}}</th>
+                <th>{{labels.dateofBirth}}</th>
+                <th>{{labels.select}}</th>
+              </tr>
+              <tr *ngFor="let details of patientdetails|filter:term">
+                <td>{{details.patientName}}</td>
+                <td>{{details.mobileNumber}}</td>
+                <td>{{details.emailID}}</td>
+                <td>{{details.address}}</td>
+                <td>{{details.dateOfBirth}}</td>
+                <td>
+                  <button class="listCss" (click)="GetPatientsID(details)">{{labels.validate}}</button>
+                </td>
+              </tr>
+            </thead>
+          </table>
+        </div><br>
+    </div>
+
+    <div class="row" *ngIf="tableid == true">
+      <div class="col-lg-1"></div>
+      <div class="col-lg-10" style="overflow: auto;">
+        <table id="Appointment">
+          <thead>
+            <tr>
+              <th>{{labels.patientName}}</th>
+              <th>{{labels.phoneNumber}}</th>
+              <th>{{labels.email}}</th>
+              <th>{{labels.address}}</th>
+              <th>{{labels.dateofBirth}}</th>
+              <th>Action</th>
+            </tr>
+            <tr *ngFor="let details of particularPatienDetails">
+              <td>{{details.patientName}}</td>
+              <td>{{details.mobileNumber}}</td>
+              <td>{{details.emailID}}</td>
+              <td>{{details.address}}</td>
+              <td>{{details.dateOfBirth}}</td>
+              <td>
+                <img src="assets/Icons/delete.png" 
+                  (click)="removeList()">
+              </td>
+            </tr>
+          </thead>
+        </table>
+      </div><br>
+  </div>
+    <br>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-lg-2">
+        <input type="email" class="form-control" id="floatingInput" [(ngModel)]="term1"
+            placeholder="{{labels.search}}">
+    </div>
+    </div>
+  <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tab">
+                <button class="tablinks" style="width: 50%;" (click)="openCity(1)">{{labels.test}}</button>
+                <button class="tablinks" style="width: 50%;" (click)="openCity(2)">{{labels.packages}}</button>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <table *ngIf="type==1">
+                <tr>
+                    <th>{{labels.test}}</th>
+                    <th>{{labels.amount}}</th>
+                    <th>{{labels.select}}</th>
+                </tr>
+                <tr *ngFor="let list of testlist|filter:term1">
+                    <td>{{list.testName}}</td>
+                    <td>{{list.price|number:'1.2-2'|noComma}}Ar</td>
+                    <td><input type="checkbox" (change)="GetSelectedTests($event,list)"></td>
+                </tr>
+            </table>
+
+            <table *ngIf="type==2">
+                <tr>
+                    <th>{{labels.test}}</th>
+                    <th>{{labels.amount}}</th>
+                    <th>{{labels.select}}</th>
+                </tr>
+                <tr *ngFor="let list of packageslist">
+                    <td>{{list.packageName}}</td>
+                    <td>{{list.price|number:'1.2-2'|noComma}}Ar</td>
+                    <td><input type="checkbox" (change)="GetSelectedPackages($event,list)"></td>
+                </tr>
+            </table>      <br>
+        </div>      <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-6">
+                <button type="submit" text_align="center" class="save" (click)="AddAll()">{{labels.add}}</button>
+            </div>
+        </div>
+        <br>
+        <div class="row" *ngIf="table==1">
+            <table>
+                <tr>
+                    <th>{{labels.selectedtestpackages}}</th>
+                    <th>{{labels.amount}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let list of allselectedtestandpakages">
+                    <td>{{list.Testorpackage}}</td>
+                    <td>{{list.Price|number:'1.2-2'|noComma}}Ar</td>
+                    <td>
+                        <img src="assets/Icons/delete.png" (click)="delete(list.Sno)">
+
+                    </td>
+                </tr>
+            </table><br><br>
+            <div class="col-lg-12" style="text-align: end;">
+                <label>{{labels.totalAmount}} : {{totalamount}}</label>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <label>{{labels.homesample}} : </label>
+            </div>
+            <div class="col-lg-4">
+                <input type="radio" name="homesample" [(ngModel)]="homesample" (ngModelChange)="onChange()"
+                    [value]="1">&nbsp;{{labels.yes}}
+                <input type="radio" name="homesample" [(ngModel)]="homesample" (ngModelChange)="onChange()"
+                    [value]="0">&nbsp;{{labels.no}}
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <label>{{labels.slot}} : </label>
+            </div>
+            <div class="col-lg-4">
+                <select class="form-control" data-bs-toggle="modal" data-bs-target="#slots"
+                    *ngIf="diagnosticslotid==undefined||diagnosticslotid==null">
+                    <option selected hidden>{{labels.selectSlot}}</option>
+                </select>
+                <input type="text" [(ngModel)]="slotname" name="slotname" class="form-control" *ngIf="diagnosticslotid!=undefined||diagnosticslotid!=null"
+                    placeholder="SlotName" data-toggle="modal" data-target="#slots">
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row" style="margin-top: 9px;">
+          <div class="col-lg-3">
+              <label>{{labels.selectdiagnosticSlotDate}} : </label>
+          </div>
+          <div class="col-lg-4">
+              <input type="text" [(ngModel)]="todaydate" name="todaydate" class="form-control" 
+                  disabled placeholder="{{labels.selectdiagnosticSlotDate}}" >
+          </div>
+      </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <button type="submit" text_align="center" class="save" (click)="BookAppointment()">{{labels.book}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="slots" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+              <div class="col-lg-4">
+                <h5>DiagnostiSlots</h5>
+            </div>
+            <div class="col-lg-3">
+              <input type="text" placeholder="Select Date" class="form-control"
+              [minDate]="today" #dp="bsDatepicker"  [(ngModel)]="appointmentDate" bsDatepicker 
+              [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" 
+                  (ngModelChange)="getendDate($event)" bsDatepicker [minDate]="today" >
+          </div>
+                <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-left: 15px;">
+                            <h4>{{labels.morning}}</h4>
+
+                        </div>
+                        <div class="col-lg-2" style="margin-left: 15px;" *ngFor="let slot of morningslotslist">
+                            <br>
+                            <label  data-bs-dismiss="modal" class="slot"
+                                (click)="GetDiagnosticSlotID(slot)">{{slot.slotName}}</label>
+                                <br>
+                        </div><br>
+                        <div class="col-lg-12">
+                            <div class="col-lg-5" style="margin-left: 15px;" *ngIf="noMorningSlots==0">
+                                <label>{{labels.noslotsAvailable}}</label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+                <div class="card">
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-left: 15px;">
+                            <h4>{{labels.afternoon}}</h4>
+
+                        </div>
+                        <div class="col-lg-2" style="margin-left: 15px;" *ngFor="let slot of afternoonslotslist">
+                            <br>
+                            <label  data-bs-dismiss="modal" class="slot"
+                                (click)="GetDiagnosticSlotID(slot)">{{slot.slotName}}</label>
+                                <br>
+                        </div>
+                        <div class="col-lg-12" style="margin-left: 5px;">
+                            <div class="col-lg-5" style="margin-left: 15px;" *ngIf="noafteternonlist==0">
+                                <label>{{labels.noslotsAvailable}}</label>
+
+                            </div>
+                            <br>
+                    </div>
+
+                </div>
+                <br>
+                <div class="card">
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-left: 15px;">
+                            <h4>{{labels.evening}}</h4>
+
+                        </div>
+                        <div class="col-lg-2" style="margin-left: 15px;" *ngFor="let slot of eveningslotslist">
+                            <br>
+                            <label  data-bs-dismiss="modal" class="slot"
+                                (click)="GetDiagnosticSlotID(slot)">{{slot.slotName}}</label>
+                        </div><br>
+                        <div class="col-lg-12" style="margin-left: 5px;">
+                            <div class="col-lg-5" style="margin-left: 15px;" *ngIf="noeveningSlots==0">
+                                <label>{{labels.noslotsAvailable}}</label>
+
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="card">
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-left: 15px;">
+                            <h4>{{labels.night}}</h4>
+                        </div>
+                        <div class="col-lg-2" style="margin-left: 15px;" *ngFor="let slot of nigntslotslist">
+                            <br>
+                            <label class="slot" (click)="GetDiagnosticSlotID(slot)"
+                            data-bs-dismiss="modal">{{slot.slotName}}</label>
+                        </div><br>
+                        <div class="col-lg-12" style="margin-left: 5px;">
+                            <div class="col-lg-5" style="margin-left: 15px;" *ngIf="nonightist==0">
+                                <label>{{labels.noslotsAvailable}}</label>
+
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+<div class="modal fade" id="AcceptModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid" *ngIf="languageID==6">
+                <h4 style="text-decoration: underline;">Conditions d’utilisation – Protection des données personnelles</h4>
+                <br>
+                <p>
+                  Vous allez accéder à la base de données des patients de Voiladoc. Veuillez vous assurer que le patient à
+                  donné
+                  son consentement avant d’accéder à ses informations personnelles qui consistent en son nom, prénom, adresse,
+                  adresse email, date de naissance, numéro de téléphone ainsi que son numéro d’identité et sa carte
+                  d’assurance
+                  (le renseignement de ces deux derniers champs est optionnel pour le patient).
+                </p>
+                <p>
+                  Vous allez effectuer une recherche à l’aide du numéro de téléphone portable du patient. Veuillez vérifier
+                  que
+                  les données obtenues correspondent bien au nom, prénom et date de naissance du patient.
+                </p>
+                <p>
+                  Vous confirmez que vous n’utiliserez pas ces informations sauf aux fins prévues par la plateforme Voiladoc
+                  et
+                  ne les divulguerez pas à des tiers non autorisés.
+                </p>
+                <p>
+                  Si vous n’acceptez pas ces conditions, vous ne serez pas en mesure de continuer l’enregistrement.
+                </p>
+                <p>
+                  <b>Cordialement <br>
+                    Le Service d’audit de données de Voiladoc</b>
+      
+                </p>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#rejectList" data-dismiss="modal" class="cancel">{{labels.reject}}
+                      </button>
+                  </div>
+                  <div class="col-lg-6">
+      
+                  </div>
+                  <div class="col-lg-3">
+                    <button type="button" class="btn btn-primary" class="accept" (click)="acceptedTerms()"
+                    data-bs-dismiss="modal">{{labels.accept}}</button>
+                  </div>
+      
+                </div>
+              </div>
+      
+
+              <div class="container-fluid" *ngIf="languageID==1">
+                <h4 style="text-decoration: underline;">Terms of Use - Protection of personal data</h4>
+                <br>
+                <p>
+                  You will access Voiladoc's patient database. Please ensure that the patient has given consent before accessing their personal information which consists of their surname, first name, address, email address, date of birth, telephone number as well as their identity number and insurance card (the information in these last two fields is optional for the patient).
+                </p>
+                <p>
+                  You will perform a search using the patient's mobile phone number. Please check that the data obtained, corresponds to the patient's family name, first name and date of birth. 
+                </p>
+                <p>
+                  You confirm that you will not use this information except for the intended purposes on the Voiladoc platform and will not disclose it to unauthorized third parties.
+                </p>
+                <p>
+                  If you do not agree to these conditions, you will not be able to continue the registration.
+                </p>
+                <p>
+                  <b>Kind regards <br>
+                    Voiladoc's Data Audit Service</b>
+      
+                </p>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#rejectList" data-dismiss="modal" class="cancel">{{labels.reject}}
+                      </button>
+                  </div>
+                  <div class="col-lg-6">
+      
+                  </div>
+                  <div class="col-lg-3">
+                    <button type="button" class="btn btn-primary" class="accept" (click)="acceptedTerms()"
+                    data-bs-dismiss="modal">{{labels.accept}}</button>
+                  </div>
+      
+                </div>
+              </div>
+      
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="modal fade" id="rejectList" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                Désolé, nous ne sommes pas en mesure de vous donner accès aux données du patient.
+              </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{labels.close}}</button>
+        </div>
+      </div>
+    </div>
+  </div>

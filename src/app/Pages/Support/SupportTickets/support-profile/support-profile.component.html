@@ -1,0 +1,99 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.myProfile}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="name"  name="doctorname"  [(ngModel)]="doctorname">
+                    <label for="floatingInput" class="floatingLabel">{{labels.doctorName}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="phonenumber"
+                    name="phoneno"
+                    [(ngModel)]="phoneno">
+                    <label for="floatingInput" class="floatingLabel">{{labels.mobileNumber}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="EmailID" name="email" [(ngModel)]="email">
+                    <label for="floatingInput" class="floatingLabel">{{labels.emailID}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <label>{{labels.gender}}</label> &nbsp;
+                <input type="radio" value="1"  name="gender" [(ngModel)]="gender"> {{labels.male}} &nbsp;
+                <input type="radio" value="2"  name="gender" [(ngModel)]="gender"> {{labels.female}} &nbsp;
+            </div>       
+        </div> <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <select class="form-control" (change)="getCountryID($event)">
+                    <option value="">{{labels.selectCountry}}</option>
+                    <option *ngFor="let cou of countryList" value="{{cou.id}}">{{cou.short}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectregion" [settings]="regiondd" [data]="regionList"
+                    (onSelect)="GetRegionID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectprovince" [settings]="citydd" [data]="cityList"
+                    (onSelect)="GetCityID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectcity" [settings]="areadd" [data]="areaList"
+                    (onSelect)="GetAreaID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+        </div> <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="username" name="username"  [(ngModel)]="username">
+                    <label for="floatingInput" class="floatingLabel">{{labels.userName}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="password"
+                    name="password"  [(ngModel)]="password">
+                    <label for="floatingInput" class="floatingLabel">{{labels.password}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                    name="address"  [(ngModel)]="address"></textarea>
+                    <label for="floatingTextarea">{{labels.address}}</label>
+                </div>
+            </div> 
+        </div>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-2">
+                <button type="button" class="save">{{labels.save}}</button>
+            </div>
+            <!-- <div class="col-lg-1">
+                <button type="button" class="save" routerLink="/">{{labels.back}}</button>
+            </div> -->
+        </div>
+    </div>
+    <br>
+      
+    </div>
+    <br>

@@ -1,0 +1,659 @@
+[
+    {
+        "id": 1,
+        "headingEn": "Success",
+        "MessageEn": "Registered SuccessFully",
+        "headingFr": "Succès",
+        "MessageFr": "Enregistré avec succès"
+    },
+    {
+        "id": 2,
+        "headingEn": "Error",
+        "MessageEn": "Please select role!",
+        "headingFr": "Erreur",
+        "MessageFr": "Sélectionner une fonction!"
+    },
+    {
+        "id": 3,
+        "headingEn": "Error",
+        "MessageEn": "Please Enter UserName and Password!",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez entrer le nom d'utilisateur et le mot de passe !"
+    },
+    {
+        "id": 4,
+        "headingEn": "Error",
+        "MessageEn": "Username or Password is not valid!",
+        "headingFr": "Erreur",
+        "MessageFr": "Le nom d'utilisateur ou le mot de passe n'est pas correct !"
+    },
+    {
+        "id": 5,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Country",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner le pays"
+    },
+    {
+        "id": 6,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Province",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner la province"
+    },
+    {
+        "id": 7,
+        "headingEn": "Error",
+        "MessageEn": "Please Select City",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner la ville"
+    },
+    {
+        "id": 8,
+        "headingEn": "Error",
+        "MessageEn": "Email address already exists. Please verify and use the correct email address.",
+        "headingFr": "Erreur",
+        "MessageFr": "L'adresse email existe déjà. Veuillez vérifier et utiliser la bonne adresse email."
+    },
+    {
+        "id": 9,
+        "headingEn": "Error",
+        "MessageEn": "The phone number already exists. Please verify and use the correct number'",
+        "headingFr": "Erreur",
+        "MessageFr": "Le numéro de téléphone existe déjà.Veuillez vérifier et utiliser le bon numéro."
+    },
+    {
+        "id": 10,
+        "headingEn": "Error",
+        "MessageEn": "Exception While Saving. Please try after some time",
+        "headingFr": "Erreur",
+        "MessageFr": "Il y a une erreur d'exception. Veuillez vous assurer que toutes les informations sont exactes."
+    },
+    {
+        "id": 11,
+        "headingEn": "Success",
+        "MessageEn": "Added Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Ajouté avec succès"
+    },
+    {
+        "id": 12,
+        "headingEn": "Success",
+        "MessageEn": "Location retrieved successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Emplacement récupéré avec succès"
+    },
+    {
+        "id": 13,
+        "headingEn": "Error",
+        "MessageEn": "Enter the correct address",
+        "headingFr": "Erreur",
+        "MessageFr": "Entrez l'adresse correcte"
+    },
+    {
+        "id": 14,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Hospital/Clinic",
+        "headingFr": "Erreur",
+        "MessageFr": "Selectionner un hôpital / clinique"
+    },
+    {
+        "id": 15,
+        "headingEn": "Error",
+        "MessageEn": "Already Exists",
+        "headingFr": "Erreur",
+        "MessageFr": "Existe déjà"
+    },
+    {
+        "id": 16,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Doctor",
+        "headingFr": "Erreur",
+        "MessageFr": "Sélectionner un médecin"
+    },
+    {
+        "id": 17,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Diagnostic Center",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner le centre de diagnostic"
+    },
+    {
+        "id": 18,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Midwife",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner Sage-femme"
+    },
+    {
+        "id": 19,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Physiotherapist",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner Physiothérapeute"
+    },
+    {
+        "id": 20,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Pharmacy",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner la pharmacie"
+    },
+    {
+        "id": 21,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Nurse",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner Infirmière"
+    },
+    {
+        "id": 22,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Delivery Company",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner la société de livraison"
+    },
+    {
+        "id": 23,
+        "headingEn": "Success",
+        "MessageEn": "Enabled Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Activé avec succès"
+    },
+    {
+        "id": 24,
+        "headingEn": "Sucess",
+        "MessageEn": "Disabled Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Désactivé avec succès"
+    },
+    {
+        "id": 25,
+        "headingEn": "Sucess",
+        "MessageEn": "Password updated successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Mot de passe mis à jour avec succès"
+    },
+    {
+        "id": 26,
+        "headingEn": "Error",
+        "MessageEn": "Please Enter Your Pin No && Current password",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez entrer votre code PIN et votre mot de passe actuel"
+    },
+    {
+        "id": 27,
+        "headingEn": "Error",
+        "MessageEn": "Please enter valid Pin and valid password",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuilez saisir un PIN valide et un mot de passe valide"
+    },
+    {
+        "id": 28,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Department",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner le département"
+    },
+    {
+        "id": 29,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Slot Duration",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner la durée de la consultation"
+    },
+    {
+        "id": 29,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Slot Duration",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner la durée de la consultation"
+    },
+    {
+        "id": 30,
+        "headingEn": "Error",
+        "MessageEn": "No Internet Connection",
+        "headingFr": "Erreur",
+        "MessageFr": "No Internet Connection"
+    },
+    {
+        "id": 31,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Day",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner le jour"
+    },
+    {
+        "id": 32,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Appointment Type",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner le type de rendez-vous"
+    },
+    {
+        "id": 33,
+        "headingEn": "Error",
+        "MessageEn": "Please Enter Timings",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez entrer les horaires"
+    },
+    {
+        "id": 34,
+        "headingEn": "Success",
+        "MessageEn": "Updated Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Mis à jour avec succès"
+    },
+    {
+        "id": 35,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Date",
+        "headingFr": "Erreur",
+        "MessageFr": "Sélectionnez une date"
+    },
+    {
+        "id": 36,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Type",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner le type"
+    },
+    {
+        "id": 37,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Time",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner l'heure"
+    },
+    {
+        "id": 38,
+        "headingEn": "Error",
+        "MessageEn": "Otp Is Invalid",
+        "headingFr": "Erreur",
+        "MessageFr": "OTP n'est pas valide"
+    },
+    {
+        "id": 39,
+        "headingEn": "Sucess",
+        "MessageEn": "SMS Sent Succesfully",
+        "headingFr": "Erreur",
+        "MessageFr": "SMS envoyé avec succès"
+    },
+    {
+        "id": 40,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Test Type",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner le type de test"
+    },
+    {
+        "id": 41,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Attachment",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner la pièce jointe"
+    },
+    {
+        "id": 42,
+        "headingEn": "Success",
+        "MessageEn": "Your request has been received. We will get back to you within 12 hours.",
+        "headingFr": "Succès",
+        "MessageFr": "Votre demande a été reçue. Nous vous répondrons dans les 12 heures."
+    },
+    {
+        "id": 43,
+        "headingEn": "Error",
+        "MessageEn": "Please Enter Pinno and Email!",
+        "headingFr": "Erreur",
+        "MessageFr": "S'il vous plaît Entrez Pinno et Email!"
+    },
+    {
+        "id": 44,
+        "headingEn": "Error",
+        "MessageEn": "Email or Pinno is not valid!",
+        "headingFr": "Erreur",
+        "MessageFr": "Adresse e-mail ou code pin incorrecte. Veuillez réessayer."
+    },
+    {
+        "id": 45,
+        "headingEn": "Success",
+        "MessageEn": "Password Reset Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Réinitialiser le mot de passe avec succès."
+    },
+    {
+        "id": 46,
+        "headingEn": "Success",
+        "MessageEn": "Phone number has already been used. Please use another phone number.",
+        "headingFr": "Succès",
+        "MessageFr": "Il s'agit d'un numéro de téléphone précédemment enregistré. Veuillez le changer."
+    },
+    {
+        "id": 47,
+        "headingEn": "Success",
+        "MessageEn": "Issue has been Accepted.",
+        "headingFr": "Succès",
+        "MessageFr": "Le problème a été accepté."
+    },
+    {
+        "id": 48,
+        "headingEn": "Success",
+        "MessageEn": "Issue Assigned Meridional Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Escalade à Méridional"
+    },
+    {
+        "id": 49,
+        "headingEn": "Success",
+        "MessageEn": "Issue Resolved Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Problème résolu et réponse au prestataire."
+    },
+    {
+        "id": 50,
+        "headingEn": "Success",
+        "MessageEn": "Appointment Accepted Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Rendez-vous accepté !"
+    },
+    {
+        "id": 51,
+        "headingEn": "Success",
+        "MessageEn": "Appointment cancelled successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Rendez-vous rejeté"
+    },
+    {
+        "id": 52,
+        "headingEn": "Success",
+        "MessageEn": "Prescription saved successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Publié avec succès"
+    },
+    {
+        "id": 54,
+        "headingEn": "Success",
+        "MessageEn": "Published successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Publié avec succès"
+    },
+    {
+        "id": 55,
+        "headingEn": "Success",
+        "MessageEn": "Payment Paid Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Paiement payé avec succès"
+    },
+    {
+        "id": 56,
+        "headingEn": "Success",
+        "MessageEn": "Invoice Send Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Facture envoyée avec succès"
+    },
+    {
+        "id": 57,
+        "headingEn": "Success",
+        "MessageEn": "Diagnostic Tests Added successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Test de laboratoire"
+    },
+    {
+        "id": 58,
+        "headingEn": "Success",
+        "MessageEn": "Patient Not Visited.",
+        "headingFr": "Succès",
+        "MessageFr": "Non presentation"
+    },
+    {
+        "id": 59,
+        "headingEn": "Success",
+        "MessageEn": "Please add prescription",
+        "headingFr": "Succès",
+        "MessageFr": "Veuillez ajouter une ordonnance"
+    },
+    {
+        "id": 60,
+        "headingEn": "Error",
+        "MessageEn": "Please upload photo",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez télécharger une photo"
+    },
+    {
+        "id": 61,
+        "headingEn": "Success",
+        "MessageEn": "Paid Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Payé avec succès"
+    },
+    {
+        "id": 62,
+        "headingEn": "Error",
+        "MessageEn": "Please Select Patient",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez sélectionner un patient"
+    },
+    {
+        "id": 63,
+        "headingEn": "Success",
+        "MessageEn": "Appointment Booked Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Rendez-vous pris avec succès"
+    },
+    {
+        "id": 64,
+        "headingEn": "Success",
+        "MessageEn": "Receipt Sent Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Le reçu a été envoyé avec succès"
+    },
+    {
+        "id": 65,
+        "headingEn": "Success",
+        "MessageEn": "Patient has Visited",
+        "headingFr": "Succès",
+        "MessageFr": "Le patient a visité"
+    },
+    {
+        "id": 66,
+        "headingEn": "Success",
+        "MessageEn": "Order has been Accepted.",
+        "headingFr": "Succès",
+        "MessageFr": "Commande acceptée"
+    },
+    {
+        "id": 67,
+        "headingEn": "Success",
+        "MessageEn": "Order Cancelled Successfully.",
+        "headingFr": "Succès",
+        "MessageFr": "La commande a été annulée."
+    },
+    {
+        "id": 68,
+        "headingEn": "Success",
+        "MessageEn": "Your Order is ready for Collection",
+        "headingFr": "Succès",
+        "MessageFr": "Votre commande est prête à être récupérée"
+    },
+    {
+        "id": 69,
+        "headingEn": "Success",
+        "MessageEn": "Order sent to delivery Delivery.",
+        "headingFr": "Succès",
+        "MessageFr": "La commande est prête pour la livraison."
+    },
+    {
+        "id": 70,
+        "headingEn": "Success",
+        "MessageEn": "The order was collected by the patient!",
+        "headingFr": "Succès",
+        "MessageFr": "Commande collectée par le client !"
+    },
+    {
+        "id": 71,
+        "headingEn": "Error",
+        "MessageEn": "For available drugs, please make sure you have entered the price and ticked the box in the corresponding action column.",
+        "headingFr": "Erreur",
+        "MessageFr": "Pour les médicaments disponibles veuillez-vous assurer d'avoir renseigné le prix et coché la case dans la colonne d'action correspondante."
+    },
+    {
+        "id": 72,
+        "headingEn": "Success",
+        "MessageEn": "Order Assigned Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Commande assignée"
+    },
+    {
+        "id": 73,
+        "headingEn": "Success",
+        "MessageEn": "Report successfully sent to the patient",
+        "headingFr": "Succès",
+        "MessageFr": "Rapport envoyé avec succès au patient."
+    },
+    {
+        "id": 74,
+        "headingEn": "Error",
+        "MessageEn": "Some items have “0” value. Please review and update.",
+        "headingFr": "Erreur",
+        "MessageFr": "Certains éléments ont une valeur '0'. Veuillez réviser et mettre à jour."
+    },
+    {
+        "id": 75,
+        "headingEn": "Success",
+        "MessageEn": "Deleted Sucessfully",
+        "headingFr": "Succès",
+        "MessageFr": "Supprimé avec succès"
+    },
+    {
+        "id": 76,
+        "headingEn": "Success",
+        "MessageEn": "EMail Sent Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Email envoyé avec succès."
+    }
+    ,
+    {
+        "id": 77,
+        "headingEn": "Success",
+        "MessageEn": "Saved Without Errors",
+        "headingFr": "Succès",
+        "MessageFr": "Enregistrer sans erreurs."
+    },
+    {
+        "id": 78,
+        "headingEn": "Success",
+        "MessageEn": "Saved with some errors. Please check the error on the dashboard.",
+        "headingFr": "Succès",
+        "MessageFr": "Enregistré avec quelques erreurs. Veuillez vérifier l'erreur sur le tableau de bord."
+    },
+    {
+        "id": 78,
+        "headingEn": "Success",
+        "MessageEn": "Wallet Balance Updated Successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Solde du portefeuille mis à jour avec succès"
+    },
+    {
+        "id": 79,
+        "headingEn": "Error",
+        "MessageEn": "Please Fill all Mandatory Details",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez remplir tous les détails obligatoires"
+    },
+    {
+        "id": 80,
+        "headingEn": "Success",
+        "MessageEn": "Published successfully",
+        "headingFr": "Succès",
+        "MessageFr": "Publié avec succès"
+    },
+    {
+        "id": 81,
+        "headingEn": "Error",
+        "MessageEn": "Your Exceeded Video Conference Time",
+        "headingFr": "Erreur",
+        "MessageFr": "Votre temps de visioconférence dépassé"
+    },
+    {
+        "id": 82,
+        "headingEn": "Error",
+        "MessageEn": "It is Still not yet Time to start the Video conference.",
+        "headingFr": "Erreur",
+        "MessageFr": "Il n'est pas encore temps de commencer la téléconsultation."
+    },
+    {
+        "id": 83,
+        "headingEn": "Error",
+        "MessageEn": "It is Still not yet Time to start the Video conference.",
+        "headingFr": "Erreur",
+        "MessageFr": "Il n'est pas encore temps de commencer la visioconférence."
+    },
+    {
+        "id": 84,
+        "headingEn": "Error",
+        "MessageEn": "Do not enter the zero at the beginning of your mobile number.",
+        "headingFr": "Erreur",
+        "MessageFr": "Ne pas saisir le zéro au début de votre numéro de portable"
+    },
+    {
+        "id": 85,
+        "headingEn": "Error",
+        "MessageEn": "This email has already been used. Use another",
+        "headingFr": "Erreur",
+        "MessageFr": "Cet email a déjà été utilisé. Utilisez-en un autre."
+    },
+    {
+        "id": 86,
+        "headingEn": "Error",
+        "MessageEn": "This number has already been used. Use another.",
+        "headingFr": "Erreur",
+        "MessageFr": "Ce numéro a déjà été utilisé. Utilisez-en un autre."
+    },
+    {
+        "id": 87,
+        "headingEn": "Error",
+        "MessageEn": "Please check your mobile money account if you have received the payment. Once payment is received, click the payment received",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez vérifier votre compte mobile money si vous avez reçu le paiement. Une fois le paiement reçu, cliquez sur le bouton paiement reçu."
+    },
+    {
+        "id": 90,
+        "headingEn": "Error",
+        "MessageEn": "Email address or Username already exists. Please verify and use the correct email address.",
+        "headingFr": "Erreur",
+        "MessageFr": "L'adresse e-mail ou le nom d'utilisateur existe déjà. Veuillez vérifier et utiliser la bonne adresse email."
+    },
+    {
+        "id": 91,
+        "headingEn": "Error",
+        "MessageEn": "This email exist in Voiladoc. Try another address",
+        "headingFr": "Erreur",
+        "MessageFr": " Cet email existe dans Voiladoc. Essayez une autre adresse"
+    },
+    {
+        "id": 92,
+        "headingEn": "Error",
+        "MessageEn": "please provide reason",
+        "headingFr": "Erreur",
+        "MessageFr": "veuillez fournir la raison"
+    },
+    {
+        "id": 93,
+        "headingEn": "Error",
+        "MessageEn": "Sequence Is Invalid",
+        "headingFr": "Erreur",
+        "MessageFr": "Séquence n'est pas valide"
+    }
+
+    ,
+    {
+        "id": 94,
+        "headingEn": "Error",
+        "MessageEn": "please enter a valid value",
+        "headingFr": "Erreur",
+        "MessageFr": "Veuillez entrer une valeur valide"
+    }
+
+
+
+]

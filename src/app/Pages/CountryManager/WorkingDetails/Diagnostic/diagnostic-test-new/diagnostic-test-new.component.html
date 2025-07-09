@@ -1,0 +1,58 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid">
+    <div class="row ">
+        <h5 class="sideheading p-3">Tests</h5>
+    </div>
+    <br />
+    <div class="card">
+        <div class="row ">
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Diagnostic Center"
+                    [(ngModel)]="diagnosticname" name="diagnosticname" />
+                    <label for="floatingInput" class="floatingLabel">{{labels.diagnosticCenter}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Test Type" 
+                    [(ngModel)]="testtype" name="testtype" />
+                    <label for="floatingInput" class="floatingLabel">{{labels.testType}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <select class="form-control" (change)="GetTestID($event)" disabled [(ngModel)]="testid" name="testid">
+                    <option value="">Select</option>
+                    <option *ngFor="let test of testlist" value={{test.id}}>{{test.short}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Test Type" 
+                    [(ngModel)]="price" name="price"/>
+                    <label for="floatingInput" class="floatingLabel">{{labels.price}}</label>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                    [(ngModel)]="description" name="description"></textarea>
+                    <label for="floatingTextarea">{{labels.testdescription}}</label>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-1">
+                <button class="save" (click)="updatedetails()">{{labels.update}}</button>&nbsp;&nbsp;
+            </div>
+            <div class="col-lg-1">
+                <button class="save" routerLink="/countrymanager/DiagnosticTest">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>
+</div>

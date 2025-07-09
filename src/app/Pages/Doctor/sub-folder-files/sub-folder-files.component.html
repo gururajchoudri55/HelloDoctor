@@ -1,0 +1,178 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{foldername}} / {{subfoldername}}</h5>
+        </div>
+
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="term">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-4"></div>
+        <div class="col-lg-3">
+            <button class="save" data-bs-toggle="modal" data-bs-target="#subfolder">{{labels.createSubFolder}}</button>
+        </div>
+        <div class="col-lg-2">
+            <button class="save" data-bs-toggle="modal" data-bs-target="#addfiles">{{labels.addFiles}}</button>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.createdate}}</th>
+                    <th>{{labels.subFolder}}</th>
+                    <th>{{labels.fileName}}</th>
+                    <th>{{labels.fileType}}</th>
+                    <th>{{labels.file}}</th>
+                </tr>
+                <tr
+                    *ngFor="let attch of atachmentlist|filter:term| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{attch.date}}</td>
+                    <td>{{attch.subFolderssName}}</td>
+                    <td>{{attch.fileName}}</td>
+                    <td>{{attch.fileType}}</td>
+                    <td>
+                        <img src="{{attch.documents}}" *ngIf="attch.fileType=='Image'" class="image"
+                            (click)="openwindow(attch.documents)">
+                        <img src="assets/Icons/word.png" *ngIf="attch.fileType=='Word Document'" class="image"
+                            (click)="openwindow(attch.documents)">
+                        <img src="assets/Icons/pdf.png" *ngIf="attch.fileType=='Pdf'" class="image"
+                            (click)="openwindow(attch.documents)">
+                        <img src="assets/Icons/xl.png" *ngIf="attch.fileType=='Excel'" class="image"
+                            (click)="openwindow(attch.documents)">
+                        <img src="assets/Icons/folder.png" *ngIf="attch.fileType=='Folder'" class="image"
+                            [routerLink]="['/Doctor/Mysubfolderfiles',attch.folderID,attch.subfolderID,attch.id,attch.folderName,attch.subFolderName,attch.subFolderssName]">
+                    </td>
+                    <!-- <td>
+                      
+                    </td> -->
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-1">
+            <button class="save"  (click)="routeBack()" >{{labels.back}}</button>
+        </div>
+        <div class="col-lg-11" style="text-align: end">
+            <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+                nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                screenReaderCurrentLabel="You're on page">
+            </pagination-controls>
+        </div>
+    </div>
+</div><br>
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="subfolder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.subFolder}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #subfolderForm="ngForm">
+                    <div class="row">
+                        <div class="col-lg-3">
+
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputfield" id="floatingInput" required
+                                    placeholder="Search" [(ngModel)]="subfold" name="subfold" required>
+                                <label for="floatingInput" class="floatingLabel">{{labels.subFolderName}} <span
+                                        class="required">*</span></label>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-4">
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="button" class="save" (click)="CreateSubfolder()" data-bs-dismiss="modal"
+                                [disabled]="subfolderForm.form.invalid">{{labels.save}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="save" data-bs-dismiss="modal" routerLink="/Doctor/FolderDash">{{labels.back}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="addfiles" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.addFiles}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #subFolderform="ngForm">
+                    <div class="row">
+                        <div class="col-lg-3">
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control inputfield" id="floatingInput" 
+                                    placeholder="Search" [(ngModel)]="filename" name="filename" required >
+                                <label for="floatingInput" class="floatingLabel">{{labels.fileName}} <span class="required">*</span></label>
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                        </div>
+                        <div class="col-lg-5">
+                            <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                                <ngx-dropzone-label>{{labels.attachments}}</ngx-dropzone-label>
+                                <ngx-dropzone-preview *ngFor="let f of files1" [removable]="true"
+                                    (removed)="onRemove(f)">
+                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                </ngx-dropzone-preview>
+                            </ngx-dropzone>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-4">
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="button" class="save" (click)="InsertDetails()"
+                                data-bs-dismiss="modal" [disabled]="subFolderform.form.invalid">{{labels.save}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>
+</div>

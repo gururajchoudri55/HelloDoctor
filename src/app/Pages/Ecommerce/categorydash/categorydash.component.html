@@ -1,0 +1,61 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">Catgegory</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <!-- <button style="height:35px;background-color: #f18235;color:white" class="btn btn-block btncolor"
+            data-bs-toggle="modal" data-bs-target="#exampleModal">import excel</button> -->
+            <button class="save" routerLink="/menus/Category">{{labels.add}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="search" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="term" name="term">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-7"></div>
+
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+                <tr
+                    *ngFor="let category of catgeorylist| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}|filter:term">
+
+                    <td>{{category.categoryName}}</td>
+                    <td>{{category.description}}</td>
+                    <td>
+                        <img src="assets/Icons/edit.png" alt="" [routerLink]="['/menus/Category',category.id]">
+                        <img src="assets/Icons/delete.png" alt=""  (click)="DeleteCategory(category.id)" [routerLink]="['/Category',category.id]">
+
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>

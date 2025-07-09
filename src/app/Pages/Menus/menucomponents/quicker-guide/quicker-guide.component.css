@@ -1,0 +1,11 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+  .video{
+    width:50px;
+    height:auto;
+  }

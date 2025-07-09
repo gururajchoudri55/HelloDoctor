@@ -1,0 +1,101 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<!-- <app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms> -->
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">Articles</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="save" routerLink="/Sponsered/SponseredArticleRegistration">{{labels.writearticles}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="term"> 
+        <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+    </div>
+    </div>
+  </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>Photo</th>
+                    <th>{{labels.category}}</th>
+                    <th>Topic</th>
+                    <th>{{labels.subtopic}}</th>
+                    <th>{{labels.siteInternet}}</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+                <tr *ngFor="let article of articlelist|filter:term">
+                    <td><img src="{{article.photo}}" style="height:40px;width:40px"></td>
+                    <td>{{article.category}}</td>
+                    <td>{{article.topic}}</td>
+                    <td>{{article.subTopic}}</td>
+                    <td>{{article.tags}}</td>
+                    <td>
+                      <p innerHTML="{{article.writeup}}"></p>
+                    </td>
+                    <td>                 
+                        <img src="assets/Icons/edit.png" (click)="edit(article.id)">     
+                        <img src="assets/Icons/delete.png" (click)="DeleteArticles(article.id)">
+                  
+
+                        <img *ngIf="article.enable=='0'" src="assets/Icons/active.png" class="image"   (click)="GetDisableArticle(article.id)"/>
+                        <img *ngIf="article.enable=='1'" src="assets/Icons/dactive.png" class="image"  (click)="GetEnableArticle(article.id)"/> 
+
+                        <img src="assets/Icons/attachment_16.png"
+                        *ngIf="article.typeID=='1'||article.typeID=='2'" style="width:35px"
+                        (click)="GetPhotoUrl(article.subPhotoUrl,article.typeID)" data-bs-toggle="modal" data-bs-target="#myModal"> 
+                    </td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <!-- <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previousLabel}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div> -->
+</div>
+
+
+
+<div class="modal" tabindex="-1" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <h5 class="modal-title">Releated Attachment</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div *ngIf="phototypeid=='1'">
+              <div class="row">
+                <div class="col-lg-12">
+                  <img src="assets/Icons/pdf.png" (click)="opentab()">
+                  <br>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="phototypeid=='2'">
+              <div class="row">
+                <div class="col-lg-12">
+                  <img src="{{photourl}}" style="width: 50%;">
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="save" data-bs-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,528 @@
+<!-- <app-loader *ngIf="loader==true"></app-loader> -->
+<app-sms></app-sms>
+<app-video-call-loader *ngIf="loader==true"></app-video-call-loader>
+<div id="htmlData">
+  <br>
+  <div class="container-fluid" *ngFor="let alldetails of pdfprslist">
+    <div *ngIf="alldetails.prescriptionExists!='0'&&Prescription==1">
+      <div class="row">
+        <div class="col-lg-12 text-center" style="margin-top: 7px;">
+          <h6>{{labels.prescription}}</h6>        </div>
+        <div class="col-lg-12 text-center">
+          <h6>{{labels.appointmentDate}} : {{alldetails.appointmentdate}}</h6>
+
+        </div>
+      </div>
+      <hr class="new4">
+      <hr class="new5">
+      <br><br><br>
+      <div class="row" style="letter-spacing:0.7px;">
+        <div class="col-lg-5">
+          <p><b>{{labels.doctorName}}</b> : {{alldetails.doctorName}}</p><br>
+          <p>{{labels.registration}} : {{alldetails.registrationNo}}</p><br>
+          <p>{{labels.phoneNumber}} : {{alldetails.doctorMobileNo}}</p><br>
+          <p>{{labels.department}} : {{alldetails.departmentname}}</p><br>
+          <!--    <p><b>{{labels.address}}</b> : {{alldetails.doctorAddress}}</p><br> -->
+        </div>
+       
+        <div class="col-lg-3">
+          <!-- <h6><b>{{labels.appointmentDate}}</b></h6>
+          <span><b style="margin-left: 20px;">{{alldetails.appointmentdate}}</b></span> -->
+        </div>
+        <div class="col-lg-4">
+          <p><b>{{labels.patientName}}</b> : {{alldetails.patientName}}</p><br>
+          <p><b>{{labels.phoneNumber}}</b> : {{alldetails.mobileNumber}}</p><br>
+          <!--   <p><b>{{labels.address}}</b> : {{alldetails.address}}</p><br> -->
+          <p><b>{{labels.email}}</b> : {{alldetails.emailID}}</p><br>
+          <p><b>{{labels.nationalIDNo}}</b> : {{alldetails.nationalidno}}</p><br>
+          <p><b>{{labels.age}}</b> : {{alldetails.age}}</p><br>
+          <p><b>{{labels.dateofBirth}}</b> : {{alldetails.dateOfBirth}}</p><br>
+          <p><b>{{labels.gender}}</b> : {{alldetails.gender}}</p><br>
+          <p><b>{{labels.appointmentNumber}}</b> : {{appointmentID}}</p><br>
+        </div>
+      
+        <br>
+      </div><br><br>
+      <div class="row">
+        <div class="col-lg-12">
+          <table>
+            <thead>
+              <tr>
+                <th style="font-weight: 500;" id="imp">{{labels.date}}</th>
+                <th id="imp">{{labels.drugName}} </th>
+                <th id="imp">{{labels.sig}} </th>
+                <th id="imp">{{labels.dispenseQuality}} </th>
+                <th id="imp">{{labels.howmanyRefills}} </th>
+                <th id="imp">{{labels.noteToPahrmacist}} </th>
+              </tr>
+              <tr *ngFor="let medicines of alldetails.medicines">
+                <td style="width: 13%;">{{medicines.date}}</td>
+                <td>{{medicines.medicineName}}</td>
+                <td>{{medicines.sig}}</td>
+                <td>{{medicines.dispenseQuantity}}</td>
+                <td>{{medicines.howmanyRefills}}</td>
+                <td>{{medicines.noteToPharmasist}}</td>
+              </tr>
+            </thead>
+          </table>
+        </div><br>
+      </div><br><br><br><br><br><br>
+      <div class="row">
+        <div class="col-lg-12">
+        </div><br><br><br><br><br><br><br>
+      </div><br><br>
+      <div class="row">
+        <!-- <div class="col-lg-8">
+        </div> -->
+        <div class="col-lg-4">
+          <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+            style="width: 100px;height:50px"><br>
+          <b>Dr. {{alldetails.doctorName}}</b><br>
+          <label><b>{{labels.registration}} : {{alldetails.registrationNo}}</b></label><br>
+
+        </div>
+
+      </div><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+    <!-- soapnotes -->
+
+    <div *ngIf="alldetails.soapNotesExist!='0'&&soappdf==1">
+      <div class="row">
+        <!-- <div class="col-lg-5">
+          <img src="assets/Images/logo.png" style="width: 26%;"> 
+        </div>-->
+        <div class="col-lg-12 text-center">
+          <h6>{{labels.soapNotess}}</h6>
+        </div>
+      </div>
+      <hr style="color:#333;background-color:#333;">
+      <div class="row" style="letter-spacing:0.7px;">
+        <div class="col-lg-5">
+          <p><b>{{labels.patientName}}</b> : {{alldetails.patientName}}</p><br>
+          <p><b>{{labels.phoneNumber}}</b> : {{alldetails.mobileNumber}}</p><br>
+          <!--  <p><b>{{labels.address}}</b> : {{alldetails.address}}</p><br> -->
+          <p><b>{{labels.email}}</b> : {{alldetails.emailID}}</p><br>
+          <p><b>{{labels.nationalIDNo}}</b> : {{alldetails.nationalidno}}</p><br>
+          <p><b>{{labels.age}}</b> : {{alldetails.age}}</p><br>
+          <p><b>{{labels.dateofBirth}}</b> : {{alldetails.dateOfBirth}}</p><br>
+          <p><b>{{labels.gender}}</b> : {{alldetails.gender}}</p><br>
+          <p><b>{{labels.appointmentNumber}}</b> : {{appointmentID}}</p><br>
+        </div>
+        <div class="col-lg-3">
+          <h6><b>{{labels.appointmentDate}}</b></h6>
+          <span><b style="margin-left: 20px;">{{alldetails.appointmentdate}}</b></span>
+        </div>
+        <div class="col-lg-4">
+          <p><b>{{labels.doctorName}}</b> : {{alldetails.doctorName}}</p><br>
+          <p><b>{{labels.registration}}</b> : {{alldetails.registrationNo}}</p><br>
+          <p><b>{{labels.phoneNumber}}</b> : {{alldetails.doctorMobileNo}}</p><br>
+          <p><b>{{labels.department}}</b> : {{alldetails.departmentname}}</p><br>
+          <!-- <p><b>{{labels.address}}</b> : {{alldetails.doctorAddress}}</p><br> -->
+        </div>
+        <br>
+      </div><br><br>
+      <h5>{{labels.soap}}</h5>
+      <div class="row" *ngFor="let soap of alldetails.soaplist">
+        <div class="col-lg-6">
+
+          <label><b>{{labels.date}} : </b> {{soap.appointmentDate}}</label>
+
+        </div><br>
+        <div class="col-lg-6">
+          <label><b>{{labels.subjective}} : </b> {{soap.subjective}}</label>
+        </div>
+        <div class="col-lg-6">
+          <label><b>{{labels.objective}} : </b>{{soap.objective}}</label>
+        </div>
+        <div class="col-lg-6">
+          <label><b>{{labels.assessment}} : </b>{{soap.assessment}}</label>
+        </div>
+        <div class="col-lg-6">
+          <label><b>{{labels.plan}} : </b> {{soap.plan}}</label>
+        </div>
+        <div class="col-lg-6">
+          <label><b>{{labels.diagnosis}} : </b> {{soap.diagnostic}}</label>
+        </div>
+        <div class="col-lg-6">
+          <label><b>{{labels.diagnosisCode}} : </b> {{soap.diagnoticCode}}</label>
+        </div>
+        <div class="col-lg-6">
+          <label><b>{{labels.followUpPlan}} : </b>{{soap.followUpPlan}}</label>
+        </div>
+      </div><br><br>
+      <div class="row">
+        <div class="col-lg-3">
+          <label><b>{{labels.allergies}} : </b> {{alldetails.knownAllergies}}</label>
+        </div>
+        <div class="col-lg-3">
+          <label><b>{{labels.statusVaccinal}} : </b> {{alldetails.vaccinationStatus}}</label>
+        </div>
+      </div><br>
+      <h5>{{labels.vitalDetails}} </h5><br>
+      <div class="row">
+        <div class="col-lg-4">
+          <label><b>BPM : </b> {{alldetails.bpm}}</label>
+
+        </div>
+        <div class="col-lg-4">
+          <label><b>RR : </b> {{alldetails.rr}}</label>
+        </div>
+        <div class="col-lg-4">
+          <label><b>{{labels.oxygen}} : </b>{{alldetails.bpm}}</label>
+        </div>
+        <div class="col-lg-4">
+          <label><b>{{labels.stress}} : </b>{{alldetails.streeLevel}}</label>
+        </div>
+        <div class="col-lg-4">
+          <label><b>{{labels.bloodPressure}} : </b> {{alldetails.bloodPressureStatus}}</label>
+        </div>
+      </div>
+      <br><br><br>
+      <div class="row">
+        <div class="col-lg-8">
+        </div>
+        <div class="col-lg-4">
+          <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+            style="width: 100px;height:50px"><br>
+          <b>Dr. {{alldetails.doctorName}}</b><br>
+          <label><b>{{labels.registration}} : {{alldetails.registrationNo}}</b></label><br>
+
+        </div>
+
+      </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+    <!-- Test -->
+
+    <div *ngIf="alldetails.diagnosticTestExist!='0'&&Test==1">
+      <div class="row">
+        <!-- <div class="col-lg-4">
+          <img src="assets/Images/logo.png" style="width: 26%;">
+        </div> -->
+        <div class="col-lg-12 text-center">
+          <h6 style="letter-spacing:0.8px;">{{labels.diagnosticTest}}</h6>
+        </div>
+        <div class="col-lg-12 text-center">
+          <h6>{{labels.appointmentDate}} : {{alldetails.appointmentdate}}</h6>
+        </div>
+      </div>
+      <hr class="new4">
+      <hr class="new5">
+      <div class="row" style="letter-spacing:0.7px;">
+        <div class="col-lg-5">
+          <p><b>{{labels.doctorName}}</b> : {{alldetails.doctorName}}</p><br>
+          <p>{{labels.registration}} : {{alldetails.registrationNo}}</p><br>
+          <p>{{labels.phoneNumber}} : {{alldetails.doctorMobileNo}}</p><br>
+          <p>{{labels.department}} : {{alldetails.departmentname}}</p><br>
+          <!--  <p><b>{{labels.address}}</b> : {{alldetails.doctorAddress}}</p><br> -->
+        </div>
+        <div class="col-lg-3">
+          <!-- <h6><b>{{labels.appointmentDate}}</b></h6>
+          <span><b style="margin-left: 20px;">{{alldetails.appointmentdate}}</b></span> -->
+        </div>
+        <div class="col-lg-4">
+          <p><b>{{labels.patientName}}</b> : {{alldetails.patientName}}</p><br>
+          <p><b>{{labels.phoneNumber}}</b> : {{alldetails.mobileNumber}}</p><br>
+          <!--  <p><b>{{labels.address}}</b> : {{alldetails.address}}</p><br> -->
+          <p><b> {{labels.email}}</b> : {{alldetails.emailID}}</p><br>
+          <p><b> {{labels.nationalIDNo}}</b> : {{alldetails.nationalidno}}</p><br>
+          <p><b>{{labels.age}}</b> : {{alldetails.age}}</p><br>
+          <p><b> {{labels.dateofBirth}}</b> : {{alldetails.dateOfBirth}}</p><br>
+          <p><b> {{labels.gender}}</b> : {{alldetails.gender}}</p><br>
+          <p><b> {{labels.appointmentNumber}}</b> : {{appointmentID}}</p><br>
+        </div>
+        <br>
+      </div><br><br>
+      <div class="row">
+        <div class="col-lg-12">
+          <table>
+            <thead>
+              <tr>
+                <th id="imp">{{labels.date}}</th>
+                <th id="imp">{{labels.testType}}</th>
+                <th id="imp">{{labels.testName}}</th>
+                <th id="imp">{{labels.clinicalInfo}} </th>
+              </tr>
+              <tr *ngFor="let test of alldetails.diagnosticTest">
+                <td style="    width: 13%;">{{test.appdate}}</td>
+                <td>{{test.name}}</td>
+                <td>{{test.testName}}</td>
+                <td>{{test.clinicalInfo}}</td>
+              </tr>
+            </thead>
+          </table>
+        </div><br>
+      </div><br><br><br><br>
+      <div class="row">
+        <div class="col-lg-12">
+        </div><br><br><br><br><br><br><br><br>
+      </div><br><br>
+      <div class="row">
+        <div class="col-lg-5">
+          <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+          style="width: 100px;height:50px"><br>
+        <b>Dr. {{alldetails.doctorName}}</b><br>
+        <label><b>{{labels.registration}} : {{alldetails.registrationNo}}</b></label><br>
+        </div>
+        <div class="col-lg-8">
+          <!-- <img src="assets/Images/sign.png" style="width: 39%;"><br> -->
+          <!-- <label>Diagnostic Test provided by doctor</label><br> -->
+        </div>
+      </div>
+      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+
+
+
+
+    <div *ngIf="medical==1">
+      <div class="row">
+        <!-- <div class="col-lg-5">
+          <img src="assets/Images/logo.png" style="width: 26%;"> 
+        </div> -->
+        <div class="col-lg-12 text-center">
+          <h6><b>{{labels.consulationReport}}</b></h6>
+        </div>
+      </div>
+      <hr style="color:#333;background-color:#333;">
+      <div>
+        <div class="row" style="letter-spacing:0.7px;">
+          <div class="col-lg-5">
+            <p><b>{{labels.patientName}} :</b> {{alldetails.patientName}}</p><br>
+            <p><b>{{labels.nationalIDNo}} :</b> {{alldetails.nationalidno}}</p><br>
+            <p><b>{{labels.phoneNumber}} :</b>{{alldetails.mobileNumber}}</p><br>
+            <!--  <p><b>{{labels.address}} :</b> {{alldetails.address}}</p><br> -->
+            <p><b>{{labels.email}} :</b>{{alldetails.emailID}}</p><br>
+            <p><b>{{labels.age}} :</b>{{alldetails.age}}</p><br>
+            <p><b>{{labels.dateofBirth}} :</b>{{alldetails.dateOfBirth}}</p><br>
+            <p><b>{{labels.gender}} :</b>{{alldetails.gender}}</p><br>
+            <p><b>{{labels.appointmentNumber}} :</b>{{appointmentID}}</p><br>
+          </div>
+          <div class="col-lg-3">
+            <h6 *ngIf="languageID==1"><b>{{labels.appointmentDate}}</b></h6>
+            <span><b style="margin-left: 20px;">{{alldetails.appointmentdate}}</b></span>
+          </div>
+          <div class="col-lg-4">
+            <p><b>{{labels.doctorName}}</b> : {{alldetails.doctorName}}</p><br>
+            <p><b>{{labels.registration}}</b> : {{alldetails.registrationNo}}</p><br>
+            <p><b>{{labels.phoneNumber}}</b> : {{alldetails.doctorMobileNo}}</p><br>
+            <p><b>{{labels.department}}</b> : {{alldetails.departmentname}}</p><br>
+            <!-- <p><b>{{labels.address}}</b> : {{alldetails.doctorAddress}}</p><br> -->
+          </div>
+          <br>
+        </div>
+      </div>
+      <div><br><br><br><br>
+        <div>
+          <div class="row">
+          </div><br><br>
+          <div class="row">
+            <h5 style="text-align: center;"><b>{{labels.medicalQuestionare}}</b></h5>
+            <br>
+          </div>
+          <div class="row" *ngFor="let medical of alldetails.medicalquestion">
+            <div class="col-lg-4">
+              <label>{{labels.nationalIdentityNo}} : <b>{{medical.nationalidno}}</b></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.attendingDoctor}} : <b>{{medical.attendingdoctor}}</b></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.medicalHistory}} : <b>{{medical.medicalHistory}}</b></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.surgeryHistory}} : <b>{{medical.surgeryHistory}}</b></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.longTreatment}} : <b>{{medical.longtermTreatment}}</b></label>
+            </div>
+
+            <div class="col-lg-4">
+              <label>{{labels.dietaryIssues}} : <b>{{medical.dietaryIssues}}</b></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.doYouDrinkAlochol}} : <span *ngIf="medical.alcohol=='1'">
+                  <b>Yes</b></span></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.areyouaSmoker}} : <span *ngIf="medical.smoker=='1'"> <b>Yes</b></span></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.medicalInsurance}} : <span *ngIf="medical.medicalinsurance=='1'">
+                  <b>Yes</b></span></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.doyouExcercise}} : <span *ngIf="medical.exercise=='1'"> <b>Yes</b></span></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.height}} : <b>{{medical.height}}</b></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.weight}} : <b>{{medical.weight}}</b></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.bmi}} : <b>{{medical.bmi}}</b></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.statusVaccinal}} : <b>{{medical.vaccinationStatus}}</b></label>
+            </div>
+            <div class="col-lg-4">
+              <label>{{labels.allergies}} : <b>{{medical.knownAllergies}}</b></label>
+            </div>
+          </div>
+        </div>
+      </div><br><br><br><br><br><br><br>
+      <div class="row">
+        <div class="col-lg-8">
+        </div>
+        <div class="col-lg-4">
+          <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+            style="width: 100px;height:50px"><br>
+          <b>Dr. {{alldetails.doctorName}}</b><br>
+          <label><b>{{labels.registration}} : {{alldetails.registrationNo}}</b></label><br>
+
+        </div>
+      </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+
+    <div *ngIf="alldetails.sickslipcount!='0'&&medicalcertificate==1">
+      <div class="row">
+        <div class="col-lg-12 text-center" style="margin-top: 7px;">
+          <h6><b>{{labels.medicalCertificate}}</b></h6>
+        </div>
+        <div class="col-lg-12 text-center">
+          <h6><b>{{labels.appointmentDate}} : {{alldetails.appointmentdate}}</b></h6>
+        </div>
+      </div>
+      <hr class="new4">
+      <hr class="new5">
+      <div>
+        <div class="row" style="letter-spacing:0.7px;">
+          <div class="col-lg-5">
+            <label><b>{{labels.doctorName}}</b> : {{alldetails.doctorName}}</label><br>
+            <label>{{labels.registration}} : {{alldetails.registrationNo}}</label><br>
+            <label>{{labels.phoneNumber}} : {{alldetails.doctorMobileNo}}</label><br>
+            <label>{{labels.department}} : {{alldetails.departmentname}}</label><br>
+            <!-- <label><b>{{labels.address}}</b> : {{alldetails.doctorAddress}}</label><br> -->
+          </div>
+          <div class="col-lg-3">
+            <!-- <h6><b>{{labels.appointmentDate}}</b></h6>
+            <span><b style="margin-left: 20px;">{{alldetails.appointmentdate}}</b></span> -->
+          </div>
+          <div class="col-lg-4">
+            <label><b>{{labels.patientName}}</b> : {{alldetails.patientName}}</label><br>
+            <label><b>{{labels.phoneNumber}}</b> : {{alldetails.mobileNumber}}</label><br>
+            <!-- <label><b>{{labels.address}}</b> : {{alldetails.address}}</label><br> -->
+            <label><b>{{labels.email}}</b> : {{alldetails.emailID}}</label><br>
+            <label><b>{{labels.nationalIDNo}}</b> : {{alldetails.nationalidno}}</label><br>
+            <label><b>{{labels.age}}</b> : {{alldetails.age}}</label><br>
+            <label><b>{{labels.dateofBirth}}</b> : {{alldetails.dateOfBirth}}</label><br>
+            <label><b>{{labels.gender}}</b> : {{alldetails.gender}}</label><br>
+            <label><b>{{labels.appointmentNumber}}</b> : {{appointmentID}}</label><br>
+          </div>
+          <br>
+        </div>
+      </div><br><br><br><br>
+      <div>
+        <div class="row" *ngFor="let sickslip of alldetails.sicksliplist">
+          <div class="col-lg-12">
+
+            <p style="letter-spacing:0.3px;" [innerHTML]="sickslip.description">
+            </p>
+
+          </div><br>
+        </div>
+      </div><br><br><br><br><br><br>
+      <div class="row">
+        <div class="col-lg-4">
+          <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+            style="width: 100px;height:50px"><br>
+          <b>{{alldetails.doctorName}}</b><br>
+          <label><b>{{labels.registration}} : {{alldetails.registrationNo}}</b></label><br>
+        </div>
+        <div class="col-lg-8">
+        </div>
+      </div><br><br><br><br><br><br><br><br>
+    </div>
+
+    <div *ngIf="alldetails.referalsCount!='0'&&referals==1">
+      <div class="row">
+        <!--<div class="col-lg-4">
+           <img src="assets/Images/logo.png" style="width: 26%;"> 
+        </div>-->
+        <div class="col-lg-12 text-center">
+          <h5><b>{{labels.doctorRefferals}}</b></h5>
+        </div>
+        <div class="col-lg-12 text-center">
+          <!-- <h6><b>{{labels.appointmentDate}}</b><span><b style="margin-left: 20px;">{{alldetails.appointmentdate}}</b></span> 
+               </h6>-->
+            <h6><b>{{labels.appointmentDate}} :</b> <b>{{alldetails.appointmentdate}}</b></h6>
+
+     
+        </div>
+      </div>
+      <hr class="new4">
+      <hr class="new5">
+
+      <br><br><br>
+      <!-- <hr style="color:#333;background-color:#333;"> -->
+      <div>
+        <div class="row">
+          <div class="col-lg-5">
+            <label><b>{{labels.doctorName}}</b> : {{alldetails.doctorName}},{{showname}}</label><br>
+            <label>{{labels.address}} : {{Details[0].docaddress}}</label><br>
+            <label>{{labels.registration}} : {{alldetails.registrationNo}}</label><br>
+            <!-- <label><b>{{labels.phoneNumber}}</b> : {{alldetails.doctorMobileNo}}</label><br> -->
+            <label>{{labels.department}} : {{alldetails.departmentname}}</label><br>
+            <label>{{labels.emialID}} : {{Details[0].docemailid}}</label><br>
+          </div>
+          <div class="col-lg-3">
+            <!-- <h6><b>{{labels.appointmentDate}}</b></h6>
+            <span><b style="margin-left: 20px;">{{alldetails.appointmentdate}}</b></span> -->
+          </div>
+          <div class="col-lg-4">
+    
+            <!-- <label><b>{{labels.address}}</b> : {{alldetails.doctorAddress}}</label><br> -->
+            <label><b>{{labels.patientName}}</b> : {{alldetails.patientName}}</label><br>
+            <label><b>{{labels.phoneNumber}}</b> : {{alldetails.mobileNumber}}</label><br>
+            <label><b>{{labels.email}}</b> : {{alldetails.emailID}}</label><br>
+            <label><b>{{labels.nationalIDNo}}</b> : {{alldetails.nationalidno}}</label><br>
+            <label><b>{{labels.age}}</b> : {{alldetails.age}}</label><br>
+            <label><b>{{labels.dateofBirth}}</b> : {{alldetails.dateOfBirth}}</label><br>
+            <label><b>{{labels.gender}}</b> : {{alldetails.gender}}</label><br>
+            <label><b>{{labels.appointmentNumber}}</b> : {{appointmentID}}</label><br>
+          </div>
+          <br>
+        </div>
+      </div><br><br><br><br>
+
+      <div class="row" *ngFor="let ref of alldetails.referalist">
+        <div class="col-lg-12">
+          <p style="letter-spacing:0.7px;" [innerHTML]="ref.referalNotes">
+          </p>
+
+        </div><br>
+      </div><br><br><br><br>
+
+      <div class="row">
+        <div class="col-lg-8">
+          <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+          style="width: 100px;height:50px"><br>
+        <b>Dr. {{alldetails.doctorName}}</b><br>
+        <label><b>{{labels.registration}} : {{alldetails.registrationNo}}</b></label><br>
+
+        </div>
+        <div class="col-lg-4">
+         
+        </div>
+      </div><br><br><br><br><br><br><br><br><br><br>
+    </div>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-8"></div>
+  <div class="col-lg-4">
+    <button class="add" style="margin-left: 10px;" (click)="GeneratePDfForDoctor()">{{labels.print}}</button>
+    <button class="add" style="margin-left: 10px;" id="sendMail" (click)="GeneratePDf()">{{labels.saveSendtoPatient}}</button>
+  </div>
+</div>

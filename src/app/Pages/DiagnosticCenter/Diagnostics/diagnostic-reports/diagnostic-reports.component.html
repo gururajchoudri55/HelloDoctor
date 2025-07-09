@@ -1,0 +1,235 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.diagnoreports}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="save" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text"
+            placeholder="Select Date"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+        <div class="col-lg-3" *ngIf="showdrop=='1'">
+            <select class="form-control" (change)="GetDiagnosticcenterID($event)">
+              <option value="0">{{labels.selectDiagnostic}}</option>
+              <option *ngFor="let dia of diagnosticlist" value="{{dia.id}}">{{dia.diagnosticCenterName}}</option>
+            </select>
+          </div>
+          <div class="col-lg-3" >
+            <select class="form-control" (change)="getget($event)">
+              <option value="1" selected>{{labels.selectStatus}}</option>
+              <option value="2">{{labels.visited}}</option>
+              <option value="3">{{labels.notVisited}}</option>
+              <option value="4">{{labels.cancelled}}</option>
+            </select>
+          </div>
+        <div class="col-lg-1"></div>
+          <div class="col-lg-2 countClass">
+            <label>{{labels.count}} :{{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.address}}</th>
+                    <th>{{labels.homeSamplePickup}}</th>
+                    <th>{{labels.details}}</th>
+                    <th>{{labels.appointmentTime}}</th>
+                    <th>{{labels.reports}}</th>
+                    <!-- <th>{{labels.status}}</th>          -->
+                </tr>
+                <tr *ngFor="let details of Approvelist|filter:term">
+                    <td>{{details.appdate}}</td>
+                    <td>{{details.id}}</td>
+                    <td *ngIf="showdrop=='1'">{{details.diagnosticCenterName}}</td>
+                    <td>{{details.patientName}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>{{details.address}}</td>
+                    <td>
+                      <label *ngIf="details.homeSampleBit=='1'">{{labels.yes}}</label>
+                      <label *ngIf="details.homeSampleBit=='0'">{{labels.no}}</label>
+                    </td>
+                    <td>
+                        <button class="test" *ngIf="details.testsCount!=0" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" (click)="getTypeID(details,6)"> {{labels.test}} </button>
+                    <button class="test" *ngIf="details.packageCount!=0" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop" (click)="getTypeID(details,7)">{{labels.packages}}</button>
+
+                      <!-- <ng-template #tipcontent18>{{labels.tests}}</ng-template>
+                      <a [ngbTooltip]="tipcontent18" *ngIf="details.testsCount!=0">
+                        <img src="assets/Images/diapic.png" data-toggle="modal" data-target="#exampleModal2" style="height:17px;"
+                          (click)="GetTestsID(details.id)">
+                      </a>&nbsp;
+                      <ng-template #tipcontent20>{{labels[0].packages}}</ng-template>
+                      <a [ngbTooltip]="tipcontent20" *ngIf="details.packageCount!=0">
+                        <img src="assets/Images/diapic.png" data-toggle="modal" data-target="#exampleModal3" style="height:17px;"
+                          (click)="GetPackageID(details.id)">
+                      </a>
+          
+                      <ng-template #tipcontent2045>Photo</ng-template>
+                      <a [ngbTooltip]="tipcontent2045" *ngIf="details.appointmentType=='2'">
+                        <img src="assets/Images/diapic.png" data-toggle="modal" data-target="#exampleModal6"
+                          style="height:20px;" (click)="GetAttachments(details.id)"></a> -->
+          
+                    </td>
+                    <td>{{details.slotTime}}</td>
+                    <td>
+                        <img src="assets/Icons/attachment_16.png" *ngIf="details.uploadedBit=='1'"  (click)="GetReportID(details.id)">
+                      <!-- <ng-template #tipcontent35>{{labels[0].reports}}</ng-template>
+                      <a [ngbTooltip]="tipcontent35">
+                       
+                      </a> -->
+                    </td>
+                    <!-- <td> -->
+                      <!-- <label *ngIf="details.approved=='1'" style="color:green">{{labels[0].visited}}</label>
+                      <label *ngIf="details.notVisited=='1'" style="color:yellowgreen">{{labels[0].notVisited}}</label>
+                      <label *ngIf="details.diagnosticCancelled=='1'"
+                        style="color:red">{{labels[0].cancelled}}</label>
+                        <label *ngIf="details.cancelled=='1'"
+                        style="color:red">{{labels[0].patientCancelled}}</label> -->
+                    <!-- </td> -->
+          
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <!-- <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="Previous" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div> -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==4">{{labels.assign}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==5">{{labels.uploadReport}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==6">{{labels.test}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==7">{{labels.packages}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==8">{{labels.photos}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                   
+                    <div *ngIf="typeID==6">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>{{labels.test}}</th>
+                                            <th>{{labels.description}}</th>
+                                            <th>{{labels.amount}}</th>
+                                            <th>{{labels.available}}</th>
+                                        </tr>
+                                        <tr *ngFor="let listss of testList">
+                                            <td>{{listss.testName}}</td>
+                                            <td>{{listss.description}}</td>
+                                            <td>
+                                                <input type="text" [(ngModel)]="listss.fees" name="listss.fees"
+                                                    class="form-control" *ngIf="selectedOrder.hideupdate=='0'"
+                                                    placeholder="Price">
+
+                                                <input type="text" class="form-control"
+                                                    *ngIf="selectedOrder.hideupdate=='1'"
+                                                    placeholder="{{listss.fees|number:'1.2-2'}}">
+
+                                            </td>
+                                            <td><input type="checkbox" disabled [(ngModel)]="listss.available"></td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div *ngIf="typeID==7">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>{{labels.packageName}}</th>
+                                            <th>{{labels.test}}</th>
+                                            <th>{{labels.description}}</th>
+                                            <th>{{labels.amount}}</th>
+                                            <th>{{labels.actions}}</th>
+                                        </tr>
+                                        <tr *ngFor="let listsssss of packageList">
+                                            <td>{{listsssss.packageName}}</td>
+                                            <td>{{listsssss.testNames}}</td>
+                                            <td>{{listsssss.description}}</td>
+                                            <td>{{listsssss.price}}</td>
+                                            <td><input type="checkbox" [(ngModel)]="listsssss.available"></td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div><br>
+                    </div>
+
+                
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+

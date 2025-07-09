@@ -1,0 +1,58 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.completePatientReport}}</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search" [(ngModel)]="search" name="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+        <div class="col-lg-7"></div>
+          <div class="col-lg-2 countClass">
+            <label>{{labels.count}} :{{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.patientID}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let list of patientsList|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{list.id}}</td>
+                    <td>{{list.patientName}}</td>
+                    <td>{{list.mobileNumber}}</td>
+                    <td>{{list.emailID}}</td>
+                    <td>
+                      <img src="assets/Icons/edit.png">
+                    </td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+
+
+

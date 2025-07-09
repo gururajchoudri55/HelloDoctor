@@ -1,0 +1,83 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">Sub Catgegory</h5>
+        </div>
+
+    </div>
+
+  
+</div><br>
+<div class="container-fluid">
+    <div class="card">
+        <div class="row">
+
+            <div class="col-lg-3">
+                <select class="form-control" [(ngModel)]="CategoryID" name="CategoryID" (change)="GetCategoryID($event)">
+                    <option value="" selected>Select category</option>
+                    <option *ngFor="let Category of CategoryList" value={{Category.id}}>{{Category.categoryName}}</option>
+                  </select>
+            </div>
+
+            <div class="col-lg-3">
+                <select class="form-control" id="SubcategoryID" [(ngModel)]="SubcategoryID" name="SubcategoryID" required>
+                    <option value="0">Select Sub Category</option>
+                    <option value="{{Subcategory.id}}" *ngFor="let Subcategory of Subcategorylist">
+                        {{Subcategory.subacategoryName}}</option>
+                </select>
+            </div>
+           
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="complaint"
+                        required [(ngModel)]="productname" name="productname">
+                    <label for="floatingInput" class="floatingLabel">Product Name</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Description" id="floatingTextarea"
+                        [(ngModel)]="productDescription" name="productDescription"></textarea>
+                    <label for="floatingTextarea">Product Description</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Description" id="floatingTextarea"
+                        [(ngModel)]="productprice" name="productprice"></textarea>
+                    <label for="floatingTextarea">Product Price</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Description" id="floatingTextarea"
+                        [(ngModel)]="productCode" name="productCode"></textarea>
+                    <label for="floatingTextarea">Product Code</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <!-- <label>Identity Proof</label><br> -->
+                <ngx-dropzone (change)="getIdentityProof($event)" class="dropZone">
+                  <ngx-dropzone-label>Attchments</ngx-dropzone-label>
+                  <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                  </ngx-dropzone-preview>
+                </ngx-dropzone>
+              </div>
+        </div><br>
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-2">
+                <button type="button" class="save" *ngIf="showbit=='0'"
+                    (click)="insertdetail()">Save</button>
+                <button type="button" class="save" *ngIf="showbit=='1'"
+                    (click)="Updatedetail()">Update</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save"  routerLink="/menus/Productsdash">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,137 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.planning}}</h5>
+        </div>
+        <div class="col-lg-4 buttonsss">
+            <button class="save" routerLink="/countrymanager/NursePlanningDetails">{{labels.add}}</button>
+        </div>
+
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <ng-multiselect-dropdown [placeholder]="slectNurse" [settings]="nursedd" [data]="nurselist"
+                (onSelect)="GetNurseID($event)">
+            </ng-multiselect-dropdown><br>
+        </div>
+        <br>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" [(ngModel)]="term"
+                    placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <button type="button" class="btn button3">{{labels.homeVisit}}</button>
+                <button type="button" class="btn button4">{{labels.notAvailable}}</button>
+                <button type="button" class="btn button5">{{labels.meeting}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.timings}}</th>
+                    <th>{{labels.monday}}</th>
+                    <th>{{labels.tuesday}}</th>
+                    <th>{{labels.wednesday}}</th>
+                    <th>{{labels.thursday}}</th>
+                    <th>{{labels.friday}}</th>
+                    <th>{{labels.saturday}}</th>
+                    <th>{{labels.sunday}}</th>
+                </tr>
+                <tr *ngFor="let details of Timings|filter:term">
+                    <td>{{details.slotname}}</td>
+                    <td [style.background-color]="details.mondayColor" style="color:white">{{details.monday}}<br><br>
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay1List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.tuesdayColor" style="color:white">{{details.tuesday}}<br><br>
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay2List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.wednesdayColor" style="color:white">
+                        {{details.wednesday}}<br><br>
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay3List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.thursdayColor" style="color:white">
+                        {{details.thursday}}<br><br>
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay4List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.fridayColor" style="color:white">{{details.friday}}<br><br>
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay5List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.saturdayColor" style="color:white">
+                        {{details.saturday}}<br><br>
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay6List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.sundayColor" style="color:white">{{details.sunday}}<br><br>
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay7List(details)">
+
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <br>
+</div>
+<br>
+
+
+
+<div class="modal fade" id="edittest" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.edit}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="radio" [(ngModel)]="appointmentypeid" name="appointmentypeid" [value]="1"> &nbsp;
+                       {{labels.homeVisit}}&nbsp;
+
+                        <input type="radio" [(ngModel)]="appointmentypeid" name="appointmentypeid" [value]="4"> &nbsp;
+                       {{labels.notAvailable}}&nbsp;
+                        <input type="radio" [(ngModel)]="appointmentypeid" name="appointmentypeid" [value]="6"> &nbsp;
+                        {{labels.meeting}}&nbsp;
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-4">
+                    </div>
+                    <div class="col-lg-4">
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-block btncolor"
+                            (click)="Updateslots()">{{labels.update}}</button>
+                    </div>
+                    <div class="col-lg-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

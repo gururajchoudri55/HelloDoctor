@@ -1,0 +1,65 @@
+.background{
+    background-color: white;
+    
+}
+
+
+@media only screen and (max-width:600px) {
+    .showsidebar
+    {
+        display: none;
+    }
+}
+
+
+
+.appSidebarrow{
+    height: 90vh;
+    overflow-y: auto;
+    background-color: #f3f3f3;
+}
+
+@media only screen and (max-width:400px) {
+    .appSidebarrow
+    {
+        display: none;
+    }
+}
+
+
+
+
+
+
+.routeroutlet{
+    overflow-y: auto;
+    height: 90vh;
+    background-color: #f3f3f3;
+}
+
+.routeroutlet1{
+    overflow-y: auto;
+    height: 100vh;
+    background-color: #f3f3f3;
+}
+
+
+#toast-container > .toast {
+    width: 1200px; /* width: 100% */
+  }
+  #toast-container > .toast {
+    max-width: 1200px;
+    width: 90%;
+}
+
+.text{
+    color: #322B6B;
+    font-size: 15px;
+    margin-left: 25px;
+
+}
+.textcenter{
+    text-align: center;
+    font-size: 30px;
+    color:red
+}

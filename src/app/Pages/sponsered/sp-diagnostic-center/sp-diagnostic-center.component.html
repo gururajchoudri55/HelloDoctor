@@ -1,0 +1,75 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.diagnosticDashboard}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="save" routerLink="/Sponsered/SpDiagnosticDetails">{{labels.add}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text"
+            placeholder="Select Date"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue"
+            [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-4"></div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}}</label>    
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                 <th>{{labels.diagnosticCenter}}</th>
+                 <th>{{labels.startdate}}</th>
+                 <th>{{labels.enddate}}</th>
+                 <th>{{labels.fees}}</th>
+                 <th>{{labels.description}}</th>
+
+                 <th>{{labels.actions}}</th>
+
+                </tr>
+                <tr
+                *ngFor="let details of diagnosticlist|filter:search| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                <td>{{details.diagnosticCenterName}}</td>
+                <td>{{details.startdate|date:'dd-MM-yyyy'}}</td>
+                <td>{{details.enddate|date:'dd-MM-yyyy'}}</td>
+                <td>{{details.fees}}</td>
+                <td>{{details.labDescription}}</td>
+
+                <td>
+                  <img class="image" src="assets/Icons/active.png" (click)="disablediagnostic(details.id)" *ngIf="details.hidden=='0'">
+                  <img class="image" src="assets/Icons/dactive.png"  (click)="enablediagnostic(details.id)"*ngIf="details.hidden=='1'">
+                  <img src="assets/Icons/edit.png" (click)="edit(details.id)">
+                </td>
+              </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previousLabel}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+

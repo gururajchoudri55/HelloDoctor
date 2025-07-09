@@ -1,0 +1,74 @@
+
+  .Accept {
+    padding: 5px;
+    border: 2px solid green;
+    color: green;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+  }
+  
+  
+  .Accept:hover {
+    padding: 5px;
+    border: 2px solid green;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    background-color: green;
+    color: white;
+  }
+  
+  
+  .Cancel {
+    padding: 5px;
+    border: 2px solid red;
+    color: red;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 5px;
+  }
+  
+  .Cancel:hover{
+    padding: 5px;
+    border: 2px solid red;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 5px;
+    background-color: red;
+  }
+  
+  .inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+
+  
+.view {
+  padding: 5px;
+  border: 2px solid #f18235;
+  color: #f18235;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+}
+
+
+.view:hover {
+  padding: 5px;
+  border: 2px solid #f18235;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  background-color: #f18235;
+  color: white;
+}
+  

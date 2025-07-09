@@ -1,0 +1,43 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+   <div class="row">
+       <div class="col-lg-8 col-sm-6">
+           <h5 class="headings">{{labels.myRevenue}}</h5>
+       </div>
+   </div>  
+</div>
+<br>
+<div class="container-fluid headercard card-hover headerspace">
+   <div class="row">
+    <div class="col-lg-3">
+      <input type="text"
+      placeholder="Select Date"
+      class="form-control"
+      bsDaterangepicker
+      [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+      [bsConfig]="{ isAnimated: true }">
+  </div>
+    </div>
+    <br>
+    <br>
+   <div class="row">
+      <div class="col-lg-3" *ngFor="let cou of totalamount" (click)="revenue(7)">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;">
+        
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">
+               {{labels.totalRevenue}}</b>
+           </label>
+           <br> <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;">{{cou.miwifecount|number:'1.2-2'|noComma}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br><br>  
+   </div>
+</div>
+
+

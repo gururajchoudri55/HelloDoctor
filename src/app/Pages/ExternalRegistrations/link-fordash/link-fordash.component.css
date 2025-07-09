@@ -1,0 +1,13 @@
+
+  .inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+  td {
+    padding: 16px;
+    text-align: center;
+    font-size: 14px;
+}

@@ -1,0 +1,44 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.newPayment}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <form #paymentForm="ngForm">
+            <div class="row">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Paymentlink"
+                            [(ngModel)]="paymentlink" name="paymentlink" required>
+                        <label for="floatingInput" class="floatingLabel">{{labels.paymentLink}}<span class="required">*</span></label>
+                    </div>
+                </div>
+            </div> <br>
+            <div class="row">
+                <div class="col-lg-9"></div>
+                <div class="col-lg-2">
+                    <button type="button" class="save" *ngIf="showbit=='0'" (click)="InsertDetailes()"
+                        [disabled]="paymentForm.form.invalid">{{labels.save}}</button>
+                    <button type="button" class="save" *ngIf="showbit=='1'"
+                        (click)="UpdateDetailes()"   [disabled]="paymentForm.form.invalid">{{labels.update}}</button>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save"
+                        routerLink="/Diagnostic/DiagnosticPaymentLink">{{labels.back}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br>
+
+
+
+</div>

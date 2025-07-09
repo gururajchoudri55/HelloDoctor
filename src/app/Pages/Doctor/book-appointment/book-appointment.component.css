@@ -1,0 +1,49 @@
+.inputfield {
+  border-radius: 12px;
+  height: 40px;
+}
+
+.floatingLabel {
+  line-height: 0px;
+}
+
+.voiladocpatients {
+
+  padding: 5px;
+  border: 3px solid #322B6B;
+  background-color: white;
+  border-radius: 10px;
+  color: #322B6B;
+}
+
+.voiladocpatients:hover {
+
+  padding: 5px;
+  border: 3px solid #322B6B;
+  background-color: #322B6B;
+  border-radius: 10px;
+  color: white;
+}
+
+
+.listCss{
+  background-color: #f18235;
+  color:white;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+}
+.accept{
+  background-color: #f18235;
+  color:white;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+}
+.cancel{
+  background-color: #322b6b;
+  color:white;
+  padding: 8px;
+  border-radius: 10px;
+  border: none;
+}

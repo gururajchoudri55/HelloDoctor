@@ -1,0 +1,29 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+
+  .teleimage{
+    width:100px;
+    height:auto;
+  }
+
+  .btncolor
+{
+  background-color: #303577;
+  padding: 6px;
+  border-radius: 10px;
+  color: white;
+  border:none;
+}
+.due{
+  padding: 10px;
+  background-color: red;
+  width: 80px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+}

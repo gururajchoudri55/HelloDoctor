@@ -1,0 +1,76 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-1 col-sm-3">
+            <img class="logo" src="assets/Images/logo.png">
+        </div>
+        <div class="col-lg-2 ">
+            <img class="open" src="assets/Icons/open.png" *ngIf="showSidebar=='0'" (click)="open()">
+            <img class="open" src="assets/Icons/close.png" *ngIf="showSidebar=='1'" (click)="close()">
+        </div>
+
+        <div class="col-lg-5">
+            <marquee *ngFor="let noti of docnotificationList" style="margin-top:18px;color:red">{{noti.description}}</marquee>
+        </div>
+        <div class="col-lg-4 col-sm-12">
+    
+              
+        
+            <img class="logout" src="assets/Icons/logout.png" (click)="logOut()">
+            <a class="notification">
+                <img data-bs-toggle="modal" data-bs-target="#notification" src="assets/Icons/not.png">
+                <span class="badge">{{notificationcount}}</span>
+            </a>
+            <select class="form-control lang" (change)="changeLanguageID($event)" [(ngModel)]="LanguageID"
+                name="LanguageID">
+                <option value="1">En</option>
+                <option value="6">Fr</option>
+            </select>
+            <img src="assets/Images/turnoff.png"  class="melody" *ngIf="melodySound==false&&showIcon==true" (click)="enableMelody(true)">
+            <img src="assets/Images/turnon.png" class="melody" *ngIf="melodySound==true&&showIcon==true" (click)="enableMelody(false)">
+   
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="notification" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.notification}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row card" *ngFor="let docnoti of doctorNotifications" style="margin: 10px;">
+                        <div class="col-12">
+                            <h6 style="float: left;">{{docnoti.notification}}</h6>
+                            <!-- <h6 style="float: right;">{{docnoti.notificationtime}}</h6> -->
+                        </div>
+                        <div class="col-lg-12">
+                            <p>
+                                {{docnoti.description}}
+                            </p>
+                            <h6 style="float: left;">{{docnoti.date}}</h6>
+                            <button style="float: right;" *ngIf="doctorid!=undefined&&recpid==undefined&&roleid==15" class="add"
+                                (click)="updateseenbit(docnoti.id)">{{labels.seen}}</button>
+                                <button style="float: right;" *ngIf="roleid==15"
+                                class="add" (click)="updateseenbitcontrymanager(docnoti.id)">{{labels.seen}}
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+           
+            </div>
+        </div>
+    </div>
+</div>

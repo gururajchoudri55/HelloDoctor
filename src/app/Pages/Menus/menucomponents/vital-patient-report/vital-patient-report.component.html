@@ -1,0 +1,77 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <h5 class="headings">Vital Patient Report</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <!-- <div class="col-lg-3">
+            <input type="text"
+            placeholder="Select Date"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            [bsConfig]="{ isAnimated: true }">
+        </div> -->
+
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div><br>
+
+        <div class="col-lg-9 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-striped" id="download">
+                <tr>
+                    <th>{{labels.patientID}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.purchasedate}}</th>
+                    <th>{{labels.numberOfScans}}</th>
+                    <th>{{labels.purchaseType}}</th>
+                    <th>{{labels.amount}}</th>
+                    <th>{{labels.paymentCode}}</th>
+                    <!-- <th>{{labels.avgwellnesscode}}</th>
+                    <th>{{labels.lastuseddate}}</th> -->
+                    <!-- <th>{{labels.stressCode}}</th> -->
+
+                </tr>
+                <tr *ngFor="let details of dataList|filter:search| paginate: { id: 'foo', itemsPerPage: 20, currentPage: p}">
+                    <td>{{details.patientID}}</td>
+                    <td>{{details.patientName}}</td>
+                    <td>{{details.purchasedate}}</td>
+                    <td>{{details.numberOfScans}}</td>
+                    <td>{{details.purchaseType}}</td>
+                    <td>{{details.amount}}</td>
+                    <td>{{details.paymentCode}}</td>
+                    <!-- <td></td>
+                    <td></td> -->
+                    <!-- <td>{{details.paymentCode}}</td> -->
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>

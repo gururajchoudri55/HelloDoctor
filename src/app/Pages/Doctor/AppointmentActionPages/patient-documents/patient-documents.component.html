@@ -1,0 +1,151 @@
+<app-sms></app-sms>
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid card">
+    <h6 class="text-center">{{labels.primaryPatientDetails}}</h6>
+    <div class="row rowwidth">
+        <div class="col-lg-3">
+            <label>{{labels.primaryPatient}} : {{patientDetails.primarypatientname}}</label>
+        </div>
+        <div class="col-lg-3">
+            <label>{{labels.phoneNumber}} : {{patientDetails.pMobileNo}}</label>
+        </div>
+        <div class="col-lg-3">
+            <label>{{labels.emailID}} : {{patientDetails.emailID}}</label>
+        </div>
+        <div class="col-lg-3">
+            <label>{{labels.relation}} : {{patientDetails.pRelation}}</label>
+        </div>
+        
+    </div>
+</div><br>
+
+<div class="container-fluid card">
+    <h6 class="text-center">{{labels.medicalQuestinare}}</h6>
+    <div class="row rowwidth">
+        <div class="col-lg-4">
+            <label>{{labels.nationalIdentityNumber}}: {{patientDetails.nationalidno}} </label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.height}} : {{patientDetails.height}} </label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.weight}} : {{patientDetails.weight}}</label>
+        </div>
+
+    </div>
+
+    <div class="row rowwidth">
+        <div class="col-lg-4">
+            <label>{{labels.bmi}} : {{patientDetails.bmi}}</label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.medicalHistory}}: {{patientDetails.medicalHistory}}</label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.surgeryHistory}} : {{patientDetails.surgeryHistory}}</label>
+        </div>
+    </div>
+
+    <div class="row rowwidth">
+        <div class="col-lg-4">
+            <label>{{labels.longTermTreatment}} : {{patientDetails.longtermTreatment}}</label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.vaccinationStatus}} :  <img src="assets/Icons/vaccine.png" style="width:18px" (click)="getTypeID(26)">
+                <!-- <img src="assets/Icons/vaccine.png" style="width:25px" data-bs-toggle="modal" data-bs-target="#vaccine">  -->
+            </label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.deitaryIssues}}: {{patientDetails.dietaryIssues}}</label>
+        </div>
+
+    </div>
+    <div class="row rowwidth">
+        <div class="col-lg-4">
+            <label>{{labels.doYouDrinkAlchol}} :
+            </label>
+            <p *ngIf="patientDetails.alcohol=='1'" class="medical">{{labels.yes}}</p>
+            <p *ngIf="patientDetails.alcohol=='0'" class="medical"></p>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.areYouASmoker}} :
+            </label>
+            <p *ngIf="patientDetails.smoker=='1'" class="medical">{{labels.yes}}</p>
+            <p *ngIf="patientDetails.smoker=='0'" class="medical"></p>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.doYouExcercise}} :
+
+            </label>
+            <p *ngIf="patientDetails.exercise=='1'" class="medical">{{labels.yes}}</p>
+            <p *ngIf="patientDetails.exercise=='0'" class="medical"></p>
+        </div>
+    </div>
+    <div class="row rowwidth">
+        <div class="col-lg-4">
+            <label>{{labels.medicalInsurance}}:
+            </label>
+            <p *ngIf="patientDetails.medicalinsurance=='1'" class="medical">{{labels.yes}}</p>
+            <p *ngIf="patientDetails.medicalinsurance=='0'" class="medical"></p>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.allergies}} : 
+                <img src="assets/Icons/allergy.png" style="width: 18px;" (click)="getTypeID(27)">
+                <!-- <img src="assets/Icons/allergy.png" style="width: 25px;"> -->
+            </label>
+        </div>
+    </div>
+</div>
+<br>
+
+
+<div class="container-fluid card">
+    <h6 class="text-center">{{labels.patientUploadedDocuments}}</h6>
+    <div class="row text-center" *ngIf="nophoto=='0'">
+        <div  *ngFor="let showphoto of uploadedImages">
+            <br>
+            <img src="{{showphoto.photoURL}}" style="width: 50%;" />
+        </div>
+
+    </div>
+    <div class="row text-center">
+        <div class="col-lg-12 text-center" *ngIf="nophoto=='1'">
+            <label>{{labels.noPhotosFound}}</label>
+        </div>
+    </div>
+    <br>
+    <h6 class="text-center">{{labels.patientUploadedVideos}}</h6>
+    <div class="row text-center" *ngIf="novideo=='0'" >
+        <div class="col-lg-6" *ngFor="let showvedio of patientUploadedVideos">
+            <br>
+            <div class="video">
+                <video controls id="videoPlayer" style="height:auto; width: 100%;" >
+                    <source src="{{showvedio.videoUrl}}" type="video/mp4"  /> {{labels.browserNotSupported}}
+                </video>
+            </div>
+        </div>
+        <br>
+    </div>
+    <div class="row text-center" *ngIf="novideo=='1'">
+        <div class="col-lg-12 text-center">
+            <label>{{labels.noVideosFound}}</label>
+        </div>
+    </div><br>
+
+    <h6 class="text-center">{{labels.uploadedReports}}</h6>
+    <div class="row text-center" >
+        <div  *ngIf="patientDetails.reportUrl!='0'&&patientDetails.reportUrl!='null'">
+            <img src="assets/Icons/attachment_16.png" style="width: 35px;" (click)="GetReportPdf(patientDetails.reportUrl)">
+        </div>
+
+        <div  *ngIf="patientDetails.uploadrepornotexist!='0'">
+            <img src="assets/Icons/attachment_16.png" style="width: 35px;"
+                (click)="GetReportPdf(patientDetails.illnesspdf)">
+        </div>
+
+    </div>
+
+</div>
+
+
+

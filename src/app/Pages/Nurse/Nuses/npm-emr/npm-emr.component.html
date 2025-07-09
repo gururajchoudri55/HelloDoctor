@@ -1,0 +1,218 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.dme}}</h5>
+        </div>
+    </div>
+</div><br>
+<div class="container-fluid ">
+    <!-- <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.patientDetails}}</h5>
+        </div>
+    </div>
+    <br> -->
+    <div class="row">
+        <div class="col-lg-4">
+            <label>{{labels.name}} : <span class="patientDetails">{{patientname}}</span></label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.phoneNumber}} : <span class="patientDetails">{{mobileno}}</span></label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.emailID}} : <span class="patientDetails">{{emailid}}</span></label>
+        </div>
+
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-4">
+            <label>{{labels.gender}} : <span class="patientDetails">{{gender}}</span></label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.address}} : <span class="patientDetails">{{address}} </span></label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.bloodGroup}} : <span class="patientDetails">{{bloodgroup}} </span></label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.age}} : <span class="patientDetails">{{age}} </span></label>
+        </div>
+    </div>
+    <br>
+</div>
+<br>
+
+
+<div class="container-fluid card card-hover ">
+    <div class="row">
+        <label class="headings">{{labels.soapNotes}}</label>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 tableheight">
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentno}}</th>
+                    <th>{{labels.name}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.notes}}</th>
+                    <th>{{labels.soap}}</th>
+                </tr>
+                <tr *ngFor="let soap of soaplist1">
+                    <td>{{soap.appointDate}}</td>
+                    <td>{{soap.appointmentID}}</td>
+                    <td>{{soap.nurseName}}</td>
+
+                    <td>{{soap.phoneNo}}</td>
+                    <td>{{soap.completedNotes}}</td>
+                    <td>
+                        <a>
+                            <img src="assets/Icons/ViewDetails.png" (click)="GetSoapID(soap.soapID)"
+                                data-bs-toggle="modal" data-bs-target="#SOAPNOTES" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<br>
+
+
+
+
+<div class="modal fade" id="SOAPNOTES" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.soap}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.subjective}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea  cols="30" rows="20" style="height: 70px;" class="form-control" [(ngModel)]="subjective" name="subjective"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.objective}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" style="height: 70px;" class="form-control" [(ngModel)]="objective" name="objective" ></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.assessment}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" style="height: 70px;" class="form-control" [(ngModel)]="assesment" name="assesment"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.plan}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" style="height: 70px;" class="form-control" [(ngModel)]="plan" name="plan"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.diagnosisiCode}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" style="height: 70px;" class="form-control" [(ngModel)]="diagnosiscode" name="diagnosiscode"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.diagnosisDescription}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" style="height: 70px;" class="form-control" [(ngModel)]="icerdescription" name="icerdescription"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.followUpPlan}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10"  style="height: 70px;" class="form-control" [(ngModel)]="followUpPlan" name="followUpPlan"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.attachnments}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="assets/Icons/Report.png" *ngIf="attachment!=0"
+                            (click)="GetSoapPdf()" data-bs-dismiss="modal">
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.notes}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" style="height: 70px;" class="form-control" [(ngModel)]="notes" name="notes"></textarea>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <!-- <div class="row">
+                        <div class="col-lg-12">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>{{labels.subjective}}</th>
+                                        <th>{{labels.objective}}</th>
+                                        <th>{{labels.assessment}}</th>
+                                        <th>{{labels.plan}}</th>
+                                        <th>{{labels.diagnosisiCode}}</th>
+                                        <th>{{labels.diagnosisDescription}}</th>
+                                        <th>{{labels.followUpPlan}}</th>
+                                        <th>{{labels.attachnments}}</th>
+                                        <th>{{labels.notes}}</th>
+                                    </tr>
+                                    <tr *ngFor="let soap of soaplist">
+                                        <td>{{soap.subjective}}</td>
+                                        <td>{{soap.objective}}</td>
+                                        <td>{{soap.assessment}}</td>
+                                        <td>{{soap.plan}}</td>
+                                        <td>{{soap.diagnosisCode}}</td>
+                                        <td>{{soap.icrDescription}}</td>
+                                        <td>{{soap.followUpPlan}}</td>
+                                        <td>
+                                            <img src="assets/Icons/Report.png" *ngIf="attchment!=0"
+                                                (click)="GetSoapPdf(soap.attchment)" data-bs-dismiss="modal">
+                                        </td>
+                                        <td>{{soap.notes}}</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>

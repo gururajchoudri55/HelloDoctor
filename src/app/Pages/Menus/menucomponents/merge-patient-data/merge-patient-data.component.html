@@ -1,0 +1,124 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-12 col-sm-6">
+      <h5 class="headings">{{labels.mergePatientData}}</h5>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+  <div class="row">
+    <div class="col-lg-3">
+      <label>{{labels.patient}}</label>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+          [(ngModel)]="patientname" (ngModelChange)="Searchpatient(patientname)">
+        <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+      </div>
+    </div><br>
+  </div> <br>
+
+  <div class="row" *ngIf="searchon=='1'">
+    <div class="col-lg-12 tableoverflow">
+      <table class="table table-striped">
+        <tr>
+          <th>{{labels.patientName}}</th>
+          <th>{{labels.phoneNumber}}</th>
+          <th>{{labels.email}}</th>
+          <th>{{labels.address}}</th>
+          <th>{{labels.select}}</th>
+        </tr>
+        <tr
+          *ngFor="let details of patientdetails|filter:patientname| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+          <td>{{details.patientName}}</td>
+          <td>{{details.mobileNumber}}</td>
+          <td>{{details.emailID}}</td>
+          <td>{{details.address}}</td>
+          <td>
+            <input type="checkbox" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              (click)="GetPatientID(details.id,details.mobileNumber,details.patientName,details.pinno)">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="col-lg-12" style="text-align: end" *ngIf="searchon=='1'">
+    <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+      nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>
+<br>
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{labels.changeMobileNumber}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #regForm="ngForm">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Name"
+                  [(ngModel)]="oldmobilenumber" name="oldmobilenumber" disabled>
+                <label for="floatingInput" class="floatingLabel">{{labels.oldMobileNumber}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4">
+              <select class="form-control" (change)="getCountryCode($event)" required>
+                <option value="">{{labels.scountry}}</option>
+                <option value="91">+91 (India)</option>
+                <option value="212">+212 (Maroc)</option>
+                <option value="61">+61 (Singapore)</option>
+                <option value="261">+261 (Madagascar)</option>
+              </select>
+            </div>
+            <div class="col-lg-8">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" required minlength="7"
+                  placeholder="New Mobile Number" [(ngModel)]="newmobilenumber" name="newmobilenumber">
+                <label for="floatingInput" class="floatingLabel">{{labels.newMobileNumber}}</label>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="showotp==0">
+            <div class="col-lg-7">
+              <button type="button" class="save" (click)="generateOtp()"
+              [disabled]="regForm.form.invalid">{{labels.update}}</button>
+            </div>
+          
+          </div>
+
+          <div class="row" *ngIf="showotp==1">
+            <div class="col-lg-12">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" required minlength="4"
+                  placeholder="pin number" [(ngModel)]="enteredOtp" name="enteredOtp">
+                <label for="floatingInput" class="floatingLabel">OTP</label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="save" *ngIf="showotp==1" (click)="updatemobilenmber()"
+          [disabled]="regForm.form.invalid">{{labels.update}}</button>
+        <button type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+      </div>
+    </div>
+  </div>
+</div>

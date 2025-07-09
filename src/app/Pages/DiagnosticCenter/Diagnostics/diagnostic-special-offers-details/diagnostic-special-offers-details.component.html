@@ -1,0 +1,72 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.offerPromotional}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <form #offerDetailsForm="ngForm">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="offername"
+                            name="offername" [(ngModel)]="offername" required  >
+                        <label for="floatingInput" class="floatingLabel">{{labels.offerName}}<span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Description" id="floatingTextarea"
+                            name="description" [(ngModel)]="descripton" required ></textarea>
+                        <label for="floatingTextarea">{{labels.offerdescription}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <input type="text" placeholder="{{labels.startDate}}" class="form-control" bsDatepicker
+                        [(ngModel)]="sdate"  name="sdate"    [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
+                        (ngModelChange)="getStartDate(sdate)">
+                </div>
+                <div class="col-lg-3">
+                    <input type="text" placeholder="{{labels.endDate}}" class="form-control" bsDatepicker
+                        [(ngModel)]="edate" name="edate" [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
+                        (ngModelChange)="getendDate(edate)">
+                </div>
+            </div> <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="offer"
+                            name="offer" [(ngModel)]="offer" required>
+                        <label for="floatingInput" class="floatingLabel">{{labels.price}} <span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                        <ngx-dropzone-label>{{labels.offerPhoto}}</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-9"></div>
+                <div class="col-lg-2">
+                    <button type="button" class="save" *ngIf="showbit==0"
+                        (click)="insertdetails()" [disabled]="offerDetailsForm.form.invalid">{{labels.save}}</button>&nbsp;&nbsp;
+                    <button type="button" class="save" *ngIf="showbit==1"
+                        (click)="updatedetails()" [disabled]="offerDetailsForm.form.invalid">{{labels.update}}</button>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" (click)="back()">{{labels.back}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br>
+</div>

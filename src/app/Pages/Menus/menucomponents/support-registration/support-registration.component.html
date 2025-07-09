@@ -1,0 +1,129 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <h5 class="headings">{{labels.supportDashboard}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="save" routerLink="/menus/SupportRegistrationDetails">{{labels.add}}</button>&nbsp;
+        </div>
+
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="search"> 
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div><br>
+        <!-- <div class="col-lg-3">
+            <select class="form-control" (change)="getCountryID($event)">
+                <option value="">Select Country</option>
+                <option *ngFor="let cou of countryList" value="{{cou.id}}">{{cou.short}}</option>
+            </select>
+        </div> -->
+    </div> <br>
+
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.name}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.country}}</th>
+                    <th>{{labels.province}}</th>
+                    <th>{{labels.city}}</th>
+                    <th>{{labels.userName}}</th>
+                    <th>{{labels.address}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let details of localdocList|filter:search| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{details.name}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>{{details.country}}</td>
+                    <td>{{details.city}}</td>
+                    <td>{{details.areaName}}</td>
+                    <td>{{details.userName}}</td>
+                    <td>{{details.address}}</td>
+                    <td>
+                      <img src="assets/Icons/view_16.png" (click)="getpassword(details)" data-bs-toggle="modal" data-bs-target="#password">
+                      <img src="assets/Icons/delete.png" (click)="DeleteSupportRegistration(details.id)">
+                    </td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>
+
+
+
+<div class="modal fade" id="password" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.password}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngIf="Showpassword=='0'">
+                    <div class="col-lg-9">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control inputfield" id="floatingInput"
+                            [(ngModel)]="Enteredpinno" name="Enteredpinno"
+                            placeholder="Enter Your Pin No">
+                            <label for="floatingInput" class="floatingLabel">{{labels.enterYourPin}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <button class="save" (click)="CheckPasswordvalidate()">{{labels.validate}}</button>
+                    </div>
+                </div>                
+                  
+                <div *ngIf="Showpassword=='1'">
+                        <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-10">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control inputfield" id="floatingInput" disabled
+                                        name="mypinno" required [(ngModel)]="mypinno">
+                                    <label for="floatingInput" class="floatingLabel">{{labels.pin}}</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-1"></div>
+                        </div>                   
+                        <div class="row">
+                            <div class="col-lg-1"></div>
+                            <div class="col-lg-10">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control inputfield" id="floatingInput"
+                                    [(ngModel)]="password"
+                                    placeholder="Password">
+                                    <label for="floatingInput" class="floatingLabel">{{labels.password}}</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-1"></div>
+                        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>

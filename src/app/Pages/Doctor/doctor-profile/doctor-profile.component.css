@@ -1,0 +1,60 @@
+
+.button
+{
+    border: none;
+    width:80%;
+    height:auto;
+    border-radius: 5px;
+    background-color: #2f87cc;
+    color:white;
+    font-size: 15px;
+}
+.dropZone{
+  width:100% ;
+  height: 57px;
+}
+
+.button1{
+
+    border-radius: 5px;
+    border:none;
+    background-color: #2f87cc;
+    color:white; 
+    width:100%;
+    font-size: 16px;
+  }
+.button2{
+    padding:5px;
+    border-radius: 5px;
+    color:white;
+    background-color: #2F87CC;
+    border:none;
+    width:80%;
+    }
+.head{
+    font-size: 15px;
+    color: #0C275A;
+}
+.header{
+    font-size: 12px;
+    color: #0C275A;
+}
+
+    .header { 
+        left: 17.5%;
+        right: 76.67%;
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 17px;
+        color: #0C275A;
+          }
+
+        
+
+          .inputfield{
+            border-radius: 12px;
+            height: 40px;
+          }
+          .floatingLabel{
+            line-height: 0px;
+          }

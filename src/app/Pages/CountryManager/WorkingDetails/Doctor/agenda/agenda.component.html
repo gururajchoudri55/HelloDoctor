@@ -1,0 +1,442 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.doctorAgenda}}</h5>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <ng-multiselect-dropdown [placeholder]="selectDoctor" [settings]="docdd" [data]="doctorlist"
+                (onSelect)="GetDoctorID($event)">
+            </ng-multiselect-dropdown>
+        </div>
+        <div class="col-lg-3" *ngIf="showcalender=='1'">
+            <input type="text" class="form-control" placeholder="{{labels.selectDate}}"
+                [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="todaydatess"
+                (ngModelChange)="GetDoctorDates($event)" [minDate]="today" bsDatepicker>
+        </div>
+        <div class="col-lg-2" *ngIf="showcalender=='1'">
+            <span>{{labels.changeSchedule}}</span>
+        </div>
+        <div class="col-lg-4" *ngIf="showcalender=='1'">
+            <input type="radio" [(ngModel)]="typeID" name="typeID" data-bs-toggle="modal" data-bs-target="#EditDayWiseSlots"
+                (click)="GetTypeID($event)" value="1"> {{labels.dayWise}} &nbsp;
+            <input type="radio" [(ngModel)]="typeID" name="typeID" data-bs-toggle="modal" data-bs-target="#EdittimeWiseSlots" 
+                (click)="GetTypeID($event)" value="2">{{labels.timeWise}}
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" [(ngModel)]="term" id="floatingInput" placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+        <div class="col-lg-7">
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <button type="button" class="btn color">{{labels.inClinic}}</button>
+                <button type="button" class="btn button2">{{labels.video}}</button>
+                <button type="button" class="btn button3">{{labels.homeVisit}}</button>
+                <button type="button" class="btn button4">{{labels.notAvailable}}</button>
+                <button type="button" class="btn button5">{{labels.meeting}}</button>
+                <button type="button" class="btn button6">{{labels.booked}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.timings}}</th>
+                    <th>
+                        {{date1|date:'dd/MM/yyyy'}}<br>
+                        {{day1}}
+                    </th>
+                    <th>
+                        {{date2|date:'dd/MM/yyyy'}}<br>
+                        {{day2}}
+                    </th>
+                    <th>
+                        {{date3|date:'dd/MM/yyyy'}}<br>
+                        {{day3}}
+
+                    </th>
+                    <th>
+                        {{date4|date:'dd/MM/yyyy'}}<br>
+                        {{day4}}
+
+                    </th>
+                    <th>
+                        {{date5|date:'dd/MM/yyyy'}}<br>
+                        {{day5}}
+
+                    </th>
+                    <th>
+                        {{date6|date:'dd/MM/yyyy'}}<br>
+                        {{day6}}
+
+                    </th>
+                    <th>
+                        {{date7|date:'dd/MM/yyyy'}}<br>
+                        {{day7}}
+                    </th>
+                </tr>
+
+                <tr *ngFor="let details of workingdetails|filter:term">
+                    <td>{{details.slotname}}</td>
+                    <td [style.background-color]="details.day1color" style="color:white">{{details.day1}}<br>
+                        <span
+                            *ngIf="details.day1AppointmentTypeID!=6&&details.day1AppointmentTypeID!=4">{{details.mondayFees|number:'1.2-2'|noComma}}
+                           Ar</span>
+                        <br>
+                        {{details.day1Availabilty}}<br>
+                        <table>
+                            <tr *ngFor="let det of details.day1patientdetails">
+                                <span style="color:#e69d17"> {{det.pName}}</span>
+                            </tr>
+                        </table>
+
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay1List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.day2color" style="color:white">{{details.day2}}<br>
+                        <label *ngIf="details.day2AppointmentTypeID!=6&&details.day2AppointmentTypeID!=4">
+                            {{details.tuesdayFees|number:'1.2-2'|noComma}}Ar</label> <br>
+                        {{details.day2Availabilty}}<br>
+                        <table>
+                            <tr *ngFor="let det of details.day2patientdetails">
+                                <span style="color:#e69d17"> {{det.pName}}</span>
+                            </tr>
+                        </table>
+
+
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay2List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.day3color" style="color:white">{{details.day3}}<br>
+                        <label *ngIf="details.day3AppointmentTypeID!=6&&details.day3AppointmentTypeID!=4">
+                            {{details.wednessdayFees|number:'1.2-2'|noComma}}Ar</label> <br>
+                        {{details.day3Availabilty}}<br>
+                        <table>
+                            <tr *ngFor="let det of details.day3patientdetails">
+                                <span style="color:#e69d17"> {{det.pName}}</span>
+                            </tr>
+                        </table>
+
+
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay3List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.day4color" style="color:white">{{details.day4}}<br>
+                        <label
+                            *ngIf="details.day4AppointmentTypeID!=6&&details.day4AppointmentTypeID!=4">{{details.thursdayFees|number:'1.2-2'|noComma}}
+                           Ar</label><br>
+                        {{details.day4Availabilty}}<br>
+                        <table>
+                            <tr *ngFor="let det of details.day4patientdetails">
+                                <span style="color:#e69d17"> {{det.pName}}</span>
+                            </tr>
+                        </table>
+
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay4List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.day5color" style="color:white">{{details.day5}}<br>
+                        <label
+                            *ngIf="details.day5AppointmentTypeID!=6&&details.day5AppointmentTypeID!=4">{{details.fridayFees|number:'1.2-2'|noComma}}
+                           Ar</label>
+                        <br>
+                        {{details.day5Availabilty}}<br>
+                        <table>
+                            <tr *ngFor="let det of details.day5patientdetails">
+                                <span style="color:#e69d17"> {{det.pName}}</span>
+                            </tr>
+                        </table>
+
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay5List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.day6color" style="color:white">{{details.day6}}<br>
+                        <label
+                            *ngIf="details.day6AppointmentTypeID!=6&&details.day6AppointmentTypeID!=4">{{details.satdayFees|number:'1.2-2'|noComma}}
+                           Ar</label>
+                        <br>
+                        {{details.day6Availabilty}}<br>
+                        <table>
+                            <tr *ngFor="let det of details.day6patientdetails">
+                                <span style="color:#e69d17"> {{det.pName}}</span>
+                            </tr>
+                        </table>
+
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay6List(details)">
+
+                    </td>
+                    <td [style.background-color]="details.day7color" style="color:white">{{details.day7}}<br>
+                        <label *ngIf="details.day7AppointmentTypeID!=6&&details.day7AppointmentTypeID!=4">
+                            {{details.sundayFees|number:'1.2-2'|noComma}}Ar</label> <br>
+                        {{details.day7Availabilty}}<br>
+                        <table>
+                            <tr *ngFor="let det of details.day7patientdetails">
+                                <span style="color:#e69d17"> {{det.pName}}</span>
+                            </tr>
+                        </table>
+
+                        <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#edittest"
+                            (click)="GetDay7List(details)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+</div>
+
+
+<div class="modal fade" id="edittest" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.edit}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="radio" [(ngModel)]="appointmentypeid" name="appointmentypeid" [value]="1">
+                        &nbsp;
+                        {{labels.inClinic}} &nbsp;
+                        <input type="radio" [(ngModel)]="appointmentypeid" name="appointmentypeid" [value]="2">
+                        &nbsp;
+                        {{labels.video}} &nbsp;
+                        <input type="radio" [(ngModel)]="appointmentypeid" name="appointmentypeid" [value]="4">
+                        &nbsp;
+                       {{labels.notAvailable}}&nbsp;
+                        <input type="radio" [(ngModel)]="appointmentypeid" name="appointmentypeid" [value]="6">
+                        &nbsp;
+                        {{labels.meeting}}&nbsp;
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                        <div class="form-floating mb-3" *ngIf="appointmentypeid!=4&&appointmentypeid!=6">
+                            <input type="email" class="form-control inputfield" id="floatingInput"
+                                placeholder="Hospital Name" [(ngModel)]="fees" name="fees">
+                            <label for="floatingInput" class="floatingLabel">{{labels.fees}} (Ar)</label>
+                        </div>
+                    </div>
+
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-4">
+                    </div>
+                    <div class="col-lg-4">
+                        <button type="button" data-dismiss="modal" class="save"
+                            (click)="insertdetails()">{{labels.update}}</button>
+                    </div>
+                </div><br>
+                <div class="modal-footer">
+                    <button type="button" class="save" data-bs-dismiss="modal">{{labels.back}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="EditDayWiseSlots" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.edit}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <span>{{labels.date}}</span>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" placeholder="{{labels.selectDate}}"
+                            [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" class="form-control"
+                            [minDate]="today" #dp="bsDatepicker" [(ngModel)]="daychangedate"
+                            (ngModelChange)="GetdaychangeDate($event)" bsDatepicker [minDate]="today">
+                        <!--  -->
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-10">
+                        <input type="radio" [(ngModel)]="Daywiseappointmentid" name="Daywiseappointmentid" [value]="1">
+                        &nbsp;
+                      {{labels.inClinic}} &nbsp;
+                        <input type="radio" [(ngModel)]="Daywiseappointmentid" name="Daywiseappointmentid" [value]="2">
+                        &nbsp;
+                      {{labels.video}}&nbsp;
+                        <input type="radio" [(ngModel)]="Daywiseappointmentid" name="Daywiseappointmentid" [value]="5">
+                        &nbsp;
+                     {{labels.homeVisit}}&nbsp;
+                        <input type="radio" [(ngModel)]="Daywiseappointmentid" name="Daywiseappointmentid" [value]="4">
+                        &nbsp;
+                      {{labels.notAvailable}}&nbsp;
+                        <input type="radio" [(ngModel)]="Daywiseappointmentid" name="Daywiseappointmentid" [value]="6">
+                        &nbsp;
+                     {{labels.meeting}}
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-1">
+                    </div>
+                    <div class="col-lg-2">
+                        <!-- <span *ngIf="Daywiseappointmentid!=4&&Daywiseappointmentid!=6"> Fees :</span> -->
+                    </div><br>
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-3" *ngIf="Daywiseappointmentid!=4&&Daywiseappointmentid!=6">
+                            <input type="email" class="form-control inputfield" id="floatingInput"
+                                placeholder="Hospital Name" [(ngModel)]="fees" name="fees">
+                            <label for="floatingInput" class="floatingLabel">{{labels.fees}}(Ar)</label>
+                        </div>
+                    </div>
+                   
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-4">
+                    </div>
+                    <div class="col-lg-4">
+                        <button type="button" data-dismiss="modal" class="update"
+                            (click)="InsertDayWiseAlert()">{{labels.update}}</button>
+                    </div>
+                    <div class="col-lg-4">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="save" data-bs-dismiss="modal">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="EdittimeWiseSlots" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg ">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.edit}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" >
+                <div class="row">
+                  <div class="col-lg-3">
+                    <span>{{labels.date}} </span>
+                  </div>
+                  <div class="col-lg-6">
+                    <input  type="text" class="form-control" placeholder="{{labels.selectDate}}"
+                    [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"  [(ngModel)]="timechangedate"
+                      (ngModelChange)="GetTimewisechangedate($event)" [minDate]="today" 
+                      bsDatepicker>
+                  </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                  <div class="col-lg-10">
+                    <input type="radio" [(ngModel)]="timewiseappointmentid" name="timewiseappointmentid" value="1"  (click)="gettimechange($event)"> &nbsp;
+                   {{labels.inClinic}}&nbsp;
+                    <input type="radio" [(ngModel)]="timewiseappointmentid" name="timewiseappointmentid" value="2" (click)="gettimechange($event)"> &nbsp;
+                  {{labels.video}}&nbsp;
+                    <input type="radio" [(ngModel)]="timewiseappointmentid" name="timewiseappointmentid" value="5" (click)="gettimechange($event)"> &nbsp;
+                  {{labels.homeVisit}}&nbsp;
+                    <input type="radio" [(ngModel)]="timewiseappointmentid" name="timewiseappointmentid" value="4" (click)="gettimechange($event)"> &nbsp;
+                  {{labels.notAvailable}}&nbsp;
+                    <input type="radio" [(ngModel)]="timewiseappointmentid" name="timewiseappointmentid" value="6" (click)="gettimechange($event)"> &nbsp;
+                   {{labels.meeting}}
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <!-- <span>Start Time </span> -->
+                  </div>
+                  <div class="col-lg-6">
+                    <select class="form-control" (change)="getmrngfrom($event)" [(ngModel)]="mrngfromid" name="mrngfromid">
+                      <option value="">{{labels.startTime}}</option>
+                      <option *ngFor="let mrngfrm of mrngfromlist" value="{{ mrngfrm.id }}">{{ mrngfrm.slots }}</option>
+                    </select>
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <!-- <span>End Time </span> -->
+                  </div>
+                  <div class="col-lg-6" style="margin-top: 0px;">
+                    <select class="form-control" (change)="getmrngto($event)" [(ngModel)]="mrngtoid" name="mrngtoid">
+                      <option value="">{{labels.endTime}}</option>
+                      <option *ngFor="let mrngto of mrngtolist" value="{{ mrngto.id }}">{{ mrngto.slots
+                        }}</option>
+                    </select>
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <!-- <span *ngIf="timewiseappointmentid!=4&&timewiseappointmentid!=6"> Fees :</span> -->
+                  </div>
+                  <div class="col-lg-6">
+                      <div class="form-floating mb-3" *ngIf="timewiseappointmentid!=4&&timewiseappointmentid!=6">
+                        <input type="email" class="form-control inputfield" id="floatingInput"
+                            placeholder="Hospital Name" [(ngModel)]="fees" name="fees">
+                        <label for="floatingInput" class="floatingLabel">{{labels.fees}}(Ar)</label>
+                    </div>
+                  </div>
+                </div><br>
+                <div class="row">
+                  <div class="col-lg-4">
+                  </div>
+                  <div class="col-lg-4">
+                    <button type="button" data-dismiss="modal" class="update"
+                      (click)="InsertTineWiseAlert()">{{labels.update}}</button>
+                  </div>
+                  <div class="col-lg-4">
+                  </div>
+                </div>
+              </div>
+            <div class="modal-footer">
+                <button type="button" class="save" data-bs-dismiss="modal">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>
+</div>

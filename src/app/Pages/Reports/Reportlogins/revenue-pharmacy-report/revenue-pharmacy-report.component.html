@@ -1,0 +1,85 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.pharmacyReport}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="save">{{labels.exportExcel}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" placeholder="Select Date" class="form-control" bsDaterangepicker
+                [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetPaymentTypeID($event)">
+                <option value="0">{{labels.selectPaymentType}}</option>
+                <option value="1">{{labels.wallet}}</option>
+                <option value="2">{{labels.creditcard}}</option>
+                <option value="3">{{labels.cod}}</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetPharmacyID($event)">
+                <option value="0">{{labels.selectPharmacy}}</option>
+                <option *ngFor="let pha of pharmacylist" value="{{pha.id}}">{{pha.pharmacyName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-10"></div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.grandtotal}} : {{GrandTotal}} </label>&nbsp;&nbsp;
+            <label>{{labels.count}} : {{count}}</label>
+        </div>
+    </div>   
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+                   <th>{{labels.orderID}}</th>
+                   <th>{{labels.date}}</th>
+                   <th>{{labels.pharmacyName}}</th>
+                   <th>{{labels.patientName}}</th>
+                   <th>{{labels.mobileNumber}}</th>
+                   <th>{{labels.emailID}}</th>
+                   <th>{{labels.paymentType}}</th>
+                   <th>{{labels.totalCollected}}</th>
+                   <th>{{labels.meridonial}}</th>
+                   <th>{{labels.deliveryPartnerFees}}</th>
+                </tr>
+                <tr *ngFor="let details of DiagnosticChargeslist|filter:search| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{details.id}}</td>
+                    <td>{{details.date}}</td>
+                    <td>{{details.pharmacyName}}</td>
+                    <td>{{details.patientName}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.emailID}}</td>                    
+                    <td>{{details.paymentType}}</td>
+                    <td>{{details.paidAmount}}</td>
+                    <td>{{details.meridionalCommission}}</td>
+                    <td>{{details.deliveryCharges}}</td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>

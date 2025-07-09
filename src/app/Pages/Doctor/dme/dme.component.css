@@ -1,0 +1,27 @@
+
+          .inputfield{
+            border-radius: 12px;
+            height: 40px;
+          }
+          .floatingLabel{
+            line-height: 0px;
+          }
+
+
+   .text{
+       text-align: Center;
+       font-size: bold;
+   }       
+
+   .patientDetails{
+     color: #322b6b;
+     font-weight: 600;
+   }
+
+   .tableheight{
+     overflow: auto;
+     height: 250px;
+   }
+   .Icons{
+    width: 10px;
+   }

@@ -1,0 +1,146 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <h5 class="headings">{{labels.revenue}}</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker
+                [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <!-- <div class="col-lg-3"  *ngFor="let clinic of detailslist">
+            
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" 
+            (click)="goRevenue()">
+                <br>
+                <label style="color: black;font-size: 30px;color: white;">
+                    <b style="font-size: 15px;">{{labels.totalRevenue}}</b> </label><br><br>
+                <label style="color: black;font-size: 30px;color: #f17e2d;">
+                    <b>
+                        <u style="font-size: 20px;">{{totalreveue|number:'1.2-2'|noComma}}Ar</u>
+                    </b>
+                </label>
+            </div>
+            <br />
+            <br />
+        </div> -->
+        <div class="col-lg-3"  *ngFor="let clinic of detailslist">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;"
+            routerLink="/HospitalClinic/InClinicRevenueDetails">
+                <br>
+                <label style="color: black;font-size: 30px;color: white;">
+                    <b style="font-size: 15px;">{{labels.revenueInclinic}}</b>
+                </label><br><br>
+
+                <label style="color: black;font-size: 30px;color: #f17e2d;">
+                    <b>
+                        <u style="font-size: 20px;">{{clinic.inclinicRevenue|number:'1.2-2'|noComma}}Ar</u>
+                    </b>
+                </label>
+            </div>
+
+        </div>
+        <div class="col-lg-3"  *ngFor="let clinic of detailslist">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;"
+            routerLink="/HospitalClinic/VideoCallRevenueDetails">
+                <br>
+                <label style="color: black;font-size: 30px;color: white;">
+                    <b style="font-size: 15px;">{{labels.revenueVideoCall}}</b>
+                </label> <br><br>
+
+                <label style="color: black;font-size: 30px;color: #f17e2d;">
+                    <b>
+                        <u style="font-size: 20px;">{{clinic.videocallRevenue|number:'1.2-2'|noComma}}Ar</u>
+                    </b>
+                </label>
+            </div>
+        </div>
+        <div class="col-lg-3" *ngFor="let clinic of detailslist">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;"
+            routerLink="/HospitalClinic/HomeCareRevenueDetails">
+                <br>
+                <label style="color: black;font-size: 30px;color: white;">
+                    <b style="font-size: 15px;">{{labels.revenueHomeCare}}</b> </label><br><br>
+                <label style="color: black;font-size: 30px;color: #f17e2d;">
+                    <b>
+                        <u style="font-size: 20px;">{{clinic.homeVisitRevenue|number:'1.2-2'|noComma}}Ar</u>
+                    </b>
+                </label>
+            </div>
+            <br />
+            <br />
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <!-- <div class="col-lg-3"  *ngFor="let clinic of detailslist">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;"
+            (click)="gotodashboard(1)" >
+                <br>
+                <label style="color: black;font-size: 30px;color: white;">
+                    <b style="font-size: 15px;">{{labels.totalAppointment}}</b>
+                </label><br><br>
+
+                <label style="color: black;font-size: 30px;color: #f17e2d;">
+                    <b>
+                        <u style="font-size: 20px;">{{totalappointments}}</u>
+                    </b>
+                </label>
+            </div>
+        </div> -->
+        <div class="col-lg-1"></div>
+        <div class="col-lg-3"  *ngFor="let clinic of detailslist">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;"
+            routerLink="/HospitalClinic/InClincAppointments">
+                <br>
+                <label style="color: black;font-size: 30px;color: white;">
+                    <b style="font-size: 15px;">{{labels.appointmentInclinic}}</b>
+                </label> <br><br>
+
+                <label style="color: black;font-size: 30px;color: #f17e2d;">
+                    <b>
+                        <u style="font-size: 20px;">{{clinic.clinicCount}}</u>
+                    </b>
+                </label>
+            </div>
+        </div>
+        <div class="col-lg-3"  *ngFor="let clinic of detailslist">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;"
+            routerLink="/HospitalClinic/VideoCallAppointments">
+                <br>
+                <label style="color: black;font-size: 30px;color: white;">
+                    <b style="font-size: 15px;">{{labels.appointmentVideoCalls}}</b>
+                </label><br><br>
+
+                <label style="color: black;font-size: 30px;color: #f17e2d;">
+                    <b>
+                        <u style="font-size: 20px;">{{clinic.videocallCount}}</u>
+                    </b>
+                </label>
+            </div>
+        </div>
+        <div class="col-lg-3" *ngFor="let clinic of detailslist">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;"
+            routerLink="/HospitalClinic/HomeCareApointments">
+                <br>
+                <label style="color: black;font-size: 30px;color: white;">
+                    <b style="font-size: 15px;">{{labels.apointmentHomeCare}}</b>
+                </label><br><br>
+                <label style="color: black;font-size: 30px;color: #f17e2d;">
+                    <b>
+                        <u style="font-size: 20px;">{{clinic.homeVisitCount}}</u>
+                    </b>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

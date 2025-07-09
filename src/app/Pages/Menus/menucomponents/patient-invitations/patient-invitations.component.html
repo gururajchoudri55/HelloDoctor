@@ -1,0 +1,93 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.patientRefferal}}</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search" [(ngModel)]="search" name="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                  <th>{{labels.refferedDate}}</th>
+                  <th>{{labels.patientName}}</th>
+                  <th>{{labels.phoneNumber}}</th>
+                  <th>{{labels.email}}</th>
+                  <th>{{labels.address}}</th>
+                  <th>{{labels.refferedName}}</th>
+                  <th>{{labels.refferedPhoneNumber}}</th>
+                  <th>{{labels.refferedEmail}}</th>
+                  <th>{{labels.downloadDate}}</th>
+                  <!-- <th>Send Message</th> -->
+                </tr>
+                <tr *ngFor="let ref of invitationslist|filter:search| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{ref.refereddate}}</td>
+                    <td>{{ref.patientName}}</td>
+                    <td>{{ref.referedMobileNumber}}</td>
+                    <td>{{ref.referedEmailID}}</td>
+                    <td>{{ref.address}}</td>
+                    <td>{{ref.name}}</td>
+                    <td>{{ref.mobileNumber}}</td>
+                    <td>{{ref.emailID}}</td>
+                    <td>{{ref.downloadeddate}}</td>
+                    <!-- <td>
+                      <img src="assets/Icons/chat_24.png">
+                    </td> -->
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+<!-- 
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">SMS</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                  <textarea class="form-control" placeholder="Message" [(ngModel)]="message" name="message" rows="4"></textarea>
+                </div>
+              
+              </div><br>
+              <div class="row">
+                <div class="col-lg-5">
+      
+                </div>
+                <div class="col-lg-3">
+                  <button class="add" (click)="SendTwiliSms()" data-dismiss="modal" >Send</button>
+                </div>
+      
+              </div>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="add" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div> -->

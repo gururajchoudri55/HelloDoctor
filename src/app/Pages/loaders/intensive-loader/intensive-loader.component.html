@@ -1,0 +1,37 @@
+<div id="pause" class="d-flex align-items-center justify-content-center">
+    <!-- <div id="spinner"></div> -->
+    <div class="container-fluid bg-color">
+        <div class="row">
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4 rowheight">
+                <p class="Please-wait">{{labels.pleaseWait}}</p>
+                <div class="Mask">
+                    <img src="assets/Icons/succes.png" *ngIf="loader1==true" class="imgcheck_circle">
+
+                    <!-- <img src="../../../../assets/Icons/success.png"  *ngIf="loader1==false"> -->
+
+                    <div class="loader imgcheck_circle" *ngIf="loader1==false"></div>
+                    <h6 class="Finding-your-address">{{labels.weareFetchingCalender}}</h6>
+                    <!-- <p class="smalltext">{{ModalText[0].Subtitle1}}</p> -->
+
+                </div>
+                <div class="Mask" *ngIf="loader1==true">
+                    <img src="assets/Icons/succes.png" *ngIf="loader2==true" class="imgcheck_circle">
+
+                    <div class="loader imgcheck_circle" *ngIf="loader2==false"></div>
+                    <h6 class="Finding-your-address">{{labels.searchingRecords}}</h6>
+                    <!-- <p class="smalltext">{{ModalText[0].Subtitle2}}</p> -->
+                </div>
+                <!-- <div class="Mask" *ngIf="loader2==true">
+
+                    <div class="loader imgcheck_circle"></div>
+
+                    <h6 class="Finding-your-address">{{labels.compilingData}}</h6>
+                   
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+</div>

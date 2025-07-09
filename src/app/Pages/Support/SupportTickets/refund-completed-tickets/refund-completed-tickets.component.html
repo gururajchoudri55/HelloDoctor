@@ -1,0 +1,124 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.refundedTickets}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="save">{{labels.exportExcel}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text"
+            placeholder="Select Date"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+    
+          <div class="col-lg-6 countClass">
+            <label>{{labels.count}} : </label>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+                  <th>{{labels.appointmentDate}}</th>
+                  <th>{{labels.appointmentWith}}</th>
+                  <th>{{labels.providerName}}</th>
+                  <th>{{labels.patientName}}</th>
+                  <th>{{labels.mobileNumber}}</th>
+                  <th>{{labels.refundType}}</th>
+                  <th>{{labels.cardHolder}}</th>
+                  <th>{{labels.bankName}}</th>
+                  <th>{{labels.swiftCode}}</th>
+                  <th>{{labels.accountNumber}}</th>
+                  <th>{{labels.callBack}}</th>
+                  <th>{{labels.paidAmount}}</th>
+                  <th>{{labels.cancelledBy}}</th>
+                  <th>{{labels.refundComments}}</th>
+                  <th>{{labels.status}}</th>
+                  <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let refund of refundlist|filter:term">
+                    <td>{{refund.appointmentDate}}</td>
+                    <td>{{refund.providerType}}</td>
+                    <td>{{refund.doctorName}}</td>
+                    <td>{{refund.patientName}}</td>
+                    <td>{{refund.mobileNumber}}</td>
+                    <td>
+                      <label *ngIf="refund.callBack=='1'">callback</label>
+                      <label *ngIf="refund.bankDetails=='1'">bankdetailsprovided</label>
+                    </td>
+                    <td>{{refund.cardHolderName}}</td>
+                    <td>{{refund.bankName}}</td>
+                    <td>{{refund.swiftCode}}</td>
+                    <td>{{refund.accountNumber}}</td>
+                    <td>{{refund.reasonforcallback}}</td>
+                    <td>
+                      <label>{{refund.paidAmount}}</label>
+                    </td>
+                    <td>{{refund.refundDate}}</td>
+                    <td>{{refund.comments}}</td>
+                    <td style="color:green">
+                      {{refund.status}}
+                    </td>
+                    <!-- <td>
+                      <ng-template #tipcontent88>{{labels[0].transctionslip}}</ng-template>
+                      <a [ngbTooltip]="tipcontent88">
+                        <img src="assets/Images/imgicon.png"  style="height:25px;"
+                          data-toggle="modal" data-target="#exampleModalLong2" (click)="GetTransctiuonSlip(refund)" />
+                      </a>&nbsp;
+                    </td> -->
+                  </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,202 @@
+<!-- <app-loader *ngIf="loader==true"></app-loader> -->
+<app-doctor-sms></app-doctor-sms>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid">
+    <form #ReferalForm="ngForm">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" disabled [(ngModel)]="patientName"
+                        name="patientName" placeholder="name@example.com">
+                    <label for="floatingInput">{{labels.patientname}}</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" disabled [(ngModel)]="mobileNumber"
+                        name="mobileNumber" placeholder="name@example.com">
+                    <label for="floatingInput">{{labels.mobileNo}}</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" disabled [(ngModel)]="emailID"
+                        name="emailID" placeholder="name@example.com">
+                    <label for="floatingInput">{{labels.emialID}}</label>
+                </div>
+            </div>
+        </div><br>
+
+        <div class="row">
+            <div class="col-lg-4">
+                <!-- <label class="dname_label">Refer To :</label> -->
+            </div>
+            <div class="col-lg-8">
+                <input type="radio" name="referaltypeid" [(ngModel)]="referaltypeid" value="1" required
+                    (change)="GetReferencetypeID($event)">&nbsp; {{labels.internalDoctor}} &nbsp;
+                <input type="radio" name="referaltypeid" [(ngModel)]="referaltypeid" value="2" required
+                    (change)="GetReferencetypeID($event)">&nbsp; {{labels.externalDoctor}} &nbsp;
+                <input type="radio" name="referaltypeid" [(ngModel)]="referaltypeid" value="3" required
+                    (change)="GetReferencetypeID($event)">&nbsp; {{labels.generalReference}} &nbsp;
+            </div>
+        </div>
+        <br>
+
+        <div class="row" *ngIf="referaltypeid==1">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4">
+                <select class="form-control" (change)="GetDepartmentID($event)" required [(ngModel)]="departmentid"
+                    name="departmentid">
+                    <option value="0" selected>{{labels.selectDepartment}}</option>
+                    <option *ngFor="let department of departmentList" value={{department.id}}>
+                        {{department.departmentname}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-lg-4">
+                <ng-multiselect-dropdown [placeholder]="labels.selectDoctor" [settings]="docdd" [data]="referDoctorList"
+                    (onSelect)="GetDoctorID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+        </div><br>
+
+        <div class="row" *ngIf="referaltypeid==2">
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" [(ngModel)]="doctorName"
+                        name="doctorName" required placeholder="name@example.com">
+                    <label for="floatingInput">{{labels.doctorName}}</label>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" [(ngModel)]="doctorMobileNumber"
+                        name="doctorMobileNumber" required placeholder="name@example.com">
+                    <label for="floatingInput">{{labels.phonenumber}}</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingInput" [(ngModel)]="doctorEmailID" required
+                        (ngModelChange)="isValidEmail(doctorEmailID)" name="doctorEmailID"
+                        placeholder="name@example.com">
+                    <label for="floatingInput">{{labels.emialID}}</label>
+                    <span *ngIf="valid==false" class="emailvalidation">{{labels.validEmail}}</span>
+                </div>
+            </div>
+
+        </div><br>
+        <div class="row">
+            <div class="col-lg-6">
+                <ckeditor   (ready)="onReady($event)" [(ngModel)]="referalNotes" name="referalNotes"  [config]="config">
+                </ckeditor>
+
+                <!-- <ckeditor  [(ngModel)]="referalNotes"></ckeditor> -->
+                <!-- <ckeditor [editor]="Editor" [(ngModel)]="referalNotes"
+                name="referalNotes" data=""></ckeditor> -->
+            </div>
+            <div class="col-lg-3">
+                <!-- <label>Photo</label><br> -->
+                <ngx-dropzone (change)="onSelectAttchment($event)" class="dropzone">
+                    <ngx-dropzone-label>{{labels.attachments}}</ngx-dropzone-label>
+                    <ngx-dropzone-preview *ngFor="let f of files1" [removable]="true" (removed)="onAttachmentRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+                </ngx-dropzone>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- <button class="save" style="margin-left: 10px;" (click)="downloadpdf()">{{labels.print}}</button> &nbsp; -->
+
+                <button class="save" (click)="insertReferals()"
+                    [disabled]="ReferalForm.form.invalid">{{labels.save}}</button>
+            </div>
+
+        </div>
+    </form>
+</div><br>
+
+<div id="qwerty" style="display: none;">
+</div>
+
+
+
+<div id="htmlData" >
+    <div>
+        <div class="container-fluid">
+            <br>
+            <div class="row">
+                <div class="col-lg-12 text-center" style="margin-top: 12px;">
+                  <h5><b>{{labels.doctorRefferals}}</b></h5>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <h6><b>{{labels.appointmentDate}} :</b> <b>{{Details[0].appdate}}</b></h6>
+                </div>
+              </div>
+              <br><br>
+              <hr class="new4">
+              <hr class="new5">
+              <br><br>
+              <div>
+                <div class="row" style="padding: 0px 5px 0px;">
+                  <div class="col-lg-5">
+                    <label><b>{{labels.doctorName}}</b> : {{doctorName}}.{{showname}}</label><br>
+                    <label>{{labels.address}} : {{Details[0].docaddress}}</label><br>
+                    <label>{{labels.registration}} : {{Details[0].registrationNo}}</label><br>
+                    <!-- <label><b>{{labels.phoneNumber}}</b> : {{alldetails.doctorMobileNo}}</label><br> -->
+                    <label>{{labels.department}} : {{Details[0].departmentname}}</label><br>
+                    <label>{{labels.emialID}} : {{Details[0].docemailid}}</label><br>
+                  </div>
+                  <div class="col-lg-3">
+                    <!-- <h6><b>{{labels.appointmentDate}}</b></h6>
+                    <span><b style="margin-left: 20px;">{{alldetails.appointmentdate}}</b></span> -->
+                  </div>
+                  <div class="col-lg-4">
+            
+                    <!-- <label><b>{{labels.address}}</b> : {{alldetails.doctorAddress}}</label><br> -->
+                    <label><b>{{labels.patientName}}</b> : {{Details[0].patientName}}</label><br>
+                    <label><b>{{labels.phoneNumber}}</b> : {{Details[0].mobileNumber}}</label><br>
+                    <label><b>{{labels.emialID}}</b> : {{Details[0].emailID}}</label><br>
+                    <label><b>{{labels.nationalIDNo}}</b> : {{Details[0].nationalidno}}</label><br>
+                    <label><b>{{labels.age}}</b> : {{Details[0].age}}</label><br>
+                    <label><b>{{labels.dateofBirth}}</b> : {{Details[0].dateOfBirth}}</label><br>
+                    <label><b>{{labels.gender}}</b> : {{Details[0].gender}}</label><br>
+                    <label><b>{{labels.appointmentNumber}}</b> : {{appointmentID}}</label><br>
+                  </div>
+                  <br>
+                </div>
+              </div><br><br><br><br>
+          
+              <div class="row" style="padding: 0px 5px 0px;">
+                <div class="col-lg-12">
+                  <!-- <p style="letter-spacing:0.7px;" [innerHTML]="ref.referalNotes1"> -->
+                      <p [innerHTML]="referalNotes"></p>
+                </div><br>
+              </div><br><br><br><br>
+          
+             
+          
+              <div class="row">
+                <div class="col-lg-8">
+                  <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+                  style="width: 100px;height:50px"><br>
+                <b>Dr. {{Details[0].doctorName}}</b><br>
+                <label><b>{{labels.registration}} : {{Details[0].registrationNo}}</b></label><br>
+          
+                </div>
+                <div class="col-lg-4">
+                 
+                </div>
+              </div><br><br><br><br><br><br><br><br><br><br>
+        </div>
+    </div>
+  
+  </div>
+
+
+
+
+

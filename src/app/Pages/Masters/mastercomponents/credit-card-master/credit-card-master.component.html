@@ -1,0 +1,85 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.creditcardmaster}}</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search" [(ngModel)]="search" name="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+        <div class="col-lg-7"></div>
+          <div class="col-lg-2 countClass">
+            <label>{{labels.count}} :{{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.type}}</th>
+                    <th>{{labels.charges}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let credit of creditChargesList|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>Paypal</td>
+                    <td>{{credit.charges}}</td>
+                    <td>
+                        <img src="assets/Icons/edit.png" (click)="getid(credit.id)" data-bs-toggle="modal" data-bs-target="#creditcard">
+                    </td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="Previous" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+<div class="modal fade" id="creditcard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{labels.creditcardmaster}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-3">
+                </div>
+                <div class="col-lg-6">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Charges"
+                            [(ngModel)]="charges" name="charges"> 
+                            <label for="floatingInput" class="floatingLabel">{{labels.charges}}</label>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="save"  (click)="update()">{{labels.update}}</button>&nbsp;&nbsp;
+            <button type="button" class="save"  data-bs-dismiss="modal">{{labels.back}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+

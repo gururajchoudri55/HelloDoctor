@@ -1,0 +1,144 @@
+
+#spinner {
+	-webkit-animation: frames 1s infinite linear;
+	animation: frames 1s infinite linear;
+	background: transparent;
+	border: 1.75vw solid #FFF;
+	border-radius: 100%;
+	border-top-color: #DF691A;
+	width: 10vw;
+	height: 10vw;
+	opacity: .6;
+	padding: 0;
+	position: absolute;
+	z-index: 9999;
+}
+@keyframes frames {
+  0% {
+	-webkit-transform: rotate(0deg);
+	transform: rotate(0deg);
+  }
+  100% {
+	-webkit-transform: rotate(359deg);
+	transform: rotate(359deg);
+  }
+}
+
+#pause {
+	display: block;
+	background: rgb(0 0 0) no-repeat 0 0;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	z-index: 9999;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.bg-color
+{
+    background: rgb(0 0 0) no-repeat 0 0;
+    height: 100vh;
+    width: 100%;
+}
+
+
+.Mask {
+    width: 100%;
+    height: 82px;
+    margin: 16px 0px 0px 0px;
+    padding: 19px 0px 0px 20px;
+    border-radius: 10px;
+    /* box-shadow: 0 16px 25px 0 var(--pale-grey); */
+    border: solid 1px #dae7ec;
+    background-color: #fff;
+  }
+  .Finding-your-address {
+    height: 20px;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+  }
+
+  .smalltext {
+    font-family: Lato;
+    font-size: 10px;
+  color: #69707c;
+  }
+
+  .Please-wait {
+    margin: 0 0 16px;
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: bold;
+
+    text-align: center;
+    color: white;
+  }
+  .imgcheck_circle {
+    float: left;
+    margin: 5px 17px 3px 2px;
+  }
+
+  .ImageLoading {
+    float: left;
+    padding: 10px 17px 3px 2px;
+  }
+  .rowheight
+  {
+      margin-top: 10%;
+  }
+  @media screen and (max-width: 776px) {
+    .rowheight
+  {
+      margin-top: 30%;
+  }
+  }
+
+
+
+
+  .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #DF691A;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    float: left;
+
+  }
+
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+

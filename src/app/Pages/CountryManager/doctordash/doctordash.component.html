@@ -1,0 +1,116 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-9 col-sm-6">
+            <h5 class="headings">{{labels.doctorDashboard}}</h5>
+        </div>
+        <div class="col-lg-2">
+            <button class="save" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+        </div>
+        <div class="col-lg-1">
+            <button class="save" routerLink="/countrymanager/DoctorRegistration">{{labels.add}}</button>
+        </div>
+
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="term"> 
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div><br>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetDepartmentID($event)">
+                <option value="0">{{labels.selectDepartment}}</option>
+                <option *ngFor="let dept of departmentList" value="{{dept.id}}">{{dept.departmentname}}</option>
+            </select>
+        </div> <br> <br>
+        <!-- <div class="col-lg-3">
+            <select class="form-control" (change)="getTypeID($event)">
+                <option value="0">{{labels.type}} </option>
+                <option value="1">{{labels.hospital}}</option>
+                <option value="2">{{labels.clincs}}</option>
+                <option value="590">{{labels.independentDoctors}}</option>
+                <option value="3">{{labels.groupofDoctors}}</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="getMvolaID($event)">
+                <option value="0">{{labels.paymentType}} </option>
+                <option value="1">{{labels.MvolaPay}}</option> 
+                <option value="2">{{labels.other}}</option>                 
+            </select>
+        </div> -->
+        <!-- <div class="col-lg-3">
+            <select class="form-control" (change)="GetDocTypeID($event)">
+                <option value="0">{{labels.doctorType}}</option>
+                <option value="1">{{labels.local}}</option> 
+                <option value="2">{{labels.foreign}}</option>  
+            </select>
+        </div> -->
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetActiveID($event)">
+                <option value="">{{labels.activeDeactive}}</option>
+                <option value="false">{{labels.active}}</option> 
+                <option value="true">{{labels.deactive}}</option>  
+            </select>
+        </div>
+        <div class="col-lg-3 countClass" style="width: 100%;">
+            <label>{{labels.count}} : {{count}}</label>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-striped" id="download">
+                <tr>
+                    <th>{{labels.photo}}</th>
+                    <th>{{labels.doctorName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.emailID}}</th>
+                    <th>{{labels.province}}</th>
+                    <!-- <th>{{labels.registrationNumber}}</th> -->
+                    <th>{{labels.department}}</th>
+                    <th>{{labels.address}}</th>
+                    <th>{{labels.type}}</th>
+                    <th>{{labels.mobileAccount}}</th>
+                    <th>{{labels.doctorRating}}</th>
+                    <th>{{labels.appRating}}</th>
+                    <!-- <th>{{labels.pinCode}}</th> -->
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr  *ngFor="let details of doctorList|filter:term|filter:departmentName| paginate: { id: 'foo', itemsPerPage: 5, currentPage: p}">
+                    <td><img src="{{details.photoURL}}" class="Imagesize" /></td>
+                    <td>{{details.doctorName}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>{{details.areaName}}</td>
+                    <!-- <td>{{details.registrationNo}}</td> -->
+                    <td>{{details.departmentname}}</td>
+                    <td>{{details.short}}</td>
+                    <td>{{details.hospital_ClinicName}}</td>
+                    <td>{{details.acountNumbers}}</td>
+                    <td>{{details.doctorRating}}</td>
+                    <td>{{details.appRating}}</td>
+                    <!-- <td>{{details.pincode}}</td> -->
+                    <td>
+                        <img  src="assets/Icons/edit.png" (click)="edit(details.id)"  >
+                        <img   src="assets/Icons/delete.png" (click)="deletedoctorregistration(details.id)" *ngIf="showdelete=='1'">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>

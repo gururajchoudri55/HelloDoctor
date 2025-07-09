@@ -1,0 +1,49 @@
+<div class="container-flud">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-4">
+            <input type="checkbox" value="1" [(ngModel)]="prescription" name="prescription">&nbsp;{{labels.prescription}}
+
+        </div>
+        <div class="col-lg-4">
+            <input type="checkbox" value="2" [(ngModel)]="diagnosticTest" name="diagnosticTest">&nbsp;{{labels.diagnostictest}}
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-4">
+            <input type="checkbox" value="3" [(ngModel)]="soapNotes" name="soapNotes">&nbsp;{{labels.soapNotes}}
+
+        </div>
+        <div class="col-lg-4">
+            <input type="checkbox" value="4" [(ngModel)]="medicalCertificate" name="medicalCertificate">&nbsp;{{labels.medicalCertificate}}
+        </div>
+    </div><br>
+
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-4">
+            <input type="checkbox" value="5" [(ngModel)]="doctorReferals" name="doctorReferals">&nbsp;{{labels.referalLetter}}
+
+        </div>
+        <div class="col-lg-4">
+            <input type="checkbox" [(ngModel)]="medicalQuestionare" name="medicalQuestionare">&nbsp;{{labels.medical}}
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-lg-5">
+        </div>
+        <div class="col-lg-3">
+            <button class="add" (click)="generate()">{{labels.generate}}</button>
+        </div>
+
+        <div class="col-lg-3">
+            <button class="add" (click)="selectAll()">{{labels.selectAll}}</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,10 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+  .tableoverflow{
+    overflow: auto;
+  }

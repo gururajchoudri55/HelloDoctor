@@ -1,0 +1,40 @@
+<app-sms></app-sms>
+<app-register-provider-sm-s></app-register-provider-sm-s>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<br>
+<div class="container-fluid">
+    <form #midwifeForm="ngForm">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{labels.details}}</p>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selecthospital" [settings]="middd" [data]="midwifeList"
+                (onSelect)="Getmidewifeid($event)">
+            </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="userName" required [(ngModel)]="userName" name="userName">
+                    <label for="floatingInput" class="floatingLabel">{{labels.userName}} <span class="required">*</span></label>
+                </div>
+            </div>
+        </div> <br>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-1">
+                <button class="save" (click)="save()" [disabled]="midwifeForm.form.invalid">{{labels.adder}}</button>&nbsp;&nbsp;
+            </div>
+            <div class="col-lg-1">
+                <button class="save" routerLink="/Registerlogins/MidwifeDash">{{labels.back}}</button>
+            </div>
+        </div>
+</div>
+</form>
+</div>

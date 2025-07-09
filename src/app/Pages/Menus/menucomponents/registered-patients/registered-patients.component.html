@@ -1,0 +1,157 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-8">
+      <h5 class="headings">{{labels.registeredPatients}}</h5>
+    </div>
+  </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker
+        [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+    </div>
+    <div class="col-lg-3">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="search"
+          name="search">
+        <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <select class="form-control" (change)="GetCountryID($event)">
+        <option value="0">{{labels.selectCountry}}</option>
+        <option *ngFor="let couu of countrylist" value={{couu.id}}>{{couu.short}}</option>
+      </select>
+    </div>
+    <div class="col-lg-3">
+      <select class="form-control" (change)="gettypetest($event)">
+        <option value="0">ALL</option>
+          <option value="Android">{{"Android"}} </option>
+          <option value="MVolaweb app">{{"MVolaweb app"}}</option> 
+          <option value="Web">{{"web"}}</option>     
+          <option value="IOS">{{"IOS"}}</option>   
+          <option value="Excel Import">{{"Excel Import"}}</option>            
+      </select>
+  </div>
+  <div class="col-lg-3">
+    <select class="form-control" (change)="Activelist($event)">
+      <option value="2">ALL</option>
+        <option value="0">{{"Active"}} </option>
+        <option value="1">{{"deactive"}}</option> 
+                 
+    </select>
+</div>
+    <div class="col-lg-3 countClass" style="width: 100%;">
+      <label>{{labels.count}} : {{count}}</label>
+    </div>
+    <!-- <div class="col-lg-3">
+      <select class="form-control" *ngIf="countryid!='0'" (change)="GetCityID($event)">
+        <option value="0">{{labels.selectProvince}}</option>
+        <option *ngFor="let city of citylist" value={{city.id}}>{{city.short}}</option>
+      </select>
+    </div> -->
+    <!-- <div class="col-lg-3">
+      <select class="form-control" *ngIf="cityid!='0'" (change)="GetAreaID($event)">
+        <option value="0">{{labels.selectCity}}</option>
+        <option *ngFor="let area of arealist" value={{area.id}}>{{area.areaName}}</option>
+      </select>
+    </div> -->
+  </div>
+  <br>
+  <div class="row ">
+    <div class="col-lg-12 tableoverflow">
+      <table class="table table-hover" id="download">
+        <tr>
+          <th>{{labels.patientID}}</th>
+          <th>{{labels.patientName}}</th>
+          <th>{{labels.phoneNumber}}</th>
+          <th>{{labels.email}}</th>
+          <!--  <th>{{labels.password}}</th> -->
+          <th>{{labels.walletBalance}}</th>
+          <!--  <th>{{labels.paymentType}}</th> -->
+          <th>{{labels.registeredDate}}</th>
+          <th>{{labels.downloadType}}</th>
+          <th>{{labels.providerName}}</th>
+          <th>{{labels.actions}}</th>
+        </tr>
+        <tr *ngFor="let list of patientslist|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+          <td>{{list.id}}</td>
+          <td>{{list.patientName}}</td>
+          <td>+{{list.smsmobileno}}</td>
+          <td>{{list.emailID}}</td>
+          <!--  <td>{{list.password}}</td> -->
+          <td>{{list.walletAmount}}</td>
+          <!--        <td>{{list.paymentType}}</td> -->
+          <td>{{list.registredDate}}</td>
+          <td>{{list.downloadType}}</td>
+          <td>{{list.providerName}}</td>
+ 
+          <td>
+            <img class="image" src="assets/Icons/active.png" *ngIf="list.hidden == 0" (click)="disablepatient(list.id)">
+            <img class="image" src="assets/Icons/dactive.png" *ngIf="list.hidden == 1" (click)="Enablepatient(list.id)">
+            <img src="assets/Icons/edit.png" alt="" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              (click)="editPatientID(list)" *ngIf="roleID!=15">
+          </td>
+
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-12" style="text-align: end">
+    <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+      nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content card card-hover">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Edit Patient</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Phone no"
+                  [(ngModel)]="mobilenNumber" name="mobilenNumber" required />
+                <label for="floatingInput" class="floatingLabel">{{labels.phoneNumber}}<span
+                    class="required">*</span></label>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Phone no"
+                  [(ngModel)]="emailID" name="emailID" required />
+                <label for="floatingInput" class="floatingLabel">{{labels.email}}<span class="required">*</span></label>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Pin no"
+                  [(ngModel)]="passwordshow" name="emailID" disabled />
+                <label for="floatingInput" class="floatingLabel">{{labels.Pin}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn save" data-bs-dismiss="modal"
+          (click)="updatePatient()">{{labels.update}}</button>
+
+      </div>
+    </div>
+  </div>
+</div>

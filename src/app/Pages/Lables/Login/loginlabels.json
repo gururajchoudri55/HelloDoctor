@@ -1,0 +1,42 @@
+{
+    "en": [
+        {
+            "pinNo": "Pin No",
+            "userName": "Username",
+            "password": "Password",
+            "forgotPassword": "Forgot Password",
+            "login": "Login",
+            "selectRole": "Select Role",
+            "resetPassword": "Reset Password",
+            "pleaseWait": "Please wait...",
+            "weareFetching": "We are Fetching Data",
+            "weareFetchingCalender": "We are fetching your calender",
+            "searchingRecords": "Searching records,Just a moment",
+            "compilingData": "Compiling data",
+            "seen": "Seen",
+            "close": "Closed",
+            "notification": "New online registration",
+            "description": "Optimize your practice"
+        }
+    ],
+    "fr": [
+        {
+            "pinNo": "Code PIN",
+            "userName": "Nom d'utilisateur",
+            "password": "Votre mot de passe",
+            "forgotPassword": "Mot de passe oublié ? ",
+            "login": "Se connecter",
+            "selectRole": "Sélectionnez une fonction",
+            "resetPassword": "Réinitialiser mon mot de passe",
+            "pleaseWait": "Patientez s'il-vous-plait...",
+            "weareFetching": "Nous récupérons vos données.",
+            "weareFetchingCalender": "Nous récupérons votre calendrier.",
+            "searchingRecords": "Recherche d'enregistrements, Juste un instant",
+            "compilingData": "Compilation des données",
+            "seen": "Vue",
+            "close": "Fermer",
+            "notification": "Nouvelle demande de RDV.",
+            "description": "Plateforme d'optimisation opérationnelle."
+        }
+    ]
+}

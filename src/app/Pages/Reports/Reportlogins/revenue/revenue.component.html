@@ -1,0 +1,501 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <br>
+  <h4 class="label">{{labels.hospitalsubscription}}</h4>
+  <br>
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker [(ngModel)]="bsRangeValue"
+        (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+    </div>
+    <!-- <div class="col-lg-3">
+      <ng-multiselect-dropdown [placeholder]="search" [settings]="hospdd" [data]="hospitallist"
+        (onSelect)="GetAllSubScriptionRevenueID($event)">
+      </ng-multiselect-dropdown>
+    </div> -->
+  </div>
+  <br>
+  <div class="row">
+    <br>
+    <h4 class="label">{{labels.inclinicsubscription}}</h4>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of hospitalSubscriptionslist" [routerLink]="['/reports/AllAdminReports',4]">
+        <br />
+        <label style="color: black;font-size: 12px;color: white;">
+          <b style="font-size: 15px;text-align: center;">
+            {{labels.doctorCommission}}<br></b>
+          <!-- {{labels.commission}}<br>
+        {{labels.doctor}} -->
+        </label>
+        <br>
+        <br>
+        <label style="color: black;font-size: 12px;color: #f17e2d;">
+          <b>
+            <span style="font-size: 20px;">{{cou.doctorsHospitalrevenue|number:'1.2-2'| noComma}} Ar</span>
+          </b>
+        </label>
+      </div>
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of hospitalSubscriptionslist" [routerLink]="['/reports/AllAdminReports',1]">
+        <br />
+        <label style="color: black;font-size: 12px;color: white;">
+         <b style="font-size: 15px; text-align: center;">{{labels.nurseCommission}}<br> <!-- {{labels.commission}}<br>
+            {{labels.nurse}} -->
+            </b>
+        </label>
+        <br />
+        <br />
+        <label style="color: black;font-size: 12px;color: #f17e2d;">
+          <b>
+            <span style="font-size: 20px;">{{cou.nursehospitalRevenue|number:'1.2-2'|noComma}} Ar</span>
+          </b>
+        </label>
+      </div>
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of hospitalSubscriptionslist" [routerLink]="['/reports/AllAdminReports',3]">
+        <br />
+        <label style="color: black;font-size: 12px;color: white;">
+          <b style="font-size: 15px;">{{labels.midwifeCommission}}<br>
+          </b>
+        </label>
+        <br />
+        <br />
+        <label style="color: black;font-size: 12px;color: #f17e2d;">
+          <b>
+            <span style="font-size: 20px;">{{cou.midwifehospitalrevenue|number:'1.2-2'|noComma}} Ar</span>
+          </b>
+        </label>
+      </div>
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of hospitalSubscriptionslist" [routerLink]="['/reports/AllAdminReports',2]">
+        <br />
+        <label style="color: black;font-size: 12px;color: white;">
+          <b style="font-size: 15px;">{{labels.caregiverCommission}}<br>
+           
+            </b>
+        </label>
+        <br />
+        <br />
+        <label style="color: black;font-size: 12px;color: #f17e2d;">
+          <b>
+            <span style="font-size: 20px;">{{cou.physiohospitlrevenue|number:'1.2-2'|noComma}} Ar</span>
+          </b>
+        </label>
+      </div>
+      <br />
+    </div>
+  </div>
+  <div class="row">
+    <br>
+    <h4 class="label">{{labels.incliniccommission}}</h4>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of incliniccommesionlist" [routerLink]="['/reports/InclinicRevenue',4]">
+        <br />
+        <label style="color: black;font-size: 12px;color: white;">
+          <b style="font-size: 15px;">{{labels.clinicdoctorcommission}}<br>
+            </b>
+        </label>
+        <br />
+        <br />
+        <label style="color: black;font-size: 12px;color: #f17e2d;">
+          <b>
+            <span style="font-size: 20px;">{{cou.independentDoctorrevenue|number:'1.2-2'|noComma}} Ar</span>
+          </b>
+        </label>
+      </div>
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of incliniccommesionlist" [routerLink]="['/reports/InclinicRevenue',1]">
+        <br />
+        <label style="color: black;font-size: 12px;color: white;">
+          <b style="font-size: 15px;">{{labels.clinicnursecommission}}<br>
+           
+            </b>
+        </label>
+        <br />
+        <br />
+        <label style="color: black;font-size: 12px;color: #f17e2d;">
+          <b>
+            <span style="font-size: 20px;">{{cou.independentNurserevenue|number:'1.2-2'|noComma}} Ar</span>
+          </b>
+        </label>
+      </div>
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of incliniccommesionlist" [routerLink]="['/reports/InclinicRevenue',3]">
+        <br />
+        <label style="color: black;font-size: 12px;color: white;">
+          <b style="font-size: 15px;">{{labels.clinicmidwivecommission}}<br>
+           
+            </b>
+        </label>
+        <br />
+        <br />
+        <label style="color: black;font-size: 12px;color: #f17e2d;">
+          <b>
+            <span style="font-size: 20px;">{{cou.independentMidwivesRevenue|number:'1.2-2'|noComma}} Ar</span>
+          </b>
+        </label>
+      </div>
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of incliniccommesionlist" [routerLink]="['/reports/InclinicRevenue',2]">
+        <br />
+        <label style="color: black;font-size: 12px;color: white;">
+          <b style="font-size: 15px;">{{labels.cliniccaregivercommission}}<br>
+           
+            </b>
+        </label>
+        <br />
+        <br />
+        <label style="color: black;font-size: 12px;color: #f17e2d;">
+          <b>
+            <span style="font-size: 20px;">{{cou.independentCaregiverRevenue|number:'1.2-2'|noComma}} Ar</span>
+          </b>
+        </label>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>
+<br>
+
+<div class="container-fluid headercard card-hover headerspace">
+  <br>
+  <h4 class="label">{{labels.independentSubscription}}</h4>
+  <br>
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="Select Date" class="form-control" bsDaterangepicker [(ngModel)]="bsRangeValue"
+        (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+    </div>
+    <!-- <div class="col-lg-3">
+      <select class="form-control" (change)="GetTypeID($event)">
+        <option value="0">{{labels.select}}</option>
+        <option value="1">{{labels.doctor}}</option>
+        <option value="2">{{labels.nurse}}</option>
+        <option value="3">{{labels.midwife}}</option>
+        <option value="4">{{labels.physiotherapist}}</option>
+      </select>
+    </div> -->
+
+    <div class="col-lg-3" *ngIf="typeid=='1'">
+      <ng-multiselect-dropdown [placeholder]="selectdoctor" [settings]="docdd" [data]="inddoctorslist"
+        (onSelect)="GetHomecareTypeID($event)">
+      </ng-multiselect-dropdown>
+    </div>
+
+    <div class="col-lg-3" *ngIf="typeid=='2'">
+      <ng-multiselect-dropdown [placeholder]="selectnurse" [settings]="nursedd" [data]="nurselist1"
+        (onSelect)="GetNurseID($event)">
+      </ng-multiselect-dropdown>
+    </div>
+
+    <div class="col-lg-3" *ngIf="typeid=='3'">
+      <ng-multiselect-dropdown [placeholder]="selectmidwife" [settings]="midwifedd" [data]="midwifes1"
+        (onSelect)="GetMidWifeID($event)">
+      </ng-multiselect-dropdown>
+    </div>
+
+    <div class="col-lg-3" *ngIf="typeid=='4'">
+      <ng-multiselect-dropdown [placeholder]="selectcaregiver" [settings]="physiodd" [data]="physiolist1"
+        (onSelect)="GetPhysiotherapistID($event)">
+      </ng-multiselect-dropdown>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <br>
+    <h4 class="label">{{labels.inclinicsubscription}}</h4>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of IndependentSubscriptionList" routerLink="/reports/AllMonthlySubscriptions"
+        (click)="getTypeID(1)">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.doctorAppointment}}<br>
+          {{labels.subscriptions}}<br>
+        {{labels.doctors}}</b>
+        </label>
+        <br />
+        <br>
+        <label style="color: black;font-size: 12px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{cou.doctorsMonthlySubscription|number:'1.2-2'|noComma}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of IndependentSubscriptionList" routerLink="/reports/AllMonthlySubscriptions"
+        (click)="getTypeID(2)">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.nurseAppointment}}<br>
+            {{labels.subscriptions}}<br>
+            {{labels.nurses}}
+          </b>
+        </label>
+        <br />
+        <br>
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{cou.nurseMonthlySubscription|number:'1.2-2'|noComma}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of IndependentSubscriptionList" routerLink="/reports/AllMonthlySubscriptions"
+        (click)="getTypeID(3)">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.midwifeAppointment}}<br>
+            {{labels.subscriptions}}<br>
+          {{labels.midwifes}}<br></b>
+        </label>
+        <br />
+        <br>
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{cou.midwifemonthlysubscription|number:'1.2-2'|noComma}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of IndependentSubscriptionList" routerLink="/reports/AllMonthlySubscriptions"
+        (click)="getTypeID(4)">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.careGiverAppointment}}<br>
+            {{labels.subscriptions}}<br>
+          {{labels.caregivers}}</b>
+        </label>
+        <br />
+        <br>
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{cou.physiotherapistmontlysubscription|number:'1.2-2'|noComma}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+  </div>
+  <div class="row">
+    <br>
+    <h4 class="label">{{labels.incliniccommission}}</h4>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of IndependentSubscriptionList" routerLink="/reports/CountryRevenue" (click)="getTypeID1(4)">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.doctorCommission}}<br>
+            {{labels.commission}}<br>
+          {{labels.doctors}}</b>
+        </label>
+        <br />
+        <br>
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{cou.independentDoctorrevenue|number:'1.2-2'|noComma}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of IndependentSubscriptionList" routerLink="/reports/CountryRevenue" (click)="getTypeID1(1)">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.nurseCommission}}<br>
+            {{labels.commission}}<br>
+          {{labels.nurses}}</b>
+        </label>
+        <br />
+        <br>
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{cou.independentNurseRevenue|number:'1.2-2'|noComma}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of IndependentSubscriptionList" routerLink="/reports/CountryRevenue" (click)="getTypeID1(2)">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.midwifeCommission}}<br>          
+            {{labels.commission}}<br>
+          {{labels.midwifes}}</b>
+        </label>
+        <br />
+        <br>
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{cou.independentMidwifeRevenue|number:'1.2-2'|noComma}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        *ngFor="let cou of IndependentSubscriptionList" routerLink="/reports/CountryRevenue" (click)="getTypeID1(3)">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.caregiverCommission}}<br>
+            {{labels.commission}}<br>
+            {{labels.caregivers}}</b>
+        </label>
+        <br />
+        <br>
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{cou.independentPhysiorevenue|number:'1.2-2'|noComma}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+  </div>
+</div>
+<br>
+
+<div class="container-fluid headercard card-hover headerspace">
+  <br>
+  <h4 class="label">{{labels.pharmacySubscription}}</h4>
+  <br>
+  <div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;" *ngFor="let cou of diaphacounts" [routerLink]="['/reports/RevenuePharmacyReport']">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.amount}}<br>
+          {{labels.total}}</b>
+        </label>
+        <br />
+        <br>
+
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{cou.pharmapaidamount|number:'1.2-2'}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;" *ngFor="let cou of diaphacounts" [routerLink]="['/countrymanager/Pharmacy']">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.revenue}}</b>
+        </label>
+        <br />
+        <br>
+        <br>
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{grandTotal|number:'1.2-2'}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+    <div class="col-lg-3"></div>
+  </div>
+  <br>
+  <h4 class="label">{{labels.analytics}}</h4>
+  <br>
+  <div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" *ngFor="let cou of diaphacounts" style="cursor: pointer;border-radius: 10px;" [routerLink]="['/reports/DiagnosticHomeReport']">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.amount}}<br>
+          {{labels.total}}</b>
+        </label>
+        <br />
+        <br>
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{cou.diagnosticpadiamount|number:'1.2-2'}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+    <div class="col-lg-3">
+      <div class="optionsboxdown" *ngFor="let cou of diaphacounts" style="cursor: pointer;border-radius: 10px;" [routerLink]="['/countrymanager/Diagnosticdash']">
+        <br />
+        <label style="color: black;font-size: 30px;color: white;">
+          <b style="font-size: 15px;">{{labels.revenue}}</b>
+        </label>
+        <br />
+        <br>
+        <br>
+        <label style="color: black;font-size: 30px;color: #f17e2d;">
+          <b>
+            <u style="font-size: 20px;">{{PhargrandTotal|number:'1.2-2'}}Ar</u>
+          </b>
+        </label>
+      </div>
+      <br />
+      <br />
+    </div>
+    <div class="col-lg-3"></div>
+  </div>
+</div>

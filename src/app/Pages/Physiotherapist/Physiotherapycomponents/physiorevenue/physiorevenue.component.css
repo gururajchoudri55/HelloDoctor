@@ -1,0 +1,32 @@
+.carousel {
+    margin-bottom: 0;
+    padding-left: 3%;
+    padding-right: 3%;
+  }
+  .headerspace{
+    margin-top: 10px;
+  }
+  .optionsboxdown {
+    background-color:#2e2d6e;;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    margin-left: 4%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    height: 140px;
+  }
+  .optionsbox {
+    background-color: #424242;
+    color: aliceblue;
+    font-size: 18px;
+    margin-left: 1%;
+    border-radius: 2px;
+  }
+  .inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }

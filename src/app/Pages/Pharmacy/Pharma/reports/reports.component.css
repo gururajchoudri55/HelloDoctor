@@ -1,0 +1,17 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+
+  .test {
+    padding: 5px;
+    border: 2px solid #5a20cb;
+    color: #5a20cb;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 5px;
+  }

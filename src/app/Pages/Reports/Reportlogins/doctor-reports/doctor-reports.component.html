@@ -1,0 +1,124 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-10 col-sm-6">
+      <h5 class="headings">{{labels.report}}</h5>
+    </div>
+    <div class="col-lg-2">
+      <button class="save" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+    </div>
+  </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker
+        [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+    </div>
+    <div class="col-lg-3">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+          [(ngModel)]="search">
+        <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+      </div>
+    </div><br>
+    <div class="col-lg-3" *ngIf="id=='1'">
+      <select class="form-control" (change)="GetHosptalWiseAppointments($event)">
+        <option selected value="">{{labels.selectHospital}}</option>
+        <option *ngFor="let hos of hospitalcliniclist" value="{{hos.id}}">{{hos.hospital_ClinicName}}</option>
+      </select>
+    </div>
+    <div class="col-lg-3" *ngIf="id=='2'">
+      <select class="form-control" (change)="GetHosptalWiseAppointments($event)">
+        <option selected value="4">{{labels.selectClinic}}</option>
+        <option *ngFor="let hos of clnicslist" value="{{hos.id}}">{{hos.hospital_ClinicName}}</option>
+      </select>
+    </div>
+    <div class="col-lg-3">
+      <select class="form-control" (change)="getget($event)">
+        <option selected value="4">{{labels.selectStatus}}</option>
+        <option value="1">{{labels.visited}}</option>
+        <option value="2">{{labels.notVisited}}</option>
+        <option value="3">{{labels.cancelled}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <select class="form-control" (change)="GetAppointmenttype($event)">
+        <option value="1">{{labels.selectAppointmentType}}</option>
+        <option value="2">{{labels.inClinic}}</option>
+        <option value="3">{{labels.videoCall}}</option>
+        <option value="4">{{labels.homevisit}}</option>
+      </select>
+    </div>
+    <div class="col-lg-7">
+    </div>
+    <div class="col-lg-2" style="text-align: end;">
+      <label>{{labels.count}} : {{count}} </label>
+    </div>
+  </div><br>
+  <br>
+  <div class="row ">
+    <div class="col-lg-12 tableoverflow">
+      <table class="table table-striped" id="download">
+        <tr>
+          <th>{{labels.appointmentDate}}</th>
+          <th>{{labels.appointmentNumber}}</th>
+          <th>{{labels.appointmentTime}}</th>
+          <th>{{labels.appointmentType}}</th>
+          <th>{{labels.hospitalName}}</th>
+          <th>{{labels.doctorName}}</th>
+          <th>{{labels.ailment}}</th>
+          <th>{{labels.patientName}}</th>
+          <th>{{labels.phoneNumber}}</th>
+          <th>{{labels.email}}</th>
+          <th>{{labels.paymentType}}</th>
+          <th>{{labels.price}}</th>
+          <th>{{labels.downloadType}}</th>
+          <th>{{labels.status}}</th>
+        </tr>
+        <tr
+          *ngFor="let details of cancelledlist|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+          <td>{{details.appdate}}</td>
+          <td>{{details.id}}</td>
+          <td>{{details.slots}}</td>
+          <td>{{details.appointmentTypeText}}</td>
+          <td *ngIf="id=='1'||id=='2'">{{details.hospital_ClinicName}}</td>
+          <td *ngIf="id=='1'||id=='2'">{{details.doctorName}}</td>
+          <td>{{details.reasonForVisit}}</td>
+          <td>{{details.pName}}</td>
+          <td>{{details.pMobileNo}}</td>
+          <td>{{details.emailID}}</td>        
+          <td>{{details.paymentType}}</td>
+          <td>{{details.paidamount}}</td>
+          <td>{{details.name}}</td>
+
+          <td>
+            <label
+              *ngIf="details.accepted=='1'&&details.isVisited=='0'&&details.docCancelled=='0'&&details.cancelled=='0'&&details.noShow=='0'"
+              style="color: green;">{{labels.accepted}}</label>
+            <!-- <label *ngIf="details.cancelled=='1'" style="color: red;">{{labels.patientCancelled}}</label> -->
+            <label *ngIf="details.isVisited=='1'&&details.accepted=='1'"
+              style="color: orange;">{{labels.visited}}</label>
+            <label *ngIf="details.docCancelled=='1'" style="color: red;">{{labels.docCancelled}}</label>
+            <label
+              *ngIf="details.isVisited=='0'&&details.accepted=='0'&&details.cancelled=='0'&&details.docCancelled=='0'"
+              style="color: rgb(255, 0, 149);">{{labels.pending}}</label>
+            <label *ngIf="details.accepted=='1'&&details.noShow=='1'" style="color: red;">{{labels.notVisited}}</label>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="col-lg-12" style="text-align: end">
+    <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+      nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>
+<br>

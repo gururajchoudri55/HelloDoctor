@@ -1,0 +1,89 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-8">
+      <h5 class="headings">{{labels.payments}}</h5>
+    </div>
+  </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="Select Date" class="form-control" bsDaterangepicker [(ngModel)]="bsRangeValue"
+        (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+    </div>
+    <div class="col-lg-3">
+      <select class="form-control" (change)="GetDepartmentID($event)">
+        <option value="" selected>{{labels.selectDepartment}}</option>
+        <option *ngFor="let department of departmentlist" value={{department.departmentname}}>
+          {{department.departmentname}}</option>
+      </select>
+    </div>
+    <div class="col-lg-3">
+      <select class="form-control" (change)="GetDoctorName($event)">
+        <option value="0">{{labels.selectDoctor}}</option>
+        <option *ngFor="let doc of DropDowndoctorlist" value={{doc.doctorName}}>{{doc.doctorName}}</option>
+      </select>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+          [(ngModel)]="search">
+        <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <select class="form-control" (change)="SelectAppointmentType($event)">
+        <option value="0">{{labels.selectAppType}}</option>
+        <option value="1">{{labels.inclinic}}</option>
+        <option value="2">{{labels.video}}</option>
+        <option value="5">{{labels.homeVisit}}</option>
+      </select>
+    </div>
+    <div class="col-lg-7"></div>
+    <div class="col-lg-2 countClass">
+      <label>{{labels.count}} :{{count}} </label>
+    </div>
+  </div>
+  <br>
+  <div class="row ">
+    <div class="col-lg-12 tableoverflow">
+      <table class="table table-hover">
+        <tr>
+          <th>{{labels.appointmenNumber}}</th>
+          <th>{{labels.appointmentDate}}</th>
+          <th>{{labels.appointmentTime}}</th>
+          <th>{{labels.department}}</th>
+          <th>{{labels.provider}}</th>
+          <th>{{labels.paidAmount}}</th>
+          <th>{{labels.patientName}}</th>
+          <th>{{labels.reasonForVisit}}</th>
+          <th>{{labels.appointmentType}}</th>
+          <th>{{labels.paymenttype}}</th>
+        </tr>
+        <tr *ngFor="let details of doctorlist|filter:term|filter:term1">
+          <td>{{details.appointmentID}}</td>
+          <td>{{details.appointmentdatess}}</td>
+          <td>{{details.slots}}</td>
+          <td>{{details.departmentname}}</td>
+          <td>{{details.doctorName}}</td>
+          <td>{{details.paidAmount}}</td>
+          <td>{{details.patientName}}</td>
+          <td>{{details.reasonForVisit}}</td>
+          <td>{{details.appointmentTypeText}}</td>
+          <td>{{details.paymentType}}</td>
+        </tr>
+        <tr></tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-12" style="text-align: end">
+    <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+      nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>

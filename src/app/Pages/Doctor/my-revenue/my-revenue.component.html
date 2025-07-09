@@ -1,0 +1,70 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-8 col-sm-6">
+      <h5 class="headings">{{labels.myRevenue}}</h5>
+    </div>
+  </div>
+</div>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="Select Date" class="form-control" bsDaterangepicker [(ngModel)]="bsRangeValue"
+        (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }"  
+        [bsConfig]="{ showWeekNumbers:false }">
+    </div>
+    <br> <br> <br> <br>
+    <div class="row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-2" *ngFor="let inclinic of inclinicount">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="gotoRevenueDash(1)">
+          <br>
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.inClinicRevenue}}</b> </label><br><br>
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{inclinic.totalamount|number:'1.2-2'|noComma}}Ar</u>
+            </b>
+          </label>
+        </div>
+        <br />
+        <br />
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2" *ngFor="let cou of vediocountcommision">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="gotoRevenueDash(2)">
+          <br>
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.videoCallRevenue}}</b>
+          </label><br><br>
+
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{cou.totalamount|number:'1.2-2'|noComma}}Ar</u>
+            </b>
+          </label>
+        </div>
+
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2" *ngFor="let cou of vediocountcommision">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="gotoRevenueDash(3)">
+          <br>
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.homeVisit}}</b>
+          </label> <br><br>
+
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{cou.homecareamount|number:'1.2-2'|noComma}}Ar</u>
+            </b>
+          </label>
+        </div>
+
+      </div>
+      <div class="col-lg-2"></div>
+    </div>
+
+  </div>
+</div>

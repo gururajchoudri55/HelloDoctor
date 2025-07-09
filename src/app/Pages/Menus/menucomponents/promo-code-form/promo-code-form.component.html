@@ -1,0 +1,82 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{labels.promoCode}}</p>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <form #PromoCodeForm="ngForm">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput"
+                            placeholder="Company Name" [(ngModel)]="Name" required name="companyname">
+                        <label for="floatingInput" class="floatingLabel">{{labels.contactName}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+              
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput"
+                            placeholder="Phone Number" name="PhoneNumber" required [(ngModel)]="PhoneNumber">
+                        <label for="floatingInput" class="floatingLabel">{{labels.phoneNumber}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" required id="floatingInput"
+                            placeholder="Email" name="EmailId" [(ngModel)]="EmailId">
+                        <label for="floatingInput" class="floatingLabel">{{labels.email}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput"
+                            placeholder="Contact Person" [(ngModel)]="CompanyName" required name="contactname">
+                        <label for="floatingInput" class="floatingLabel">{{labels.company}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+            </div> <br>
+           
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" required id="floatingTextarea"
+                            name="programName" [(ngModel)]="programName"></textarea>
+                        <label for="floatingTextarea">{{labels.programName}}<span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" required id="floatingTextarea"
+                            name="PromoCode" [(ngModel)]="PromoCode"></textarea>
+                        <label for="floatingTextarea">{{labels.promoCode}}<span class="required">*</span></label>
+                    </div>
+                </div>
+
+
+            </div>
+         
+            <div class="row">
+                <div class="col-lg-9"></div>
+                <div class="col-lg-2">
+                    <button type="button" class="save" *ngIf="showbutton=='0'" [disabled]="PromoCodeForm.form.invalid"
+                        (click)="InsertSalesPromoCodeRegistration()">{{labels.save}}</button>
+                    <button type="button" class="save" *ngIf="showbutton=='1'"
+                        (click)="updatedetails()">{{labels.update}}</button>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" routerLink="/menus/promoCode">{{labels.back}}</button>
+                </div>
+            </div>
+            <br>
+        </form>
+    </div>

@@ -1,0 +1,12 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+
+  .folder{
+    width:40px;
+    height:auto;
+  }

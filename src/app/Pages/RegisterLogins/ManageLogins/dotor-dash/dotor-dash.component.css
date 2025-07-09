@@ -1,0 +1,79 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+
+  .image{
+    width:50px;
+    height:auto;
+  }
+
+
+  
+.tableheader{                           
+  width: 1199px;
+  height: 50px;
+  right: 20px;
+  top: 264px;
+  background: #02CFFF;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  color:white;
+    }
+    .tabletext{
+      height: 17px;
+      left: 17.5%;
+      right: 76.67%;
+      top: 331px;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 17px;
+      color: #0C275A;
+    }
+
+
+   th{
+     background-color: #322b6b;
+     color:white;
+   }
+
+    th:first-of-type {
+      border-top-left-radius: 10px;       
+    }        
+    th:last-of-type {
+
+      border-top-right-radius: 10px;        
+    }      
+    tr:last-of-type td:first-of-type {       
+      border-bottom-left-radius: 10px;      
+    }
+    
+    tr:last-of-type td:last-of-type {      
+      border-bottom-right-radius: 10px;
+    
+    }       
+    table,        
+    tr,        
+    td {      
+      border: none !important;       
+      font-family: Poppins;       
+      font-style: normal;       
+      font-weight: normal;        
+      font-size: 13px;
+      /* line-height: 17px;        */
+      color: #0C275A;
+    
+    }      
+    tr:nth-child(odd) {
+    
+      background-color: #FFFFFF 
+    
+    }       
+    tr:nth-child(even) {
+    
+      background-color: #F2F2F2 
+    
+    }

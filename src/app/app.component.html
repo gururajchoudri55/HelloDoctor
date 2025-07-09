@@ -1,0 +1,58 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid" *ngIf="temp==1" style="height:100vh;overflow: hidden;">
+    <div class="row" style="height:74px;" id="vidpagehead">
+        <div class="col-lg-12">
+            <app-header></app-header>
+        </div>
+    </div>
+    <div class="row">
+        <!-- *ngIf="showSidebar=='1'" -->
+        <div class="col-lg-2" id="sidbarid" *ngIf="showSidebar=='1'">
+            <app-sidebar></app-sidebar>
+        </div>
+        <div class="col-lg-10 routeroutlet" id="vidiv">
+            <router-outlet></router-outlet>
+
+        </div>
+        <!-- <div style="height: 5vh;">
+            <app-footer></app-footer>
+        </div> -->
+
+    </div>
+
+</div>
+<lib-ng-toast toaster-options="{'time-out': 3000, 'close-button':true, 'position-class':'my-toast-class'}">
+</lib-ng-toast>
+<div class="container-fluid" *ngIf="temp!=1">
+    <router-outlet></router-outlet>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card card-hover">
+            <!-- <div class="modal-header">
+              
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> -->
+            <div class="modal-body">
+                <h2 class="textcenter" *ngIf="LanguageID==1">Server Updates</h2>
+                <h2 class="textcenter" *ngIf="LanguageID==6">Mise à jour du serveur</h2>
+                <br>
+                <p class="text" *ngIf="LanguageID==1">We are currently performing a system update. Please reconnect in 20 minutes.</p>
+                
+                <p  class="text" *ngIf="LanguageID==6">
+                    Nous effectuons actuellement une mise à jour du système.  Veuillez vous reconnecter dans 20 minutes.
+                </p>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">Close</button>
+               
+            </div> -->
+        </div>
+    </div>
+</div>

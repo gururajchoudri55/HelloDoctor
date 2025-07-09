@@ -1,0 +1,43 @@
+<app-sms></app-sms>
+<div class="container d-flex justify-content-center" style="height:100px">
+  <div class="row">
+    <form #doctorFrom="ngForm">
+    <div class="card mt-5">
+      <div class="d-flex flex-row justify-content-between p-3 adiv text-white" >
+        <span class="pb-3">{{labels.chat}}</span>
+        <img src="assets/Icons/cross.png"  (click)="closeChat()" style="width: 15px;">
+      </div>
+      <div style="overflow:auto;height: 450px;"  id="chatboxdiv">
+      <div *ngFor='let convo of coversationarray' >
+        <div class="d-flex flex-row p-3" *ngIf='convo.user=="pat"'>
+          
+            <img src="https://img.icons8.com/color/48/000000/circled-user-female-skin-type-7.png" width="30"
+              height="30">
+            <div class="chat ml-2 p-3">{{convo.chatmsg}}</div>
+          </div>
+       
+        <div class="d-flex flex-row p-3" *ngIf='convo.user=="doc"'>
+            <div class="bg-white mr-2 p-3"><span class="text-muted">{{convo.chatmsg}}</span></div>
+            <img src="https://img.icons8.com/color/48/000000/circled-user-male-skin-type-7.png" width="30" height="30">
+          </div>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-lg-9">
+        <input type="text"  class="form-control" style="border: 2px solid #9f9fa8;" rows="5" placeholder="{{labels.Typeyourmessage}}" [(ngModel)]="chatconversation" 
+        name="chatconversation" required>
+        <!-- <textarea  type="text" class="form-control" rows="5" placeholder="{{labels.Typeyourmessage}}" [(ngModel)]="chatconversation" 
+        name="chatconversation" required></textarea> -->
+
+
+      </div>
+      <div class="col-lg-3">
+        <br>
+        <button type="submit"  class="chatbutton" [disabled]="doctorFrom.form.invalid" (click)="InsertChatDetails()" >{{labels.send}}</button>
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+
+</div>

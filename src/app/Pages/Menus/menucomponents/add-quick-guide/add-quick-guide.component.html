@@ -1,0 +1,112 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<br>
+<div class="container-fluid card card:hover">
+  <div class="row headerspace">
+    <div class="col-lg-3">
+      <h5>Quick Guide</h5>
+    </div>
+  </div>
+</div><br>
+<div class="container-fluid card card:hover ">
+  <br>
+  <form #countryForm="ngForm">
+    
+      <div class="row">
+        <div class="col-lg-3">
+          <select class="form-control" [disabled]="tablecount=='1'" (change)="GetTypeID($event)" [(ngModel)]="typeid"
+            name="typeid">
+            <option value="0">Select</option>
+            <option value="1">Patient</option>
+            <option value="2">Doctors</option>
+            <option value="3">Home Care</option>
+            <option value="4">Hospitals / Clinics</option>
+            <option value="5">Pharmacy</option>
+            <option value="6">Lab</option>
+          </select>
+        </div>
+
+
+        <div class="col-lg-3">
+          <input type="text" class="form-control" [disabled]="tablecount=='1'" placeholder="Chapter name"
+            [(ngModel)]="chaptername" name="chaptername">
+        </div>
+
+        <div class="col-lg-3">
+          <input type="text" class="form-control" placeholder="Steps" [(ngModel)]="description" name="description">
+        </div>
+
+        <div class="col-lg-3">
+          <ngx-dropzone (change)="onSelect($event)" style="width:100% ;height: auto;">
+            <ngx-dropzone-label>{{labels.uploadPhoto}}</ngx-dropzone-label>
+            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+              <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+            </ngx-dropzone-preview>
+          </ngx-dropzone>
+        </div>
+        <div class="row">
+        
+          <div class="col-lg-3">
+            <ngx-dropzone (change)="onSelectVedio($event)" style="width:100% ;height: auto;">
+              <ngx-dropzone-label>{{'upload Vedio'}}</ngx-dropzone-label>
+              <ngx-dropzone-preview *ngFor="let f of vediofiles" [removable]="true" (removed)="onRemovevedui(f)">
+                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+              </ngx-dropzone-preview>
+            </ngx-dropzone>
+          </div>
+
+        </div>
+      <!--   <div class="col-lg-5 specforimg">
+          <p>
+            Upload Video Less Than 20MB
+          </p>&nbsp;
+        </div> -->
+      </div>
+ 
+    <br>
+    <div class="row">
+      <div class="col-lg-11">
+      </div>
+      <div class="col-lg-1">
+        <button type="button" text_align="center" [disabled]="countryForm.form.invalid"
+          class="btn btn-block btn-md allbtns btncolor" (click)="adddetails()">{{labels.add}}</button>
+      </div>
+     <!--  <div class="col-lg-5">
+      </div> -->
+    </div>
+    <br>
+  
+  </form>
+  <div class="row" *ngIf="tablecount=='1'">
+    <div class="col-lg-12">
+      <table>
+        <tr>
+          <th>Chapter Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+        <tr *ngFor="let det of qwerty">
+          <td>{{det.ChapterName}}</td>
+          <td innerHTML="{{det.Description}}"></td>
+         
+          <td>
+           <img src="assets/Icons/delete.png" (click)="delete(det.Sno)"> 
+          </td> 
+        </tr>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="row" *ngIf="tablecount=='1'">
+    <div class="col-lg-3">
+    </div>
+    <div class="col-lg-2">
+      <button type="button" text_align="center" class="btn btn-block btn-md allbtns btncolor"
+        (click)="InsertChapterMaster()">{{labels.save}}</button>
+
+    </div>
+    <div class="col-lg-5">
+    </div>
+  </div>
+  <br>
+</div>

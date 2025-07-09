@@ -1,0 +1,418 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-diagnostic-sms></app-diagnostic-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-10">
+            <h5 class="headings">{{labels.orders}}</h5>
+        </div>
+        <div class="col-lg-2">
+            <button class="save" routerLink="/Diagnostic/DiagnosticAppointments"
+                *ngIf="receptionID!=undefined">{{labels.bookAppointment}}</button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" placeholder="{{labels.selectdate}}" class="form-control" bsDaterangepicker
+                [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-4"></div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.originatedDate}}</th>
+                    <th>{{labels.appointmentTime}}</th>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.homeSamplePickup}}</th>
+                    <th>{{labels.agentName}}</th>
+                    <th>{{labels.paymentType}}</th>
+                    <th>{{labels.price}}</th>
+                    <th>{{labels.details}}</th>
+                    <th>{{labels.status}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+
+                <tr [style.background-color]="details.appointmentColorCode"
+                    *ngFor="let details of diagnosticList|filter:term| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{details.appdate}}</td>
+                    <td>{{details.appointmentTypeText}}</td>
+                    <td>{{details.slotTime}}</td>
+                    <td>{{details.id}}</td>
+                    <!-- <td>{{details.patientName}}</td>
+                    <td>{{details.mobileNumber}}</td> -->
+                    <td>{{details.relatinpatientnme}}</td>
+                    <td>{{details.relationmobileno}}</td>
+                    <!-- <td>{{details.emailID}}</td> -->
+                    <!-- <td>{{details.relationaddress}}</td> -->
+                    <td>
+                        <label *ngIf="details.homeSampleBit=='1'&&details.diagnosticSlotID!='0'">{{labels.yes}}</label>
+                        <label *ngIf="details.homeSampleBit=='0'&&details.diagnosticSlotID!='0'">{{labels.no}}</label>
+                        <label *ngIf="details.homeSampleBit=='1'&&details.appointmentType=='2'">{{labels.yes}}</label>
+                        <!-- <label *ngIf="details.homeSampleBit=='0'&&details.appointmentType=='2'">{{labels.no}}</label> -->
+                    </td>
+                    <td>
+                        {{details.assinedname}}
+                    </td>
+
+
+                    <td>
+                        {{details.paymentName}}
+                    </td>
+
+                    <td>
+                        {{details.paidAmount|number:'1.2-2'}}
+                    </td>
+                    <td>
+
+
+                        <button class="test" *ngIf="details.testsCount!=0" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop" (click)="getTypeID(details,6)"> {{labels.test}} </button>
+                        <button class="test" *ngIf="details.packageCount!=0" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop" (click)="getTypeID(details,7)">{{labels.packages}}</button>
+                        <button class="test" *ngIf="details.appointmentType=='2'&&details.photoexist=='1'"
+                            data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                            (click)="getTypeID(details,8)">{{labels.test}} </button>
+                        <button class="test" *ngIf="details.appointmentType=='2'&&details.fileAvailableBit=='1'"
+                            (click)="GetPdf(details.fileUrl)">{{labels.pdf}} </button>
+                    </td>
+                    <td>
+
+                        <label
+                            *ngIf="details.acceptedBit=='1'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.approved=='0'&&details.notVisited=='0'&&details.deliverPatnerAssigned=='0'&&details.paymentType=='0'&&details.hideupdate=='0'&&details.rejected=='0'"
+                            style="color: green;">{{labels.accepted}}</label>
+                        <label
+                            *ngIf="details.diagnosticCancelled=='1'||details.rejected=='1'&&details.approved=='0'&&details.acceptedBit=='0'&&details.notVisited=='0'"
+                            style="color: red;">{{labels.cancelled}}</label>
+                        <label
+                            *ngIf="details.cancelled=='1'||details.rejected=='1'&&details.approved=='0'&&details.acceptedBit=='0'&&details.notVisited=='0'"
+                            style="color: red;">{{labels.patientCancelled}}</label>
+                        <label *ngIf="details.rejected=='1'&&details.samplesCollected=='0'"
+                            style="color: red;">{{labels.labRejected}}</label>
+
+                        <label
+                            *ngIf="details.accepted=='1'&&details.approved=='0'&&details.samplesCollected=='0'&&details.uploadedBit=='0'"
+                            style="color: green;">{{labels.technicianAccepted}}</label>
+
+
+                        <label
+                            *ngIf="details.accepted=='1'&&details.approved=='0'&&details.samplesCollected=='1'&&details.uploadedBit=='0' && details.webSampleCollection==0"
+                            style="color: green;">{{labels.sample}}</label>
+
+
+                            <label
+                            *ngIf="details.accepted=='1'&&details.approved=='0'&&details.samplesCollected=='1'&&details.uploadedBit=='0'&& details.webSampleCollection==1"
+                            style="color: green;">{{labels.samplereceived}}</label>
+
+                        <label *ngIf="details.approved=='1'&&details.uploadedBit=='0'&&details.rejected=='0'"
+                            style="color: yellowgreen;">{{labels.visited}}</label>
+                        <label *ngIf="details.approved=='1'&&details.uploadedBit=='1'&&details.rejected=='0'"
+                            style="color: yellowgreen;">{{labels.reportDelivered}}</label>
+
+                        <label *ngIf="details.notVisited=='1'" style="color: red">{{labels.notVisited}}</label>
+
+                        <label
+                            *ngIf="details.acceptedBit=='1'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.approved=='0'&&details.notVisited=='0'&&details.paymentType=='0'&&details.deliverPatnerAssigned=='0'&&details.hideupdate=='1'&&details.rejected=='0'"
+                            style="color: green;">{{labels.priceSentTopatient}}</label>
+
+                        <label
+                            *ngIf="details.acceptedBit=='1'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.approved=='0'&&details.notVisited=='0'&&details.paymentType!='0'&&details.deliverPatnerAssigned=='0'&&details.paymentType=='3'&&details.rejected=='0'"
+                            style="color: green;">{{labels.codPayment}}</label>
+
+                        <label
+                            *ngIf="details.acceptedBit=='1'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.approved=='0'&&details.notVisited=='0'&&details.paymentType!='0'&&details.deliverPatnerAssigned=='0'&&details.paymentType!='3'&&details.rejected=='0'"
+                            style="color: green;">{{labels.readyForDelivery}}</label>
+
+                        <label
+                            *ngIf="details.acceptedBit=='1'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.approved=='0'&&details.notVisited=='0'&&details.deliverPatnerAssigned=='1'&&details.rejected=='0'&&details.accepted=='0'"
+                            style="color: green;">({{labels.assigned}}{{details.assinedname}})</label>
+
+
+                    </td>
+                    <td>
+
+                        <div class="main">
+
+
+                            <button class="Accept"
+                                *ngIf="details.acceptedBit=='0'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.approved=='0'&&details.appointmentType=='1'"
+                                (click)="getTypeID(details,1)">{{labels.accepted}}</button>
+
+                            <button class="Accept"
+                                *ngIf="details.acceptedBit=='0'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.approved=='0'&&details.appointmentType=='2'"
+                                (click)="getTypeID(details,9)">{{labels.accepted}}</button>
+
+                            <button class="Cancel"
+                                *ngIf="details.acceptedBit=='0'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.approved=='0'"
+                                (click)="getTypeID(details,2)">{{labels.cancel}}</button>
+
+
+
+                            <button class="uploadreport"
+                                *ngIf="details.acceptedBit=='1'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.notVisited=='0'&&details.uploadedBit=='0'"
+                                data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                (click)="getTypeID(details,5)">{{labels.uploadReport}}</button>
+
+                            <button class="assign"
+                                *ngIf="details.acceptedBit=='1'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.notVisited=='0'&&details.homeSampleBit=='1'&&details.deliverPatnerAssigned=='0'"
+                                (click)="getTypeID(details,4)" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop">{{labels.assign}}</button>
+
+                            <button class="Cancel"
+                                *ngIf="details.acceptedBit=='1'&&details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.approved=='0'&&details.notVisited=='0'"
+                                (click)="getTypeID(details,3)">{{labels.notVisited}}</button>
+
+
+                            <button
+                                *ngIf="details.cancelled=='0'&&details.diagnosticCancelled=='0'&&details.notVisited=='0'&&details.uploadedBit=='0'"
+                               class="chatbox" (click)="getTypeID(details,10)">Chat</button>
+
+                               <button (click)="getTypeID(details,22)"
+                               *ngIf="details.approved=='1'&&details.uploadedBit=='1'&&details.rejected=='0'"
+                               class="Accept">{{labels.receipt}}
+
+                           </button>
+
+
+                               <button
+                               *ngIf="details.accepted=='1'&&details.approved=='0'&&details.samplesCollected=='1'&&details.uploadedBit=='0' && details.webSampleCollection==0" 
+                              class="chatbox" (click)="sampleCollect(details)">{{labels.samplereceived}}</button>
+
+
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>
+
+
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==4">{{labels.assign}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==5">{{labels.uploadReport}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==6">{{labels.test}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==7">{{labels.packages}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==8">{{labels.photos}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <!-- Assign  -->
+
+                    <div class="row" *ngIf="typeID==4">
+                        <div class="col-lg-12">
+                            <table>
+                                <tr>
+                                    <th>{{labels.name}}</th>
+                                    <th>{{labels.phoneNumber}}</th>
+                                    <th>{{labels.email}}</th>
+                                    <th>{{labels.assign}}</th>
+                                </tr>
+                                <tr *ngFor="let list of homeSampleList">
+                                    <td>
+                                        {{list.name}}
+                                    </td>
+                                    <td>
+                                        {{list.phoneNo}}
+                                    </td>
+                                    <td>
+                                        {{list.emailID}}
+                                    </td>
+                                    <td>
+                                        <button class="assign" (click)="Insertdetails(list)"
+                                            data-bs-dismiss="modal">{{labels.assign}}</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Upload Report -->
+
+
+                    <div *ngIf="typeID==5">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <ngx-dropzone (change)="onSelect($event)" >
+                                    <ngx-dropzone-label>{{labels.uploadFiles}}</ngx-dropzone-label>
+                                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"
+                                        (removed)="onRemove(f)">
+                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                </ngx-dropzone>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Leave a comment here"
+                                        [(ngModel)]="notes" name="notes" id="floatingTextarea"></textarea>
+                                    <label for="floatingTextarea">{{labels.comments}}</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="typeID==6">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>{{labels.test}}</th>
+                                            <th>{{labels.description}}</th>
+                                            <th>{{labels.amount}}</th>
+                                            <th>{{labels.available}}</th>
+                                        </tr>
+                                        <tr *ngFor="let listss of testList">
+                                            <td>{{listss.testName}}</td>
+                                            <td>{{listss.description}}</td>
+                                            <td>
+                                                <input type="text" [(ngModel)]="listss.fees" name="listss.fees"
+                                                    class="form-control" *ngIf="selectedOrder.hideupdate=='0'"
+                                                    placeholder="Prix">
+
+                                                <input type="text" class="form-control" disabled="selectedOrder.hideupdate=='1'"
+                                                    *ngIf="selectedOrder.hideupdate=='1'"
+                                                    placeholder="{{listss.fees|number:'1.2-2'}}">
+
+                                            </td>
+                                            <td><input type="checkbox" disabled [(ngModel)]="listss.available"></td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                          <div style="color:red"> {{labels.warnmsg}}</div>
+                        </div>
+                       
+
+                    </div>
+
+                    <div *ngIf="typeID==7">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>{{labels.packageName}}</th>
+                                            <th>{{labels.test}}</th>
+                                            <th>{{labels.description}}</th>
+                                            <th>{{labels.amount}}</th>
+                                            <th>{{labels.actions}}</th>
+                                        </tr>
+                                        <tr *ngFor="let listsssss of packageList">
+                                            <td>{{listsssss.packageName}}</td>
+                                            <td>{{listsssss.testNames}}</td>
+                                            <td>{{listsssss.description}}</td>
+                                            <td>{{listsssss.price}}</td>
+                                            <td><input type="checkbox" [(ngModel)]="listsssss.available"></td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div><br>
+                      
+                    </div>
+
+                    <div *ngIf="typeID==8">
+                        <div class="row">
+                            <div class="col-lg-6" *ngFor="let attachme of attchmentsPhotos">
+                                <img src="{{attachme.attachment}}" style="height: 100%;width: 100%;"><br>
+                            </div>
+
+                            <div class="col-lg-3" *ngIf="photoAmount!=null">
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="floatingInput" [(ngModel)]="photoAmount"
+                                    selected disabled   placeholder="name@example.com">
+                                    <label  for="floatingInput">{{labels.amount}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                
+                           
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal" *ngIf="typeID==5"
+                    (click)="insertdiagnosticupload()">{{labels.updatePatient}}</button>
+
+                <button type="button" class="close" data-bs-dismiss="modal"
+                    *ngIf="typeID==6&&selectedOrder.hideupdate=='0'"
+                    (click)="InsertAvailabletest()">{{labels.update}}</button>
+
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="chat" *ngIf="typeID==10">
+    <app-diagnosticchat [Details]="[selectedOrder]" (closechatMessage)="closechatMessage()" *ngIf="typeID==10">
+    </app-diagnosticchat>
+</div>
+
+<div class="modal fade" id="receiptModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div *ngIf="typeID==22">
+                    <app-diagnostic-payment-recepit [Details]="[selectedOrder]" (showLoader)="showLoader()"
+                        (closeReceipt)="closeReceipt($event)" *ngIf="typeID==22">
+                    </app-diagnostic-payment-recepit>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>

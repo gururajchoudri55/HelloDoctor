@@ -1,0 +1,78 @@
+ <app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-5">
+            <h5>{{labels.myRevenue}}>
+                <span *ngIf="languageid=='1'&&id=='1'">In Clinic</span>
+                <span *ngIf="languageid=='6'&&id=='1'">PRÉSENTIEL</span>
+                <span *ngIf="languageid=='1'&&id=='2'">video call </span>
+                <span *ngIf="languageid=='6'&&id=='2'">TÉLÉCONSULTATION</span>
+                <span *ngIf="languageid=='1'&&id=='3'">Home Visit </span>
+                <span *ngIf="languageid=='6'&&id=='3'">Visite à domicile</span>
+            </h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker 
+                [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }" [bsConfig]="{ showWeekNumbers:false }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="term">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-3"></div>
+        <div class="col-lg-3 countClass">
+            <label>{{labels.totalRevenue}} : {{GrandTotal}}Ar</label>
+        </div> 
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.appointmentID}}</th>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentTime}}</th>
+                    <th>{{labels.patientname}}</th>
+                    <th>{{labels.reason}}</th>
+                    <th>{{labels.appointmentType}}</th>
+                    <th>{{labels.paymentType}}</th>
+                    <th>{{labels.doctorFees}}</th>
+                </tr>
+                <tr
+                    *ngFor="let details of appointmentlist|filter:term| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{details.appointmentID}}</td>
+                    <td>{{details.apptDateTime}}</td>
+                    <td>{{details.slots}}</td>
+                    <td>{{details.patientName}}</td>
+                     <td>{{details.reasonForVisit}}</td>
+                    <!-- <td>{{details.departmentname}}</td> -->
+                    <!-- <td>{{details.doctorName}}</td> -->
+                    <td>{{details.appointmentTypeText}}</td>
+                    <td>{{details.paymentType}}</td>
+                       <td>{{details.indcorevenue}}</td>  
+                         <!-- <td>{{details.reasonForVisit}}</td> -->
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-1">
+            <button class="save" routerLink="/Doctor/MyRevenue">{{labels.back}}</button>
+        </div>
+        <div class="col-lg-12" style="text-align: end">
+            <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+                screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                screenReaderCurrentLabel="You're on page">
+            </pagination-controls>
+        </div>
+    </div>
+
+</div>

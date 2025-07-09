@@ -1,0 +1,101 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <h5 class="headings">Paid Invoices</h5>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">Search</label>
+            </div>
+        </div><br>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetType($event)" [(ngModel)]="type" name="type">
+              <option selected value="0">Select</option>
+              <option value="1">Hospital</option>
+              <option value="2">Clinic</option>
+              <option value="3">Doctor</option>
+              <option value="4">Nurse</option>
+              <option value="6">Physiotherapist</option>
+              <option value="5">MidWife</option>
+              <option value="7">Pharmacy</option>
+              <option value="8">Diagnostic Center</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <select class="form-control" (change)="GetYear($event)" [(ngModel)]="year" name="year">
+              <option value="0">Select</option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <select class="form-control" (change)="GetMonth($event)" [(ngModel)]="month" name="month">
+              <option value="0">Select</option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+        <!-- <div class="col-lg-3 countClass">
+            <label>Count : </label>
+        </div> -->
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table">
+              
+                    <tr >
+                        <th *ngIf="type==1||type==2">Hospital/Clinic Name</th>
+                        <th *ngIf="type==3">Doctor Name</th>
+                        <th *ngIf="type==4">Nurse Name</th>
+                        <th *ngIf="type==6">Physiotherapist Name</th>
+                        <th *ngIf="type==5">MidWife Name</th>
+                        <th *ngIf="type==7">Pharmacy</th>
+                        <th *ngIf="type==8">Diagnostic Center</th>
+                        <th *ngIf="type==1||type==2">Contact Person</th>
+                        <th>Phone No</th>
+                        <th>Paid Amount</th>
+                        <th>Transction Photo</th>
+                    </tr>
+                    <tr *ngFor="let list of paidlist|filter:search">
+                        <td>{{list.hospital_ClinicName}}</td>
+                        <td *ngIf="type=='1'||type=='2'">{{list.contactPersonName}}</td>
+                        <td>{{list.phoneNo}}</td>
+                        <td>{{list.paidAmount}}</td>
+                        <td>         
+                          <img src="assets/Icons/attachment_16.png" (click)="openwindow(list.transctionPhoto)">   
+                      </td>
+                    </tr>
+              
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="Previous" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>

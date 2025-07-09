@@ -1,0 +1,122 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{labels.diaplanning}}</p>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectname" [disabled]="tablecount=='1'" [settings]="diadnosticdd"
+                    [data]="diagnosticlist" (onSelect)="GetDiagnosticID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectday" [settings]="daysdd" [data]="dayslist"
+                    (onSelect)="GetDaysID($event)" (onDeSelect)="GetDaysID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-5">
+                <label>{{labels.scheduletype}}</label> &nbsp;
+                <input type="radio" [(ngModel)]="appointmenttype" name="appointmenttype" value="1"> &nbsp;
+               {{labels.homeSample}}
+                &nbsp;
+                <input type="radio" [(ngModel)]="appointmenttype" name="appointmenttype" value="2"> &nbsp;
+              {{labels.diagnosticCenter}}&nbsp;
+            </div>
+        </div> <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-3" *ngIf="appointmenttype=='1'">
+                <select class="form-control" (change)="getmrngfrom($event)" [(ngModel)]="mrngfromid" name="mrngfromid">
+                    <option value="">{{labels.startTime}}</option>
+                    <option *ngFor="let mrngfrm of mrngfromlist" value="{{ mrngfrm.id }}">{{ mrngfrm.slotName }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-lg-3" style="margin-top: 0px;" *ngIf="appointmenttype=='1'">
+                <select class="form-control" (change)="getmrngto($event)" [(ngModel)]="mrngtoid" name="mrngtoid">
+                    <option value="">{{labels.endTime}}</option>
+                    <option *ngFor="let mrngto of mrngtolist" value="{{ mrngto.id }}">{{ mrngto.slotName
+                        }}</option>
+                </select>
+            </div>
+            <div class="col-lg-2" *ngIf="appointmenttype=='1'">
+                <input type="text" class="form-control" placeholder="No of Appointments"
+                    [(ngModel)]="homenoofappointments" name="homenoofappointments">
+            </div>
+            <div class="col-lg-3" *ngIf="appointmenttype=='2'">
+                <select class="form-control" (change)="GetDiagnosticFromSlots($event)" [(ngModel)]="diafromid"
+                    name="diafromid">
+                    <option value="">{{labels.startTime}}</option>
+                    <option *ngFor="let mrngfrm of diagnsticfromlist" value="{{ mrngfrm.id }}">{{ mrngfrm.slotName }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-lg-3" style="margin-top: 0px;" *ngIf="appointmenttype=='2'">
+                <select class="form-control" (change)="getDiagnosticToSlots($event)" [(ngModel)]="diatoid"
+                    name="diatoid">
+                    <option value="">{{labels.endTime}}</option>
+                    <option *ngFor="let mrngto of diatolist" value="{{ mrngto.id }}">{{ mrngto.slotName
+                        }}</option>
+                </select>
+            </div>
+            <div class="col-lg-2" *ngIf="appointmenttype=='2'">
+                <input type="text" class="form-control" placeholder="No Of Appointments"
+                    [(ngModel)]="dianoofappointments" name="dianoofappointments">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-3">
+                <button type="button" class="save" (click)="adddetails()">{{labels.add}}</button>
+            </div>
+        </div><br>
+        <div class="row" *ngIf="tablecount=='1'">
+            <div class="col-lg-12" style="overflow: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.startTime}}</th>
+                            <th>{{labels.endTime}}</th>
+                            <th>{{labels.scheduletype}}</th>
+                            <th>{{labels.noofAppointment}}</th>
+                            <th>{{labels.actions}}</th>
+                        </tr>
+                        <tr *ngFor="let details of qwerty">
+                            <td [style.background-color]="details.Color">{{details.StartTime}}</td>
+                            <td [style.background-color]="details.Color">
+                                {{details.EndTime}}</td>
+                            <td>{{details.AppointmentName}}</td>
+                            <td>{{details.NoOfAppointments}}</td>
+                            <td>
+                                <img src="assets/Icons/delete.png" (click)="delete(details.Sno)"
+                                    style="width: 20px;margin-left: 10px;">
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div><br>
+        <div class="row" *ngIf="tablecount=='1'">
+            <div class="col-lg-12">
+                <button type="button" class="save" (click)="insertdetails1()">{{labels.save}}</button>
+            </div>
+
+        </div><br>
+
+    </div>
+    <br>
+
+
+
+
+
+
+</div>

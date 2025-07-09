@@ -1,0 +1,126 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-8">
+      <h5 class="headings">{{labels.emailDashboard}}</h5>
+    </div>
+  </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker
+        [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+    </div>
+    <div class="col-lg-3">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="search"
+          name="search">
+        <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+      </div>
+    </div>
+    <div class="col-lg-4"></div>
+    <div class="col-lg-2 countClass">
+      <label>{{labels.count}} : {{count}} </label>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-lg-12 tableoverflow">
+      <table class="table table-hover" id="download">
+        <tr>
+          <th>{{labels.date}}</th>
+          <th>{{labels.patientName}}</th>
+          <th>{{labels.subject}}</th>
+          <th>{{labels.email}}</th>
+          <th>{{labels.message}}</th>
+          <th>{{labels.attachment}}</th>
+        </tr>
+        <tr *ngFor="let list of PatientList|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+          <td>{{list.date}}</td>
+          <td>{{list.receiverName}}</td>
+          <td>{{list.subject}}</td>
+          <td>{{list.emailID}}</td>
+          <td>
+            <img src="assets/Icons/chat_24.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+              (click)="GetMessage(list.message)">
+          </td>
+          <td>
+            <img src="assets/Icons/attachment_16.png" data-bs-toggle="modal" data-bs-target="#mymodel"
+              (click)="GetAttachmentID(list.id)">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-12" style="text-align: end">
+    <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+      nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{labels.email}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <p [innerHTML]="message"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="add" data-bs-dismiss="modal">{{labels.close}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mymodel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{labels.attachment}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12" *ngIf="attchmentlist?.length!=0">
+            <div *ngFor="let showphoto of attchmentlist">
+              <br>
+              <a href="{{showphoto.attchmentUrl}}" target="_blank"> <img src="assets/Images/txt.png"
+                  *ngIf="showphoto.doctype==1" style="width: 10%;height:auto;"></a>
+              <a href="{{showphoto.attchmentUrl}}" target="_blank"> <img src="assets/Images/xlsx.png"
+                  *ngIf="showphoto.doctype==2" style="width: 10%;height:auto;"></a>
+              <a href="{{showphoto.attchmentUrl}}" target="_blank"> <img src="assets/Images/pdf.png"
+                  *ngIf="showphoto.doctype==3" style="width: 10%;height:auto;"></a>
+              <a href="{{showphoto.attchmentUrl}}" target="_blank"> <img src="assets/Images/ppt.png"
+                  *ngIf="showphoto.doctype==4" style="width: 10%;height:auto;"></a>
+              <a href="{{showphoto.attchmentUrl}}" target="_blank"> <img src="assets/Images/image (2).png"
+                  *ngIf="showphoto.doctype==5" style="width: 10%;height:auto;"></a>
+
+
+              <br>
+            </div>
+          </div>
+          <div class="col-lg-12 nodocuments text-center" *ngIf="attchmentlist?.length==0">
+            <label>No Documents</label>
+          </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="add" data-bs-dismiss="modal">{{labels.close}}</button>
+      </div>
+    </div>
+  </div>
+</div>

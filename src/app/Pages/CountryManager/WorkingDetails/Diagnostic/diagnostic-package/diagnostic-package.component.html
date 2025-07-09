@@ -1,0 +1,98 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.diagnosticPackage}}</h5>
+        </div>
+        <div *ngIf="roleid!=23" class="col-lg-4 buttonsss">
+            <button class="addnew" routerLink="/countrymanager/DiagnosticPackageDetails">{{labels.add}}</button>
+        </div>
+
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-3" style="margin-left: 160px;">
+            <span class="tests">{{labels.ourlabtestspackages}}</span>
+        </div>
+
+        
+        <br>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 table-overflow">
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.packageName}}</th>
+                    <th>{{labels.test}}</th>
+                    <th>{{labels.packagePrice}}</th>
+                    <th *ngIf="roleid!=23">{{labels.actions}}</th>
+                </tr>
+                <tr
+                    *ngFor="let details of packagelist| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}|filter:search">
+                    <td>{{details.packageName}}</td>
+                    <td>{{details.testName}}</td>
+                    <td>{{details.price}}</td>
+                    <td  *ngIf="roleid!=23">
+                        <img   src="assets/Icons/edit.png" (click)=GetPackages(details) data-bs-toggle="modal"
+                            data-bs-target="#editpackage">
+                        <img src="assets/Icons/delete.png" (click)="DeleteDiagnostocServces(details.id)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>
+
+
+
+<div class="modal fade" id="editpackage" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.edit}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control inputfield" id="floatingInput"
+                                placeholder="packagename" name="packagename"  [(ngModel)]="packagename">
+                            <label for="floatingInput" class="floatingLabel">{{labels.packageName}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control inputfield" id="floatingInput" placeholder="packageprice"
+                            name="packageprice"  [(ngModel)]="packageprice">
+                            <label for="floatingInput" class="floatingLabel">{{labels.packagePrice}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="addnew" (click)="UpdatePackages()" data-bs-dismiss="modal">{{labels.update}}</button>
+                    <button type="button" class="addnew" data-bs-dismiss="modal">{{labels.close}}</button>
+                </div>
+            </div>
+        </div>
+    </div>

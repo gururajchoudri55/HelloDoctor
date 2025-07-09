@@ -1,0 +1,77 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<app-register-provider-sm-s></app-register-provider-sm-s>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.registerAsecretary}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Name"
+                    [(ngModel)]="name" name="name">
+                    <label for="floatingInput" class="floatingLabel">{{labels.name}}</label>
+                </div>
+            </div>
+            <div class="col-lg-1">
+                <select class="form-control" style="width: 97px;"  (change)="getCountryCode($event)" [(ngModel)]="countryCode" name="countryCode">
+                    <option value="0">{{labels.select}}</option>
+                    <option value="" *ngFor="let country of countryCodeList" value="{{country.countryCodeInt}}">{{country.countryCodeNew}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Phone Number"
+                    [(ngModel)]="phoneno" name="phoneno" (ngModelChange)="preventHospitalnoZero(phoneno)">
+                    <label for="floatingInput" class="floatingLabel">{{labels.phoneNumber}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="emialid"
+                    [(ngModel)]="email" name="email">
+                    <label for="floatingInput" class="floatingLabel">{{labels.email}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                    [(ngModel)]="address" name="address"></textarea>
+                    <label for="floatingTextarea">{{labels.address}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="password"
+                    [(ngModel)]="username" name="username">
+                    <label for="floatingInput" class="floatingLabel">{{labels.userName}}</label>
+                </div>
+            </div>
+        </div> <br>
+        
+      <div class="row">
+        <div class="col-lg-9"></div>
+        <div class="col-lg-2">
+            <button type="button" class="save" *ngIf="showbit=='0'" (click)="InsertDetailes()">{{labels.save}}</button>
+            <button type="button" class="save" *ngIf="showbit=='1'" (click)="UpdateDetailes()">{{labels.update}}</button>
+        </div>
+        <div class="col-lg-1">
+            <button type="button" class="save" routerLink="/Diagnostic/DiagnosticReceptionistLogin">{{labels.back}}</button>
+        </div>
+    </div>
+         
+    </div>
+    <br>
+</div>
+
+
+
+
+

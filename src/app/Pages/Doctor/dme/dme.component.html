@@ -1,0 +1,1220 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<app-loader *ngIf="loader==true"></app-loader>
+
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.emr}}</h5>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.patientDetails}}</h5>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-4">
+            <label>{{labels.dmeName}}: <span class="patientDetails">{{patientname}}</span></label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.phonenumber}} : <span class="patientDetails">{{mobileno}}</span></label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.emialID}} : <span class="patientDetails">{{emailid}}</span></label>
+        </div>
+
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-4">
+            <label>{{labels.emegender}} : <span class="patientDetails">{{gender}}</span></label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.address}} : <span class="patientDetails">{{address}} </span></label>
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.bloodGroup}} : <span class="patientDetails">{{bloodgroup}}<img src="assets/Icons/edit.png"
+                        data-bs-toggle="modal" data-bs-target="#bloodgroupmodal"> </span></label>
+        </div>
+
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-4">
+            <label>{{labels.age}} : <span class="patientDetails">{{age}} ({{dateofBirth}})</span></label>
+
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.idNumber}} : <span class="patientDetails">{{nationalIdentityNo}}</span></label>
+
+        </div>
+        <div class="col-lg-4">
+            <label>{{labels.patientDetails}} : <span class="patientDetails"></span> <img
+                    src="assets/Icons/ViewDetails.png" data-bs-toggle="modal"
+                    data-bs-target="#medicalevaluation" /></label>
+
+        </div>
+    </div>
+    <br>
+</div>
+<br>
+
+
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-lg-6 tableoverflow card card-hover tableheight">
+            <label class="headings">{{labels.patientallergyDetails}}</label>
+            <br>
+            <table class="table table-striped ">
+                <tr>
+                    <th>{{labels.providename}}</th>
+                    <!-- <th>{{labels.appointmentNumber}}</th> -->
+                    <th>{{labels.department}}</th>
+
+                    <!-- <th>{{labels.providename}}</th> -->
+                    <th>{{labels.phonenumber}}</th>
+                    <!-- <th>{{labels.allergies}}</th> -->
+                    <th>{{labels.view}}</th>
+                </tr>
+                <tr *ngFor="let app of Appointmentlist">
+                    <td>{{app.doctorName}}</td>
+                    <!-- <td>{{app.id}}</td> -->
+                    <td>{{app.departmentname}}</td>
+
+
+                    <!-- <td>{{app.doctorName}}</td> -->
+
+                    <td>{{app.mobileNumber}}</td>
+                    <!-- <td>{{app.knownAllergies}}</td> -->
+                    <td>
+                        <a>
+                            <img src="assets/Icons/ViewDetails.png" (click)="showmedicalquestionare(app)"
+                                data-bs-toggle="modal" data-bs-target="#Medicalquestionare" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div><br><br>
+        <div class="col-lg-6 tableoverflow card card-hover">
+            <label class="headings">{{labels.vaccinationDetails}}</label>
+            <br>
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.date}}</th>
+                    <!-- <th>{{labels.appointmentNumber}}</th> -->
+                    <th>{{labels.nameOfTheProvider}}</th>
+                    <th>{{labels.department}}</th>
+                    <th>{{labels.mobileNo}}</th>
+                    <th>{{labels.view}}</th>
+                    <!-- <th style="text-align: center;">{{labels.vaccinationName}}</th>
+                    <th>{{labels.date}}</th> -->
+                </tr>
+                <tr *ngFor="let vaccine of vaccinationlist">
+                    <!-- <td>{{vaccine.vaccinationName}}</td> -->
+                    <td>{{vaccine.vaccinationDate}}
+                    <!-- <td>{{vaccine.appointmentID}}</td> -->
+                    <td>{{vaccine.doctorName}}</td>
+                    <td>{{vaccine.departmentname}}</td>
+                    <td>{{vaccine.mobileNumber}}</td>
+                    <td>
+                        <a>
+                            <img src="assets/Icons/ViewDetails.png" (click)="vaccination(vaccine)"
+                                data-bs-toggle="modal" data-bs-target="#vaccine" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container-fluid ">
+    <div class="row headercard">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 mt-2">
+            <input type="checkbox" (change)="handleCheckboxChange($event)">&nbsp;&nbsp;&nbsp;
+            <label for="">{{labels.myself}}</label>
+        </div>
+        <div class="col-lg-3">
+
+            <div class="form-floating mb-3">
+                <!-- <input type="search" class="form-control" placeholder="Specialist" [(ngModel)]="term"> -->
+                <input type="email" class="form-control inputfield" id="floatingInput" [(ngModel)]="term"
+                    placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <!-- <div class="col-lg-3">
+            <input type="search" class="form-control" placeholder="DoctorName" [(ngModel)]="term1">
+        </div> -->
+    </div>
+</div><br>
+<br>
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-lg-12 tableoverflow card card-hover tableheight">
+            <label class="headings">{{labels.medicines}}</label><br>
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.department}}</th>
+                    <th>{{labels.doctorName}}</th>
+                    <th>{{labels.phonenumber}}</th>
+                    <th>{{labels.medicines}}</th>
+                </tr>
+                <tr *ngFor="let pre of prescriptionlist|filter:term|filter:term1">
+                    <td>{{pre.appdate}}</td>
+                    <td>{{pre.appointmentID}}</td>
+                    <td>{{pre.pName}}</td>
+                    <td>{{pre.departmentname}}</td>
+                    <td>{{pre.doctorName}}</td>
+                    <td>{{pre.pMobileNo}}</td>
+                    <td>
+                        <a>
+                            <img src="assets/Icons/ViewDetails.png" data-bs-toggle="modal"
+                                data-bs-target="#Prescription" (click)="GetprscriptionID(pre.appointmentID)" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div><br>
+    </div>
+</div><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 tableoverflow card card-hover tableheight">
+            <label class="headings">{{labels.diagnosticTests}}</label><br>
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.nameOfTheProvider}}</th>
+                    <th>{{labels.department}}</th>
+                    <th>{{labels.diagnosticTests}}</th>
+                    <th>{{labels.rapports}}</th>
+                </tr>
+                <tr *ngFor="let dia of dialist|filter:term|filter:term1">
+                    <td>{{dia.appdate}}</td>
+                    <td>{{dia.id}}</td>
+                    <td>{{dia.doctorName}}</td>
+                    <td>{{dia.departmentname}}</td>
+                    <td>
+                        <img src="assets/Icons/ViewDetails.png" (click)="getDiaTests(dia.id)"
+                            data-bs-toggle="modal" data-bs-target="#DiagnosticTests" />
+                    </td>
+                    <td>
+                        <img src="assets/Icons/Report.png" *ngIf="dia.reportUrl!='0'" title="Rapport"
+                            (click)="GetReportPdf(dia.reportUrl)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <br>
+</div> <br>
+
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <label class="headings">{{labels.referralhistory}}</label>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.date}}</th>
+
+                    <th>{{labels.nameOfTheProvider}}</th>
+                    <th>{{labels.doctorReferal}}</th>
+                    <th>{{labels.patientname}}</th>
+                    <th>{{labels.letter}}</th>
+                </tr>
+                <tr *ngFor="let re of referallist|filter:term|filter:term1">
+                    <td>{{re.modifiedDate }}</td>
+
+                    <td>{{re.doctorName}}</td>
+                    <td>{{re.rereralDoctorName}}</td>
+                    <td>{{re.patientName}}</td>
+                    <td>
+                        <a>
+                            <img src="assets/Icons/ViewDetails.png" data-bs-toggle="modal"
+                                (click)="showmedicalHoistory(re.referalNotes)" data-bs-target="#MedicalHistory" />
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div><br>
+
+<div class="container-fluid card card-hover ">
+    <div class="row">
+        <div class="col-lg-12">
+            <label class="headings">{{labels.soapNotesDoctor}}</label>
+
+        </div>
+        <br>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 tableheight">
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.doctorName}}</th>
+                    <th>{{labels.department}}</th>
+                    <th>{{labels.phonenumber}}</th>
+                    <th>{{labels.soap}}</th>
+                    <th>{{labels.attachments}}</th>
+                </tr>
+                <tr *ngFor="let soap of soaplist1|filter:term|filter:term1">
+                    <td>{{soap.appointDate}}</td>
+                    <td>{{soap.appointmentID}}</td>
+                    <td>{{soap.doctorName}}</td>
+                    <td>{{soap.departmentname}}</td>
+                    <td>{{soap.mobileNumber}}</td>
+                    <!-- <td>{{soap.reasonForVisit}}</td> -->
+                    <td>
+                        <a>
+                            <img src="assets/Icons/ViewDetails.png" (click)="GetSoapID(soap.soapID)"
+                                data-bs-toggle="modal" data-bs-target="#SOAPNOTES" />
+                        </a>
+                    </td>
+                    <td><img src="assets/Icons/attachments.png"
+                            *ngIf="soap.attachment!=null && soap.attachment!='No Attachment'"
+                            (click)="GetPdfsss(soap.attachment)" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover ">
+    <div class="row ">
+        <label class="headings">{{labels.consultationDocumentsDoctors}}</label>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 tableheight">
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.documentType}}</th>
+                    <th>{{labels.nameOfTheProvider}}</th>
+                    <th>{{labels.department}}</th>
+                    <th>{{labels.phonenumber}}</th>
+                    <th>{{labels.attachments}}</th>
+                </tr>
+                <tr *ngFor="let soap1 of DiaAttchmentList|filter:term|filter:term1">
+                    <td>{{soap1.appdate}}</td>
+                    <td>{{soap1.appointmentID}}</td>
+                    <td>{{soap1.type}}</td>
+                    <td>{{soap1.doctorName}}</td>
+                    <td>{{soap1.departmentname}}</td>
+                    <td>{{soap1.pMobileNo}}</td>
+                    <td>
+                        <img src="assets/Icons/ViewDetails.png" (click)="GetPdfsss(soap1.photoUrl)" />
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <label class="headings">{{labels.soapNotesHomeCare}}</label>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 tableoverflow ">
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.providename}}</th>
+                    <th>{{labels.phonenumber}}</th>
+                    <th>{{labels.soap}}</th>
+                </tr>
+                <tr *ngFor="let soap of homecaresoaplist|filter:term|filter:departmentname">
+                    <td>{{soap.appointDate}}</td>
+                    <td>{{soap.appointmentID}}</td>
+                    <td>{{soap.nurseName}}</td>
+                    <td>{{soap.phoneNo}}</td>
+                    <td>
+                        <a>
+                            <img src="assets/Icons/ViewDetails.png" (click)="GetSoapHomeCarelist(soap.soapID)"
+                                data-bs-toggle="modal" data-bs-target="#HomecareSoap" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <label class="headings">{{labels.vitalDetailsdme}}</label>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.date}}</th>
+                    <th>{{labels.time}}</th>
+                    <th>{{labels.patientname}}</th>
+                    <!-- <th>{{labels.wllbeingscore}}</th>
+                    <th>{{labels.cardiacworkload}}</th>
+                    <th>{{labels.Pulserespiratory}}</th>
+                    <th>{{labels.heartrate}}</th>
+                    <th>{{labels.spO2}}</th>
+                    <th>{{labels.interbeatintervals}}</th>
+                    <th>{{labels.respiratortrate}}</th>
+                    <th>{{labels.stesslevel}}</th>
+                    <th>{{labels.stressscore}}</th>
+                    <th>{{labels.sdnn}}</th>
+                    <th>{{labels.rmssd}}</th>
+                    <th>{{labels.bloodpressure}}</th>
+                    <th>{{labels.totalbloodpressuresystolic}}</th>
+                    <th>{{labels.bloodpressurediastolic}}</th> -->
+                    <th>{{labels.view}}</th>
+                </tr>
+                <tr *ngFor="let vital of vitalslist;let i = index">
+                    <td>{{arra[i]?.appointmentID}}</td>
+                    <td style="white-space: nowrap;">{{arra[i]?.vitalDate}}</td>
+                    <td>{{arra[i]?.vitalTime}}</td>
+                    <td>{{vital.patientRelationName}}</td>
+                    <!-- <td>{{ arra1[i]?.generalWellness | number: '1.2-2' }}</td>
+                    <td>{{arra1[i]?.cardiacWorkload.toFixed(2)}}</td>
+                    <td>{{arra1[i]?.pulseRespiratoryQuotient | number: '1.2-2' }}</td>
+                    <td>{{arra[i]?.heartRate | number: '1.2-2' }}</td>
+                    <td>{{arra[i]?.spo2 | number: '1.2-2'}}</td>
+                    <td>{{arra[i]?.ibi | number: '1.2-2'}}</td>
+                    <td>{{arra[i]?.respiratoryRate | number: '1.2-2'}}</td>
+                    <td>{{arra[i]?.stress | number: '1.2-2'}}</td>
+                    <td>{{arra[i]?.stressScore | number: '1.2-2'}}</td>
+                    <td>{{arra[i]?.hrvSdnn | number: '1.2-2'}}</td>
+                    <td>{{arra[i]?.hrvRmssd | number: '1.2-2'}}</td>
+                    <td>{{arra[i]?.bloodPressure }}</td>
+                    <td>{{arra[i]?.bloodPressureSystolic | number: '1.2-2'}}</td>
+                    <td>{{arra[i]?.bloodPressureDiastolic | number: '1.2-2'}}</td> -->
+                    <td>
+                        <a>
+                            <img src="assets/Icons/ViewDetails.png" (click)="showvitals(vital)" data-bs-toggle="modal"
+                                data-bs-target="#Vitals" />
+                        </a>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+</div><br>
+
+<!-- Medical Questionare -->
+
+<!-- <div class="modal fade" id="Medicalquestionare" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.medicalQuestionare}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" style="overflow: auto;">
+                        <div class="col-lg-12">
+                            <table style="font-size: 14px;">
+                                <tr>
+                                    <th>{{labels.nationalIdentityno}}</th>
+                                    <th>{{labels.height}}</th>
+                                    <th>{{labels.weight}}</th>
+                                    <th>{{labels.bMi}}</th>
+                                    <th>{{labels.medicalHistory}}</th>
+                                    <th>{{labels.surgeryHistory}}</th>
+                                    <th>{{labels.longtermTreatment}}</th>
+                                    <th>{{labels.vaccinationStatus}}</th>
+                                    <th>{{labels.dietaryIssues}}</th>
+                                    <th>{{labels.doyoudrinkalchohal}}</th>
+                                    <th>{{labels.areYouSmoker}}</th>
+                                    <th>{{labels.doyouExescise}}</th>
+                                    <th>{{labels.medicalInsurance}}</th>
+                                    <th>{{labels.allergies}}</th>
+                                </tr>
+                                <tr *ngFor="let view of viewdetaillist">
+                                    <td>{{view.nationalidno}}</td>
+                                    <td>{{view.height}}</td>
+                                    <td>{{view.weight}}</td>
+                                    <td>{{view.bmi}}</td>
+                                    <td>{{view.medicalHistory}}</td>
+                                    <td>{{view.surgeryHistory}}</td>
+                                    <td>{{view.longtermTreatment}}</td>
+                                    <td>{{view.vaccinationStatus}}
+                                    </td>
+                                    <td>{{view.dietaryIssues}}</td>
+                                    <td>
+                                        <p *ngIf="view.alcohol=='1'" style="margin-top: 14px;">Yes</p>
+                                        <p *ngIf="view.alcohol=='0'" style="margin-top: 14px;"></p>
+                                    </td>
+                                    <td>
+                                        <p *ngIf="view.smoker=='1'" style="margin-top: 14px;">Yes</p>
+                                        <p *ngIf="view.smoker=='0'" style="margin-top: 14px;"></p>
+                                    </td>
+                                    <td>
+                                        <p *ngIf="view.exercise=='1'" style="margin-top: 14px;">Yes</p>
+                                        <p *ngIf="view.exercise=='0'" style="margin-top: 14px;"></p>
+                                    </td>
+                                    <td>
+                                        <p *ngIf="view.medicalinsurance=='1'" style="margin-top: 14px;">Yes</p>
+                                        <p *ngIf="view.medicalinsurance=='0'" style="margin-top: 14px;"></p>
+                                    </td>
+                                    <td>
+                                        {{view.knownAllergies}} -->
+<!-- <img src="assets/Images/allergy.png" style="width: 17px;" data-toggle="modal" data-target="#Allergies" (click)="GetAllerges(view.knownAllergies)"> -->
+<!-- </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+ -->
+<!-- latest for allergies -->
+<div class="modal fade" id="Medicalquestionare" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.medicalQuestionare}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" style="overflow: auto;">
+                        <div class="col-lg-12">
+                            <table style="font-size: 14px;">
+                                <thead>
+                                    <tr>
+                                        <th>{{labels.date}}</th>
+                                        <th>{{labels.allergies}}</th>
+                                    </tr>
+                                    <tr *ngFor="let view of viewdetaillist">
+                                        <td>{{view.knownAllergiesDate}}</td>
+                                        <td>{{view.knownAllergies}}</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!-- Preacsription -->
+
+<div class="modal fade" id="Prescription" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.previousPrescription}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12 tableoverflow">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>{{labels.date}}</th>
+                                        <th>{{labels.medicineName}}</th>
+                                        <th>{{labels.sig}}</th>
+                                        <th>{{labels.quantity}}</th>
+                                        <th>{{labels.notetoPharmacist}}</th>
+                                        <th>{{labels.substisute}}</th>
+                                        <th>{{labels.howManyrefills}}</th>
+                                        <th>{{labels.substituteMedicineName}}</th>
+                                        <th>{{labels.sig}}</th>
+                                        <th>{{labels.quantity}}</th>
+                                    </tr>
+                                    <tr *ngFor="let presciption of prelist">
+                                        <td>{{presciption.date}}</td>
+                                        <td [ngClass]="{'textstrike':presciption.substituteBit==true}">
+                                            {{presciption.medicineName}}</td>
+                                        <td [ngClass]="{'textstrike':presciption.substituteBit==true}">
+                                            {{presciption.sig}}</td>
+                                        <td [ngClass]="{'textstrike':presciption.substituteBit==true}">
+                                            {{presciption.dispenseQuantity}}</td>
+                                        <td>{{presciption.noteToPharmasist}}</td>
+                                        <td>
+                                            <span *ngIf="presciption.substainablenotPermitted=='1'">Yes</span>
+                                            <span *ngIf="presciption.substainablenotPermitted=='2'">
+                                                {{labels.no}}</span>
+                                        </td>
+
+                                        <td>{{presciption.howmanyRefills}}</td>
+                                        <td [ngClass]="{'substiutecolor':presciption.substituteBit==true}">
+                                            {{presciption.subMedicineName}}</td>
+                                        <td [ngClass]="{'substiutecolor':presciption.substituteBit==true}">
+                                            {{presciption.subPhysology}}</td>
+                                        <td [ngClass]="{'substiutecolor':presciption.substituteBit==true}">
+                                            {{presciption.subQuantity}}</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Diagnostic TEsts -->
+
+<div class="modal fade" id="DiagnosticTests" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.tests}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>{{labels.test}}</th>
+                                        <th>{{labels.testName}}</th>
+                                        <th>{{labels.clinicInfo}}</th>
+                                    </tr>
+                                    <tr *ngFor="let dia of appointmentDialist">
+                                        <td>{{dia.name}}</td>
+                                        <td>{{dia.testName}}</td>
+                                        <td>{{dia.clinicalInfo}}</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- SOap Notes -->
+
+
+<div class="modal fade" id="SOAPNOTES" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.soap}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>{{labels.subjective}}</th>
+                                        <th>{{labels.objective}}</th>
+                                        <th>{{labels.assessment}}</th>
+                                        <th>{{labels.plan}}</th>
+                                        <th>{{labels.diagnosisCode}}</th>
+                                        <th>{{labels.diagnosisDescription}}</th>
+                                        <th>{{labels.followUpPlan}}</th>
+                                        <th>{{labels.attachments}}</th>
+                                        <th>{{labels.notes}}</th>
+                                    </tr>
+                                 <tr *ngFor="let soap of soaplist"> 
+                                     <td>{{soap.subjective}}</td>
+                                     <td>{{soap.objective}}</td>
+
+                                      <td>{{soap.assessment}}</td>
+                                      <td>{{soap.plan}}</td>
+                                      <td>{{soap.diagnosisCode}}</td>
+                                      <td>{{soap.icrDescription}}</td>
+                                      <td>{{soap.followUpPlan}}</td>
+                                      <td>
+                                        <img src="assets/Icons/Report.png"  *ngIf="attchment!=0" (click)="GetSoapPdf()">
+                                      </td>
+                                      <td>{{soap.notes}}</td>
+                                 </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.subjective}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea cols="30" rows="20" disabled style="height: 70px;" class="form-control"
+                                [(ngModel)]="subjective" name="subjective"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.objective}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" disabled style="height: 70px;"
+                                class="form-control" [(ngModel)]="objective" name="objective"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.assessment}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" disabled style="height: 70px;"
+                                class="form-control" [(ngModel)]="assessment" name="assessment"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.plan}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" disabled style="height: 70px;"
+                                class="form-control" [(ngModel)]="plan" name="plan"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.diagnosisiCode}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" disabled style="height: 70px;"
+                                class="form-control" [(ngModel)]="diagnosiscode" name="diagnosiscode"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.diagnosisDescription}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" disabled style="height: 70px;"
+                                class="form-control" [(ngModel)]="icrdescription" name="icrdescription"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.followUpPlan}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" disabled style="height: 70px;"
+                                class="form-control" [(ngModel)]="followupplan" name="followupplan"></textarea>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.attachnments}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <img src="assets/Icons/Report.png" *ngIf="attachment!=0" (click)="GetSoapPdf()"
+                                data-bs-dismiss="modal">
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label>{{labels.notes}}</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <textarea name="" id="" cols="30" rows="10" disabled style="height: 70px;"
+                                class="form-control" [(ngModel)]="notes" name="notes"></textarea>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                    <!-- <div class="row">
+                        <div class="col-lg-12">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>{{labels.subjective}}</th>
+                                        <th>{{labels.objective}}</th>
+                                        <th>{{labels.assessment}}</th>
+                                        <th>{{labels.plan}}</th>
+                                        <th>{{labels.diagnosisiCode}}</th>
+                                        <th>{{labels.diagnosisDescription}}</th>
+                                        <th>{{labels.followUpPlan}}</th>
+                                        <th>{{labels.attachnments}}</th>
+                                        <th>{{labels.notes}}</th>
+                                    </tr>
+                                    <tr *ngFor="let soap of soaplist">
+                                        <td>{{soap.subjective}}</td>
+                                        <td>{{soap.objective}}</td>
+                                        <td>{{soap.assessment}}</td>
+                                        <td>{{soap.plan}}</td>
+                                        <td>{{soap.diagnosisCode}}</td>
+                                        <td>{{soap.icrDescription}}</td>
+                                        <td>{{soap.followUpPlan}}</td>
+                                        <td>
+                                            <img src="assets/Icons/Report.png" *ngIf="attchment!=0"
+                                                (click)="GetSoapPdf(soap.attchment)" data-bs-dismiss="modal">
+                                        </td>
+                                        <td>{{soap.notes}}</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- Home care SOap Notes -->
+
+
+<div class="modal fade" id="HomecareSoap" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.soap}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>{{labels.subjective}}</th>
+                                        <th>{{labels.objective}}</th>
+                                        <th>{{labels.assessment}}</th>
+                                        <th>{{labels.plan}}</th>
+                                        <th>{{labels.diagnosisCode}}</th>
+                                        <th>{{labels.diagnosisDescription}}</th>
+                                        <th>{{labels.followUpPlan}}</th>
+                                        <th>{{labels.notes}}</th>
+                                    </tr>
+                                    <tr *ngFor="let soap of HomeCaresoaplist">
+                                        <td>{{soap.subjective}}</td>
+                                        <td>{{soap.objective}}</td>
+
+                                        <td>{{soap.assessment}}</td>
+                                        <td>{{soap.plan}}</td>
+                                        <td>{{soap.diagnosisCode}}</td>
+                                        <td>{{soap.icrDescription}}</td>
+                                        <td>{{soap.followUpPlan}}</td>
+                                        <td>
+                                            <img src="assets/Icons/Report.png" *ngIf="attchment!=0"
+                                                (click)="GetSoapPdf()">
+                                        </td>
+                                        <td>{{soap.notes}}</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="MedicalHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.referralNotes}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <tr>
+                <p [innerHTML]="viewMedicalHistoryList"></p>
+            </tr>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Vitals" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.medicalQuestionare}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" style="overflow: auto;">
+                        <div class="row">
+                            <div class="col-lg-12 tableoverflow">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>{{labels.appointmentNumber}}</th>
+                                        <!-- <th>{{labels.date}}</th>
+                                        <th>{{labels.time}}</th> -->
+                                        <th>{{labels.wllbeingscore}}</th>
+                                        <th>{{labels.cardiacworkload}}</th>
+                                        <th>{{labels.Pulserespiratory}}</th>
+                                        <th>{{labels.heartrate}}</th>
+                                        <th>{{labels.spO2}}</th>
+                                        <th>{{labels.interbeatintervals}}</th>
+                                        <th>{{labels.respiratortrate}}</th>
+                                        <th>{{labels.stesslevel}}</th>
+                                        <th>{{labels.stressscore}}</th>
+                                        <th>{{labels.sdnn}}</th>
+                                        <th>{{labels.rmssd}}</th>
+                                        <th>{{labels.bloodpressure}}</th>
+                                        <th>{{labels.totalbloodpressuresystolic}}</th>
+                                        <th>{{labels.bloodpressurediastolic}}</th>
+                                        <!-- <th>{{labels.view}}</th> -->
+                                    </tr>
+                                    <tr *ngFor="let view of vitalsdetailslist;let i = index">
+                                        <td>{{view.appointmentID}}</td>
+                                        <!-- <td style="white-space: nowrap;">{{arra[i]?.vitalDate}}</td>
+                                        <td>{{arra[i]?.vitalTime}}</td> -->
+                                        <td>{{view.vitalDetails.holisticHealth?.generalWellness | number: '1.2-2' }}
+                                        </td>
+                                        <td>{{view.vitalDetails.holisticHealth
+                                            ?.cardiacWorkload.toFixed(2)}}</td>
+                                        <td>{{view.vitalDetails.holisticHealth
+                                            ?.pulseRespiratoryQuotient | number: '1.2-2' }}</td>
+                                        <td>{{view.vitalDetails.vitalSigns?.heartRate | number: '1.2-2' }}</td>
+                                        <td>{{view.vitalDetails.vitalSigns?.spo2 | number: '1.2-2'}}</td>
+                                        <td>{{view.vitalDetails.vitalSigns?.ibi | number: '1.2-2'}}</td>
+                                        <td>{{view.vitalDetails.vitalSigns?.respiratoryRate | number: '1.2-2'}}</td>
+                                        <td>{{view.vitalDetails.vitalSigns?.stress | number: '1.2-2'}}</td>
+                                        <td>{{view.vitalDetails.vitalSigns?.stressScore | number: '1.2-2'}}</td>
+                                        <td>{{view.vitalDetails.vitalSigns?.hrvSdnn | number: '1.2-2'}}</td>
+                                        <td>{{view.vitalDetails.vitalSigns?.hrvRmssd | number: '1.2-2'}}</td>
+                                        <td>{{view.vitalDetails.vitalSigns?.bloodPressure }}</td>
+                                        <td>{{view.vitalDetails.vitalSigns?.bloodPressureSystolic | number: '1.2-2'}}
+                                        </td>
+                                        <td>{{view.vitalDetails.vitalSigns?.bloodPressureDiastolic | number: '1.2-2'}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="vaccine" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.vaccinationDetails}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" style="overflow: auto;">
+                        <div class="row">
+                            <div class="col-lg-12 tableoverflow">
+                                <table class="table table-striped">
+                                    <tr>
+                                        <!-- <th>{{labels.appointmentNumber}}</th> -->
+                                        <th>{{labels.date}}</th>
+                                        <!-- <th>{{labels.time}}</th> -->
+                                        <th>{{labels.wllbeingscore}}</th>
+
+                                        <!-- <th>{{labels.view}}</th> -->
+                                    </tr>
+                                    <tr *ngFor="let view of vaccinationViewlist">
+                                        <td>{{view.vaccinationDate}}</td>
+                                        <td>{{view.vaccinationStatus}}
+
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="medicalevaluation" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.medical}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label>{{labels.nationalIdentityno}}: <span
+                                    class="patientDetails">{{nationalIdentityNo}}</span></label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>{{labels.height}} : <span class="patientDetails"></span>{{height}} &nbsp;
+                                <img src="assets/Icons/edit.png" (click)="openModal('height')">
+                            </label>
+
+                            <input *ngIf="modalType === 'height'" type="text" class="form-control inputfield"
+                                id="floatingInput" [(ngModel)]="height" placeholder="height">
+
+                        </div>
+                        <div class="col-lg-4">
+                            <label>{{labels.weight}} : <span class="patientDetails"></span>{{weight}} &nbsp;
+                                <img src="assets/Icons/edit.png" (click)="openModal('weight')"></label>
+                            <input *ngIf="modalType === 'weight'" type="text" class="form-control inputfield"
+                                id="floatingInput" [(ngModel)]="weight" placeholder="weight">
+                        </div>
+                        <br>
+                        <br>
+
+                        <div class="col-lg-4">
+                            <label>{{labels.bMi}}: <span class="patientDetails">{{bmi}} </span></label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>{{labels.medicalHistory}} : <span class="patientDetails">{{medicalHistory}}&nbsp;
+                                </span> <img src="assets/Icons/edit.png" (click)="openModal('medicalHistory')"></label>
+                            <input *ngIf="modalType === 'medicalHistory'" type="text" class="form-control inputfield"
+                                id="floatingInput" [(ngModel)]="medicalHistory" placeholder="medicalHistory">
+                        </div>
+                        <div class="col-lg-4">
+                            <label>{{labels.surgeryHistory}} : <span class="patientDetails">{{surgeryHistory}}&nbsp;
+                                    <img src="assets/Icons/edit.png"
+                                        (click)="openModal('surgeryHistory')"></span></label>
+                            <input *ngIf="modalType === 'surgeryHistory'" type="text" class="form-control inputfield"
+                                id="floatingInput" [(ngModel)]="surgeryHistory" placeholder="surgeryHistory">
+                        </div>
+                        <br>
+                        <br>
+
+                        <div class="col-lg-4">
+                            <label>{{labels.longtermTreatment}}: <span
+                                    class="patientDetails">{{longtermTreatment}}&nbsp;
+                                    <img src="assets/Icons/edit.png"
+                                        (click)="openModal('longtermTreatment')"></span></label>
+                            <input *ngIf="modalType === 'longtermTreatment'" type="text" class="form-control inputfield"
+                                id="floatingInput" [(ngModel)]="longtermTreatment" placeholder="longtermTreatment">
+                        </div>
+                        <br>
+                        <br>
+                        <div class="col-lg-4">
+                            <label>{{labels.vaccinationStatus}} : <span
+                                    class="patientDetails">{{vaccinationStatus}}&nbsp;
+                                    <img src="assets/Icons/edit.png"
+                                        (click)="openModal('vaccinationStatus')"></span></label>
+                            <input *ngIf="modalType === 'vaccinationStatus'" type="text" class="form-control inputfield"
+                                id="floatingInput" [(ngModel)]="vaccinationStatus" placeholder="vaccinationStatus">
+                        </div>
+                        <div class="col-lg-4">
+                            <label>{{labels.dietaryIssues}} : <span class="patientDetails">{{dietaryIssues}}&nbsp;
+                                    <img src="assets/Icons/edit.png"
+                                        (click)="openModal('dietaryIssues')"></span></label>
+                            <input *ngIf="modalType === 'dietaryIssues'" type="text" class="form-control inputfield"
+                                id="floatingInput" [(ngModel)]="dietaryIssues" placeholder="dietaryIssues">
+                        </div>
+                        <div class="col-lg-4">
+                            <label>{{labels.doyoudrinkalchohal}}:
+                                <!-- <span class="patientDetails">{{alcohol}}&nbsp; <img
+                                        src="assets/Icons/edit.png" (click)="openModal('doyoudrinkalchohal')">
+                                </span> -->
+                                <span class="patientDetails">
+                                    <span *ngIf="alcohol; else noAlcohol">{{labels.yes}}</span>
+                                    <ng-template #noAlcohol>{{labels.no}}</ng-template>
+                                    <img src="assets/Icons/edit.png" (click)="openModal('doyoudrinkalchohal')">
+                                </span>
+                            </label>
+                            <div *ngIf="modalType === 'doyoudrinkalchohal'">
+                                <input type="radio" [value]="true" [(ngModel)]="alcohol"><span>{{labels.yes}}</span>
+                                &nbsp;
+                                &nbsp;
+                                <input type="radio" [value]="false" [(ngModel)]="alcohol"><span>{{labels.no}}</span>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>{{labels.areYouSmoker}} :
+                                <span class="patientDetails">
+                                    <span *ngIf="smoker; else noAlcohol">{{labels.yes}}</span>
+                                    <ng-template #noAlcohol>{{labels.no}}</ng-template>
+                                    <img src="assets/Icons/edit.png" (click)="openModal('areYouSmoker')">
+                                </span>
+                            </label>
+                            <!-- <img src="assets/Icons/edit.png" (click)="openModal('areYouSmoker')"> -->
+                            <div *ngIf="modalType === 'areYouSmoker'">
+
+                                <input type="radio" [value]="true" [(ngModel)]="smoker"><span>{{labels.yes}}</span>
+                                &nbsp;
+                                &nbsp;
+                                <input type="radio" [value]="false" [(ngModel)]="smoker"><span>{{labels.no}}</span>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <label>{{labels.doyouExescise}} :
+                                <!-- <span class="patientDetails"></span>&nbsp; -->
+                                <span class="patientDetails">
+                                    <span *ngIf="exercise; else noAlcohol">{{labels.yes}}</span>
+                                    <ng-template #noAlcohol>{{labels.no}}</ng-template>
+                                    <img src="assets/Icons/edit.png" (click)="openModal('doyouExescise')">
+                                </span>
+                            </label>
+                            <div *ngIf="modalType === 'doyouExescise'">
+
+                                <input type="radio" [value]="true" [(ngModel)]="exercise"><span>{{labels.yes}}</span>
+                                &nbsp;
+                                &nbsp;
+                                <input type="radio" [value]="false" [(ngModel)]="exercise"><span>{{labels.no}}</span>
+                            </div>
+                        </div>
+
+                        <br>
+                        <br>
+                        <div class="col-lg-4">
+                            <label>{{labels.medicalInsurance}} : <span
+                                    class="patientDetails">{{medicalinsurance}}</span></label>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>{{labels.allergies}} : <span class="patientDetails">{{knownAllergies}}&nbsp;
+                                    <img src="assets/Icons/edit.png" (click)="openModal('allergies')"></span></label>
+                            <input *ngIf="modalType === 'allergies'" type="text" class="form-control inputfield"
+                                id="floatingInput" [(ngModel)]="knownAllergies" placeholder="allergies">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="save" (click)="insertdetails()">{{labels.save}}</button>
+
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="bloodgroupmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.bloodGroup}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="bloodgroup"
+                        placeholder="bloodgroup">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="save" (click)="insertbloodfgroup()">{{labels.save}}</button>
+
+                <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-11" >
+    <iframe  
+    [src]="fileUrl2" width="0%" height="0px"></iframe>
+</div>

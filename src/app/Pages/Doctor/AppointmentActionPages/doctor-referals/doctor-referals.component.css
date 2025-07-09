@@ -1,0 +1,27 @@
+.inputfield {
+  border-radius: 12px;
+  height: 40px;
+}
+
+.floatingLabel {
+  line-height: 0px;
+}
+
+.dropzone {
+  width: 100%;
+  height: 70px;
+}
+hr.new4 {
+  /* border: 1px solid red; */
+  color: red;
+}
+
+hr.new5 {
+  /* border: 1px solid rgb(8, 126, 245); */
+  color: rgb(8, 126, 245);
+
+}
+.new4, .new5 {
+  margin: 2px;
+  padding: 2px;
+}

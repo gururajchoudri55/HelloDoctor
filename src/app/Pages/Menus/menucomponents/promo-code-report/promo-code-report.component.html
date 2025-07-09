@@ -1,0 +1,91 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.promoReport}}</h5>
+        </div>
+        <div class="col-lg-4 buttonsss">
+            <button class="addnew" (click)="exportexcel()">{{labels.exportExcel}}</button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search" name="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="getPromoCode($event)"> 
+                <option value="">{{labels.selectByContact}}</option>
+                <option  *ngFor="let details of promoCodeList" value="{{details.name}}">{{details.name}}</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="getCompany($event)"> 
+                <option value="">{{labels.selectcompany}}</option>
+                <option  *ngFor="let details of promoCodeList" value="{{details.companyName}}">{{details.companyName}}</option>
+            </select>
+        </div>
+
+        <div class="col-lg-3">
+            <select class="form-control" (change)="getProgram($event)"> 
+                <option value="">{{labels.selectByProgram}}</option>
+                <option  *ngFor="let details of promoCodeList" value="{{details.programName}}">{{details.programName}}</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+
+                    <th>{{labels.contactName}}</th>
+                    <th>{{labels.telephone}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.company}}</th>
+                    <th>{{labels.promoCode}}</th>
+                    <th>{{labels.programName}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.registreddate}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.totalAppointments}}</th>
+                    <th>{{labels.completedAppointments}}</th>
+                    <th>{{labels.freecall}}</th>
+                    <th>{{labels.followUpvisit}}</th>
+                <tr>
+                <tr
+                    *ngFor="let details of promoCodeReport|filter:search">
+                    <td>{{details.name}}</td>
+                    <td>{{details.phoneNumber}}</td>
+                    <td>{{details.emailId}}</td>
+                    <td>{{details.companyName}}</td>
+                    <td>{{details.promoCode}}</td>
+                    <td>{{details.programName}}</td>
+                    <td>{{details.patientName}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.registredDate}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>{{details.appointmentCount}}</td>
+                    <td>{{details.completedAppointments}}</td>
+                    <td>{{details.freeCall}}</td>
+                    <td>{{details.followUpVisit}}</td>
+
+                </tr>
+
+            </table>
+        </div>
+    </div>
+   <!--  <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div> -->
+</div>

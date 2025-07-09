@@ -1,0 +1,795 @@
+<!-- <app-loader *ngIf="loader==true"></app-loader> -->
+<app-video-call-loader *ngIf="loader==true"></app-video-call-loader>
+<app-doctor-sms></app-doctor-sms>
+<!-- <app-video-call-loader  *ngIf="loader==true"></app-video-call-loader> -->
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid context">
+  <div class="row">
+
+    <div class="col-lg-5">
+
+      <div class="row">
+        <div class="col-lg-3 text-start">
+          <b class="pname">{{selectedAppointment.pName}}</b>
+        </div>
+        <div class="col-lg-6 text-center">
+          <b class="pname">RDV : {{selectedAppointment.slots}}</b>
+        </div>
+        <div class="col-lg-3 text-end">
+          <b>
+            <div id="demo" class="time"></div>
+          </b>
+        </div>
+      </div>
+
+      <div *ngIf="session">
+
+        <app-subscriber class="strem" *ngFor="let stream of streams" [stream]="stream" [session]="session">
+        </app-subscriber>
+
+        <app-publisher [session]="session"></app-publisher>
+      </div>
+      <div class="row ">
+        <div class="col-lg-12">
+          <img src="assets/Icons/callend.png" class="endcall" id="stoprecoring" (click)="stoparchive()">
+          <img src="assets/Icons/callend.png" class="endcall" *ngIf="showclosebutton=='0'" (click)="closewindow()">
+
+          <img src="assets/Images/cameraon.png" title="{{labels.yourVideo}}" class="camera" *ngIf="camera==1"
+            (click)="switchOffCamera(1)">
+          <img src="assets/Images/cameraoff.png" title="{{labels.yourVideo}}" class="camera" *ngIf="camera==3"
+            (click)="SwitchOnCamera(3)">
+          <img src="assets/Images/audioon.png" title="{{labels.youraudio}}" class="audio" *ngIf="audio==2"
+            (click)="turnOffAudio(2)">
+          <img src="assets/Images/audiooff.png" title="{{labels.youraudio}}" class="audio" *ngIf="audio==4"
+            (click)="turnOnAudio(4)">
+
+          <!-- <button class="camera" *ngIf="camera==1" (click)="switchOffCamera(1)">Camera off</button>
+          <button class="audio" *ngIf="audio==2" (click)="turnOffAudio(2)">Audion off</button>
+          <button class="camera" *ngIf="camera==3" (click)="SwitchOnCamera(3)">Camera on</button>
+          <button class="audio" *ngIf="audio==4" (click)="turnOnAudio(4)">audion on </button> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div style="height: 90vh;">
+        <div class="row align-items-start">
+          <div class="col theader">
+            {{labels.patientDetails}}
+          </div>
+          <div class="col theader">
+            Evaluation medicale
+          </div>
+
+
+        </div>
+
+        <div class="row align-items-start">
+          <div class="col tablecol">
+            {{labels.pname}} : {{selectedAppointment.pName}}
+          </div>
+          <div class="col tablecol">
+            {{labels.attendingDoctor}} : {{selectedAppointment.attendingdoctor}}
+
+          </div>
+
+
+        </div>
+
+        <div class="row align-items-start">
+          <div class="col tablecol">
+            {{labels.appointmentNumber}}: {{selectedAppointment.appointmentID}}
+          </div>
+          <div class="col tablecol">
+            {{labels.medicalHistory}} : {{selectedAppointment.medicalHistory}}
+          </div>
+
+
+        </div>
+
+
+        <div class="row align-items-start">
+
+          <div class="col tablecol">
+            {{labels.phoneNumber}}: {{selectedAppointment.pMobileNo}}
+          </div>
+          <div class="col tablecol">
+
+            {{labels.surgeryHistory}} : {{selectedAppointment.surgeryHistory}}
+          </div>
+
+
+        </div>
+
+        <div class="row align-items-start">
+
+          <div class="col tablecol">
+            Email : {{selectedAppointment.pEmail}}
+
+
+          </div>
+          <div class="col tablecol">
+
+            {{labels.LogngtermTreatment}} : <label
+              *ngIf="selectedAppointment.longtermTreatment==1">{{labels.yes1}}</label>
+          </div>
+
+
+        </div>
+
+        <div class="row align-items-start">
+          <div class="col tablecol">
+            {{labels.nationalIdentityno}} : {{selectedAppointment.nationalIdentityNo}}
+
+          </div>
+          <div class="col tablecol">
+
+            {{labels.medicalInsurance}} : <label *ngIf="selectedAppointment.medicalinsurance==1">{{labels.yes1}}</label>
+          </div>
+
+
+        </div>
+        <div class="row align-items-start">
+          <div class="col tablecol">
+            {{labels.dateofBirth}} : {{selectedAppointment.dateofbirth}}
+          </div>
+          <div class="col tablecol">
+            Vaccins : <img src="assets/Icons/vaccine.png" style="width:19px" (click)="getTypeID(26)">
+            <br>
+          </div>
+
+
+        </div>
+
+        <div class="row align-items-start">
+          <div class="col tablecol">
+            {{labels.age}} : {{selectedAppointment.age}}
+          </div>
+          <div class="col tablecol">
+            {{labels.allergies}} : <img src="assets/Icons/allergy.png" style="width: 12px;" (click)="getTypeID(27)">
+            <br>
+          </div>
+
+
+        </div>
+        <div class="row align-items-start">
+          <div class="col tablecol">
+            {{labels.gender}} : {{gender}}
+
+          </div>
+          <div class="col tablecol">
+
+            Régime particulier
+          </div>
+
+
+        </div>
+
+        <div class="row align-items-start">
+          <div class="col tablecol">
+            {{labels.height}} : {{selectedAppointment.height}}
+          </div>
+          <div class="col tablecol">
+
+            {{labels.doYoudrink}} : <label *ngIf="selectedAppointment.alcohol==1">{{labels.yes1}}</label>
+          </div>
+
+
+        </div>
+        <div class="row align-items-start">
+          <div class="col tablecol">
+            {{labels.bMi}} : {{selectedAppointment.bmi}}
+          </div>
+          <div class="col tablecol">
+            {{labels.areyousmoker}} : <label *ngIf="selectedAppointment.smoker==1">{{labels.yes1}}</label>
+
+          </div>
+
+
+        </div>
+
+
+        <div class="row align-items-start">
+          <div class="col tablecol">
+
+            {{labels.weight}} : {{selectedAppointment.weight}}
+          </div>
+          <div class="col tablecol">
+            {{labels.doYouExescise}} : <label *ngIf="selectedAppointment.exercise==1">{{labels.yes1}}</label>
+
+          </div>
+
+
+        </div>
+
+        <!-- <div class="row">
+        <div class="col-lg-12 documents" >
+          <label>Téléchargé par le patient</label>
+        </div>
+      </div>
+
+      <br><br> -->
+        <div class="row">
+          <div class="col-lg-12 documents">
+            <label style="padding: 15px;">{{labels.patientdoc}}</label>
+          </div>
+          <div class="col-lg-12 reports">
+            <label>{{labels.Report}} :&nbsp; &nbsp;<img src="assets/Icons/attachment_16.png"
+                *ngIf="reportURl!='0'&&reportURl!='null'" (click)="getDiagnosticReport()"></label>
+            <img src="assets/Icons/patientdoc.png" *ngIf="selectedAppointment.uploadrepornotexist!='0'" class="imgwidth"
+              (click)="getReport(selectedAppointment.illnesspdf)">
+            <!-- <label *ngIf="reportURl=='0'"> {{labels.notavailable}}</label> -->
+          </div>
+          <div class="col-lg-12 reports">
+            <label>{{labels.Videos}} :&nbsp;&nbsp; <img src="assets/Icons/play.png" *ngIf="videoexist==1"
+                data-bs-toggle="modal" data-bs-target="#Videos" (click)="GetVedioID()" style="width: 25px;"></label>
+            <!-- <label *ngIf="videoexist=='0'"> {{labels.notavailable}}</label> -->
+          </div>
+          <div class="col-lg-12 reports">
+            <label>{{labels.Photos}} : &nbsp;&nbsp;
+              <img src="assets/Icons/imagephoto.png" (click)="GetImagesID()" data-bs-toggle="modal"
+                data-bs-target="#Photos" *ngIf="photoexist==1" style="width: 25px;">
+            </label>
+            <!-- <label *ngIf="photoexist==0"> {{labels.notavailable}}</label> -->
+            <br>
+          </div>
+          <div class="col-lg-12 reports">
+            <label>{{labels.labReport}} : &nbsp;&nbsp;
+              <img src="assets/Icons/imagephoto.png" (click)="getDiagnosticReportlab()" data-bs-toggle="modal"
+                data-bs-target="#labReport" style="width: 25px;" *ngIf="FileURL1&&!diagnostic">
+              <img src="assets/Icons/pdf.png" (click)="GetPdf()" *ngIf="FileURL1&&diagnostic">
+            </label>
+            <!-- <label *ngIf="photoexist==0"> {{labels.notavailable}}</label> -->
+
+
+            <br>
+
+          </div>
+
+          <!-- <div class="col-lg-12 reports"> -->
+          <!-- <label>Attchments : &nbsp;&nbsp; -->
+          <!-- <img src="assets/Icons/patientdoc.png" *ngIf="selectedAppointment.uploadrepornotexist!='0'" class="imgwidth"
+              (click)="getReport(selectedAppointment.illnesspdf)"></label> -->
+          <!-- </div> -->
+          <!-- <div class="col-lg-6">
+          <button class="prescription" (click)="medicalQuestinare()">{{labels.patientDetails}}</button>
+        </div>
+        <div class="col-lg-6">
+          <button class="prescription" (click)="treatment()">Traitment en cours</button>
+        </div> -->
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="col-lg-2">
+
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="getTypeID(1)">{{labels.prescriptions}}</button>
+
+        </div><br>
+
+
+      </div><br>
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="getTypeID(2)">{{labels.diagnosticTest}}</button>
+
+        </div>
+      </div><br>
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="getTypeID(3)">{{labels.soapNotes}}</button>
+        </div>
+      </div><br>
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="getTypeID(4)">{{labels.medicalCertificates}}</button>
+
+        </div>
+      </div><br>
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="getTypeID(5)">{{labels.doctorReferals}}</button>
+        </div>
+      </div><br>
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="getTypeID(10)">{{labels.previousPrescription}}</button>
+        </div>
+      </div><br>
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="getTypeID(11)">{{labels.previousDiagnosticTest}}</button>
+        </div>
+      </div><br>
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="getTypeID(12)">{{labels.previousSoapNotes}}</button>
+        </div>
+      </div><br>
+
+      <!-- <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="medicalQuestinare()">{{labels.patientDetails}}</button>
+        </div>
+      </div><br> -->
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="treatment()">Traitment en cours</button>
+        </div>
+      </div>
+      <br>
+      <div class="row" *ngIf="vitalsObject?.length!='0'">
+
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="prescription" (click)="Vitals()">Vital Details</button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <button class="referalHistory" (click)="referralhistory()">{{labels.referralhistory}}</button>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+          <a (click)="chat()" class="notification">
+            <span>{{labels.chat}}</span>
+            <span class="badge">{{chatcount}}</span>
+          </a>
+          <!-- <button class="chat1" (click)="chat()">{{labels.chat}}</button> -->
+        </div>
+      </div><br>
+
+    </div>
+  </div>
+
+
+
+
+
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="float: right;width: 55%;">
+      <div class="modal-content card card-hover">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==1">{{labels.addPrescription}}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==2">{{labels.addTest}}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==3">{{labels.addsoapNotes}}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==4">{{labels.addMedicalCertificate}}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==5">{{labels.addreferalLetter}}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==16">{{labels.patientDocuments}}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==10">{{labels.previousPrescriptions}}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==11">{{labels.previousTest}}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==12">{{labels.previousSoapNotess}}</h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==13">{{labels.previousMedicalCertificates}}
+          </h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==25">Traitement en cours
+          </h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==26">{{labels.editVaccine}}
+          </h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==27">{{labels.editAllergies}}
+          </h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==28">Vitals Details
+          </h5>
+          <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==29">{{labels.referralhistory}}
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body modai-height">
+          <div *ngIf="typeID==1">
+            <app-prescriptions [Details]="[selectedAppointment]" (close)="close($event)" (showLoader)="showLoader()"
+              (StopLoader)="StopLoader()" (sendEmail)="sendEmail($event)">
+            </app-prescriptions>
+          </div>
+          <div *ngIf="typeID==2">
+            <app-diagnostc-test [Details]="[selectedAppointment]" (close)="close($event)" (showLoader)="showLoader()"
+              (StopLoader)="StopLoader()" (sendEmail)="sendEmail($event)">
+            </app-diagnostc-test>
+          </div>
+          <div *ngIf="typeID==3">
+            <app-soap-notes [Details]="[selectedAppointment]" (close)="close($event)" (showLoader)="showLoader()"
+              (StopLoader)="StopLoader()" (Message)="Message($event)"></app-soap-notes>
+          </div>
+          <div *ngIf="typeID==4">
+            <app-medicalcertificate [Details]="[selectedAppointment]" (close)="close($event)"
+              (StopLoader)="StopLoader()" (showLoader)="showLoader()" (sendEmail)="sendEmail($event)" *ngIf="typeID==4">
+            </app-medicalcertificate>
+          </div>
+          <div *ngIf="typeID==5">
+            <app-doctor-referals [Details]="[selectedAppointment]" (close)="close($event)" (showLoader)="showLoader()"
+              (sendEmail)="sendEmail($event)" (StopLoader)="StopLoader()" *ngIf="typeID==5"></app-doctor-referals>
+          </div>
+          <div>
+            <app-previous-prescriptions [Details]="[selectedAppointment]" [typeID]="typeID" *ngIf="typeID==10">
+            </app-previous-prescriptions>
+            <app-previous-prescriptions [Details]="[selectedAppointment]" [typeID]="typeID" *ngIf="typeID==11">
+            </app-previous-prescriptions>
+            <app-previous-prescriptions [Details]="[selectedAppointment]" [typeID]="typeID" *ngIf="typeID==12">
+            </app-previous-prescriptions>
+            <app-previous-prescriptions [Details]="[selectedAppointment]" [typeID]="typeID" *ngIf="typeID==13">
+            </app-previous-prescriptions>
+          </div>
+          <div *ngIf="typeID==16">
+            <app-patient-documents [Details]="[selectedAppointment]" (closeDocumentsModal)="closeDocumentsModal()"
+              *ngIf="typeID==16"></app-patient-documents>
+          </div>
+
+          <div *ngIf="typeID==26">
+            <app-vaccine [Details]="[selectedAppointment]" [typeID]="typeID"
+              (CloseVaccinePopUp)="CloseVaccinePopUp($event)" *ngIf="typeID==26"></app-vaccine>
+          </div>
+          <div *ngIf="typeID==27">
+            <app-vaccine [Details]="[selectedAppointment]" [typeID]="typeID"
+              (CloseVaccinePopUp)="CloseVaccinePopUp($event)" *ngIf="typeID==27"></app-vaccine>
+          </div>
+
+          <div *ngIf="typeID==25">
+            <div class="row">
+              <div class="col-lg-12">
+                <label>Medicament : <b>{{drugName}}</b> </label><br>
+                <label>Dosage : <b>{{dosage}}</b> </label><br>
+                <label>Frequance : <b>{{frequency}}</b> </label>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="typeID==28">
+            <div class="row">
+              <div class="col-lg-12">
+                <label style="float: right; font-size:24px"><b>{{labels.date}} :
+                    <time>{{vitalsObject[0].vitalDate}}</time></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>{{labels.time}}
+                    :<time>{{vitalsObject[0].vitalDateTime}}</time></b></label>
+                <br>
+                <br>
+
+                <table style='width: 100%;'>
+
+                  <tr>
+                    <th>
+                      {{labels.vital}}
+                    </th>
+                    <th>
+                      {{labels.value}}
+                    </th>
+                  </tr>
+                  <!-- <tr style=' font-size: 16px;font-weight: bold;'>
+                      <td colspan="2" style="border: none;padding: 3% 0%;">
+                          <b>{{labels.holistic}}</b>
+                      </td>
+                  </tr> -->
+                  <tr>
+                    <td><b>{{labels.generalwellness}}</b></td>
+                    <td>{{holisticHealth?.generalWellness?.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.cwl}}</b></td>
+                    <td>{{holisticHealth?.cardiacWorkload?.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.prq}}</b></td>
+                    <td>{{holisticHealth?.pulseRespiratoryQuotient?.toFixed(2)}}</td>
+                  </tr>
+                  <!-- <tr style=' font-size: 16px;font-weight: bold;'>
+                      <td colspan="2" style="border: none;padding: 3% 0%;">
+                          <b>{{labels.details}}</b>
+                      </td>
+                  </tr> -->
+                  <tr>
+                    <td><b>{{labels.heartrate}}</b></td>
+                    <td>{{vitalSigns?.heartRate.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.spo2}}</b></td>
+                    <td>{{vitalSigns?.spo2.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.ibi}}</b></td>
+                    <td>{{vitalSigns?.ibi.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.respiratoryrate}}</b></td>
+                    <td>{{vitalSigns?.respiratoryRate?.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.stress}}</b></td>
+                    <td>{{vitalSigns?.stress?.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.stresScore}}</b></td>
+                    <td>{{vitalSigns?.stressScore?.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.heartratevariability}} SDNN</b></td>
+                    <td>{{vitalSigns?.hrvSdnn?.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.heartratevariability}} RMSSD</b></td>
+                    <td>{{vitalSigns?.hrvRmssd?.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.bloodpressure}}</b></td>
+                    <td>{{vitalSigns?.bloodPressure}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.bloodpressuresystolic}}</b></td>
+                    <td>{{vitalSigns?.bloodPressureSystolic?.toFixed(2)}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>{{labels.bloodpressurediastolic}}</b></td>
+                    <td>{{vitalSigns?.bloodPressureDiastolic?.toFixed(2)}}</td>
+                  </tr>
+                </table>
+                <br>
+
+              </div>
+            </div>
+          </div>
+          <div *ngIf="typeID==29">
+            <div class="row">
+              <div class="col-lg-12 tableoverflow" style="height: 350px;">
+                <table class="table table-hover">
+                  <tr>
+                    <th>{{labels.doctorname}}</th>
+                    <th>{{labels.doctorReferals}}</th>
+                    <th>{{labels.patientname}}</th>
+                    <th>{{labels.date}}</th>
+                    <th>{{labels.actions}}</th>
+                  </tr>
+                  <tr *ngFor="let re of referallist">
+                    <td>{{re.doctorName}}</td>
+                    <td>{{re.rereralDoctorName}}</td>
+                    <td>{{re.patientName}}</td>
+                    <td>{{re.modifiedDate }}</td>
+
+                    <td>
+                      <a>
+                        <img src="assets/Icons/ViewDetails.png" data-bs-toggle="modal"
+                          (click)="showmedicalHoistory(re.referalNotes)" data-bs-target="#MedicalHistory" />
+                      </a>
+                    </td>
+                  </tr>
+
+                </table>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn close" data-bs-dismiss="modal"
+            *ngIf="typeID==10||typeID==11||typeID==12||typeID==13||typeID==25||typeID==26||typeID==27||typeID==28"
+            (click)="closeModal()">{{labels.close1}}</button>
+
+          <button type="button" class="btn close" data-bs-dismiss="modal"
+            *ngIf="typeID==1||typeID==2||typeID==3||typeID==4||typeID==5||typeID==16"
+            (click)="closeModal()">{{labels.close}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="MedicalHistory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content card card-hover">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{labels.referralNotes}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <tr>
+          <p [innerHTML]="viewMedicalHistoryList"></p>
+        </tr>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="modal" id="treatment" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm modalleft" style="float: right;width: 30%;">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <h6 class="modal-title" id="staticBackdropLabel">Traitement en cours</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <label>Medicament : <b>{{drugName}}</b> </label><br>
+              <label>Dosage : <b>{{dosage}}</b> </label><br>
+              <label>Frequance : <b>{{frequency}}</b> </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close" data-bs-dismiss="modal">{{labels.close1}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="treatment" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm modalleft" style="float: right;width: 30%;">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <h6 class="modal-title" id="staticBackdropLabel">Traitement en cours</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <label>Medicament : <b>{{drugName}}</b> </label><br>
+              <label>Dosage : <b>{{dosage}}</b> </label><br>
+              <label>Frequance : <b>{{frequency}}</b> </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close" data-bs-dismiss="modal">{{labels.close1}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div style="top:30%;float: left;position: absolute;margin-left: 1060px;height: 500px;" *ngIf="typeID==20">
+    <app-doctor-chat [Details]="[selectedAppointment]" (closechatMessage)="closechatMessage()" *ngIf="typeID==20">
+    </app-doctor-chat>
+  </div>
+
+
+
+
+
+
+  <div class="modal fade" id="generatePDF" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="float: right;width: 55%;">
+      <div class="modal-content card card-hover">
+        <div class="modal-header">
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="typeID==18">
+            <app-generate-pdfs [Details]="[selectedAppointment]" [checkedList]="[checkedList]"
+              (showLoader)="showLoader()" (Message)="Message($event)" (closeGeneratePopUP)="closeGeneratePopUP($event)"
+              (StopLoader)="StopLoader()" *ngIf="typeID==18">
+            </app-generate-pdfs>
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="modal fade" id="Photos" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="float: right;width: 55%;">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12" *ngFor="let showphoto of showimages">
+                <br>
+                <img src="{{showphoto.photoURL}}" style="height:auto; width: 98%;" />
+                <br>
+              </div>
+              <br>
+            </div>
+            <br>
+
+            <br>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="modal fade" id="Videos" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="float: right;width: 55%;">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body ">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12" *ngFor="let showvedio of showvedioes">
+                <br>
+                <div class="video">
+                  <video controls id="videoPlayer" style="width: 98%;">
+                    <source src="{{showvedio.videoUrl}}" type="video/mp4" /> Browser
+                    not
+                    supported
+                  </video>
+                </div>
+              </div>
+              <br>
+            </div>
+
+            <br>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="labReport" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="top: calc(60% - 300px);">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-12">
+                <br>
+                <img src="{{FileURL1}}" style="height:auto; width: 100%;" />
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+        </div>
+      </div>
+    </div>
+  </div>

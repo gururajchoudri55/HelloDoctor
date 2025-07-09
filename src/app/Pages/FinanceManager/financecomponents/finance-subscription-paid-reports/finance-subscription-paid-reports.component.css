@@ -1,0 +1,19 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+
+  .save{
+    border-radius: 10px;
+    background-color: #f18235;
+    color: #fff;
+    border: 2px solid #f18235;
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    float: right;
+    min-width: 80px;
+    border-radius: 12px;
+  }

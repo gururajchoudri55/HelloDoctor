@@ -1,0 +1,132 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.importPatients}}</h5>
+        </div>
+        <div class="col-lg-2">
+          <button class="save" style="float: right;" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Import Excel</button>
+      </div>
+
+      <div class="col-lg-2">
+        <button class="save" style="float: right;"(click)="deleteAllData()" >Clear All</button>
+    </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search" [(ngModel)]="search" name="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+        <div class="col-lg-8">
+        </div>
+          <div class="col-lg-1 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.errorMessage}}</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+                <tr *ngFor="let details of exceptionList|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{details.patientName}}</td>
+                     <td>{{details.mobileNumber}}</td>
+                     <td>{{details.emailID}}</td>
+                      <td>{{details.message}}</td>
+                      <td>{{details.date}}</td>
+                      <td><img src="assets/Icons/delete.png"
+                        (click)="importpatients(details.mobileNumber, details.emailID)"></td>
+                      
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content card">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{labels.importExcel}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-2">
+                  <input type="radio" value="1" [(ngModel)]="typeid" name="typeid">      
+                  <span>{{labels.hospital}}</span>
+                </div>
+                <div class="col-lg-4">
+                  <input type="radio" value="2" [(ngModel)]="typeid" name="typeid">
+                  <span>{{labels.clinic}}</span>
+                </div>
+                <div class="col-lg-2">
+                  <input type="radio" value="3" [(ngModel)]="typeid" name="typeid">
+                 <span>{{labels.doctor}}</span>
+                </div>
+      
+              </div><br>
+              <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-6" *ngIf="typeid=='3'">
+                  <ng-multiselect-dropdown [placeholder]="labels.select" [settings]="docdd" [data]="doctorlist" 
+                    (onSelect)="GetDoctorName($event)">
+                  </ng-multiselect-dropdown>
+      
+                </div>
+                <div class="col-lg-6" *ngIf="typeid=='1'">
+                  <ng-multiselect-dropdown [placeholder]="labels.select" [settings]="hosdd" [data]="hospitalcliniclist" 
+                    (onSelect)="GetHosptilaname($event)">
+                  </ng-multiselect-dropdown>
+      
+                </div>
+                <div class="col-lg-6" *ngIf="typeid=='2'">
+                  <ng-multiselect-dropdown [placeholder]="labels.select" [settings]="clinidd" [data]="cliiclist" 
+                    (onSelect)="GetClinic($event)">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-6">
+                  <input type="file" accept=".xls,.xlsx" style="display: inline-block;" (change)="incomingfile($event)"
+                    placeholder="Upload file" accept=".xlsx" />
+                </div>
+              </div>
+              <br />
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="add" (click)="Upload_file()" data-bs-dismiss="modal">{{labels.import}}</button>
+          <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+      
+        </div>
+      </div>
+    </div>
+  </div>

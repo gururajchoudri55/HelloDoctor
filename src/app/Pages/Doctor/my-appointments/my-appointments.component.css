@@ -1,0 +1,372 @@
+.inputfield {
+  border-radius: 12px;
+  height: 40px;
+}
+
+.floatingLabel {
+  line-height: 0px;
+}
+
+
+
+table,
+tr{
+
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  /* line-height: 17px;        */
+  /* color: #0C275A; */
+  text-align: center;
+
+}
+
+td{
+
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  /* line-height: 17px;        */
+  /* color: #0C275A; */
+  text-align: center;
+  border-bottom: 2px solid lightgray;
+}
+
+
+table {
+  font-family: 'Poppins', sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 10px;
+}
+
+th {
+  background-color: #322B6B;
+  color: white;
+  text-align: center;
+
+  /* border: 1px solid #dddddd; 
+     border: 1px solid gray; */
+}
+
+.datalist-input {
+  width: 50%;
+  color: black;
+}
+
+.thwidth {
+  width: 17%;
+}
+
+.Video {
+  background-color: white;
+  color: #322B6B;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #322B6B;
+  font-weight: 600;
+  width: 160px;
+}
+
+
+
+.ondemandVideo {
+  background-color: white;
+  color: #f18235;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #f18235;
+  font-weight: 600;
+  width: 160px;
+}
+
+
+/* .Video {
+  color: #322B6B;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #322B6B;
+  font-weight: 600;
+  width: 100px;
+} */
+
+.Video:hover {
+  background-color: #322B6B;
+  color: white;
+  /* cursor: pointer; */
+  padding: 6px;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #322B6B;
+  font-weight: 600;
+  width: 160px;
+}
+
+.Video:disabled{
+  cursor: no-drop;
+}
+
+.InClinic {
+  background-color: white;
+  color: #1dbfd2;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #1dbfd2;
+  font-weight: 600;
+  width: 153px;
+}
+
+.InClinic:hover {
+  background-color: #1dbfd2;
+  color: white;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #1dbfd2;
+  font-weight: 600;
+  width: 153px;
+}
+
+
+.HomeVisit {
+  background-color: white;
+  color: #00926e;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #00926e;
+  font-weight: 600;
+  width: 153px;
+}
+
+
+.HomeVisit:hover {
+  background-color: white;
+  color: white;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 10px;
+  text-align: center;
+  border: 2px solid #00926e;
+  font-weight: 600;
+  width: 153px;
+  background-color: #00926e;
+}
+.Accept {
+  padding: 5px;
+  border: 2px solid green;
+  color: green;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  
+}
+
+.pay {
+  padding: 5px;
+  border: 2px solid #2827CC;
+  color: #2827CC;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+}
+
+.pay1 {
+  padding: 5px;
+  border: 2px solid white;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+  background-color:gray
+}
+.no-hover:hover {
+  pointer-events: none;
+  cursor: default;
+}
+
+.pay:hover{
+  padding: 5px;
+  border: 2px solid #2827CC;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+  background-color: #2827CC;
+}
+
+
+.all
+{
+  padding: 10px;
+  border: 2px solid #1dbfd2;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 200px;
+  margin-left: 10px;
+  /* width: 200px; */
+  background-color: #1dbfd2;;
+  height: 50px;
+}
+
+.Accept:hover {
+  padding: 5px;
+  border: 2px solid green;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  background-color: green;
+  color: white;
+}
+
+
+.Cancel {
+  padding: 5px;
+  border: 2px solid red;
+  color: red;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+}
+
+.Cancel:hover{
+  padding: 5px;
+  border: 2px solid red;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+  background-color: red;
+}
+
+.AcceptLable{
+  color: green;
+}
+
+.modaltitle{
+  font-size: 12px;
+  color:red;
+}
+
+.modai-height{
+  height: 535px;
+  overflow: auto;
+}
+
+.info{
+  width: 25px;
+}
+
+.Video:disabled{
+  cursor: 'nodrop';
+}
+
+.imgwidth{
+  width: 23px;
+}
+
+
+.form-control
+{
+  font-size: 13px;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  line-height: 1.5;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  border-radius: 12px;
+  height: 39px;
+  font-weight: 600;
+  color: #322B6B;
+
+}
+
+.swal-wide{
+  width:100px !important;
+}
+
+
+.tdclass{
+  border: none;
+}
+
+
+.button :disabled{
+  cursor: no-drop;
+}
+
+.main{
+  display: flex;
+  flex-direction: row;
+
+}
+
+.highligt:hover
+{
+  height: 100px;
+  width: 100px;
+  background-color: #00926e;
+}
+
+.dropdown{
+  width: 170px;
+}
+.save1 {
+  margin-top: 5px;
+  width: 20%;
+  border-radius: 10px;
+  background-color: #f18235;
+  color: #fff;
+  border: 2px solid #f18235;
+  font-family: 'Poppins', sans-serif;
+  padding: 5px;
+  float: left;
+  min-width: 80px;
+  border-radius: 12px;
+
+}
+hr.new4 {
+  /* border: 1px solid red; */
+  color: red;
+}
+
+hr.new5 {
+  /* border: 1px solid rgb(8, 126, 245); */
+  color: rgb(8, 126, 245);
+
+}
+.new4, .new5 {
+  margin: 2px;
+  padding: 2px;
+}
+.paybutton{
+  padding: 3px;
+  background-color: #322b6b;
+  color:white;
+  border-radius: 10px;
+  width: 92px;
+}

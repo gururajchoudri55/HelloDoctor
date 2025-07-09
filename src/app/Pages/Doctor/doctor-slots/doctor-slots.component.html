@@ -1,0 +1,142 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-4">
+            <h5>{{labels.doctorSlots}}</h5>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" placeholder="Select Date" class="form-control" [(ngModel)]="appointmentDate" bsDatepicker
+            [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" 
+                (ngModelChange)="getendDate(appointmentDate)" >
+        </div>
+
+        <div class="col-lg-2">
+            <label>{{labels.typeAppointment}}: {{typeofAppointment}}</label>
+        </div>
+        <div class="col-lg-2">
+            <label>{{labels.doctorName}}: {{doctorName}}</label>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container card" >
+    <p class="noslot">
+        {{labels.noslots}}
+    </p>
+
+</div>
+<br>
+<div *ngIf="doctorslots?.length==0&&afternoonSLots?.length==0&&eveningSlots?.length==0&&nightSlots?.length==0" class="col-lg-1" style="float: inline-end">
+    <button class="close" routerLink="/Doctor/BookDoctor">{{labels.back}}</button></div>
+
+
+<!-- <div *ngIf="doctorslots?.length!=0||afternoonSLots?.length!=0||eveningSlots?.length==0||nightSlots?.length!=0"> -->
+    <div >
+    <div class="container">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-2">
+                    <h4>{{labels.morning}}</h4>
+                </div>
+            </div>
+            <div class="row" style="margin-left: 5px;">
+                <br>
+                <div class="col-lg-2" style="margin-left: 15px; " *ngFor="let slot of doctorslots">
+                    <br>
+                    <label [routerLink]="['/Doctor/BookAppointment',slot.doctorSlotID,slot.slotName,slot.doctorFees]"
+                        class="slotbox">{{slot.slotName}}</label>
+                    <br>
+                </div>
+                <br>
+            </div><br>
+        </div><br>
+
+    </div>
+
+
+
+
+    <div class="container">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-2" style="margin-left: 15px;">
+                    <h4>{{labels.afternoon}}</h4>
+
+                </div>
+            </div>
+            <br>
+            <div class="row" style="margin-left: 5px;">
+                <br>
+                <div class="col-lg-2" style="margin-left: 15px;" *ngFor="let slot of afternoonSLots">
+                    <br>
+                    <label [routerLink]="['/Doctor/BookAppointment',slot.doctorSlotID,slot.slotName,slot.doctorFees]"
+                        class="slotbox">{{slot.slotName}}</label>
+                </div>
+                <br>
+            </div>
+            <br>
+        </div>
+        <br>
+    </div>
+
+
+
+
+    <div class="container">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-2" style="margin-left: 15px;">
+                    <h4>{{labels.evening}}</h4>
+
+                </div>
+            </div>
+            <br>
+            <div class="row" style="margin-left: 5px;">
+                <br>
+                <div class="col-lg-2" style="margin-left: 15px; " *ngFor="let slot of eveningSlots">
+                    <br>
+                    <label [routerLink]="['/Doctor/BookAppointment',slot.doctorSlotID,slot.slotName,slot.doctorFees]"
+                        class="slotbox">{{slot.slotName}}</label>
+                </div>
+                <br>
+            </div>
+            <br>
+        </div>
+        <br>
+    </div>
+
+
+    <div class="container">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-2" style="margin-left: 15px;">
+                    <h4>{{labels.night}}</h4>
+                </div>
+            </div>
+            <br>
+            <div class="row" style="margin-left: 5px;">
+                <br>
+                <div class="col-lg-2" style="margin-left: 15px; " *ngFor="let slot of nightSlots">
+                    <br>
+                    <label [routerLink]="['/Doctor/BookAppointment',slot.doctorSlotID,slot.slotName,slot.doctorFees]"
+                        class="slotbox">{{slot.slotName}}</label>
+                </div>
+                <br>
+            </div>
+            <br>
+        </div>
+        <br>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2">
+                <button class="close" *ngIf="showback==1"
+                    routerLink="/HospitalClinic/HospitalAppoinments">{{labels.back}}</button>
+                <button class="close" *ngIf="showback==2" routerLink="/HospitalClinic/HospitalAppoinments">{{labels.back}}</button>
+           
+            </div>
+        </div>
+    </div><br>
+</div>

@@ -1,0 +1,101 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.smsService}}</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search" name="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-5"></div>
+        <div class="col-lg-2">
+            <input type="checkbox" (change)="GetPatientSelectAll($event)">&nbsp;{{labels.selectALL}}
+             <img class="email-all" src="assets/Icons/email.png" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+        </div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+                    <th>{{labels.patientID}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr
+                    *ngFor="let list of Patientlist|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{list.id}}</td>
+                    <td>{{list.patientName}}</td>
+                    <td>{{list.mobileNumber}}</td>
+                    <td>{{list.emailID}}</td>
+                    <td>
+                        <input type="checkbox" [(ngModel)]="list.checked" (change)="GetPatientSendemailslist($event,list)">&nbsp;
+                        <img class="email" src="assets/Icons/email.png" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.sendsms}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                                    style="height: 100px" [(ngModel)]="message" name="message"></textarea>
+                                <label for="floatingTextarea2">{{labels.maxchar}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+               
+                <button type="button" class="add" (click)="sendsms()" data-bs-dismiss="modal">{{labels.send}}</button>
+                <button type="button" class="add" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>

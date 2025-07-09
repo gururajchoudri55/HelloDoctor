@@ -1,0 +1,70 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<app-register-provider-sm-s></app-register-provider-sm-s>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{"MENU ROLE MAPPING"}}</p>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <select class="form-control" (change)="GetRoleID($event)" [(ngModel)]="roleid" name="roleid">
+                    <option value="0">Select</option>
+                    <option *ngFor="let role of rolelist" value="{{role.id}}">{{role.short}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown placeholder="Select" [settings]="menudd" [data]="Menulist"
+                    (onSelect)="GetMenuID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row" *ngIf="showdash=='1'">
+            <div class="col-lg-1">
+            </div>
+            <br>
+            <br>
+            <div class="col-lg-10" style="overflow: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Menu</th>
+                            <th>Sub Menu</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr *ngFor="let submenu of submenulist">
+                            <td>{{submenu.menus}}</td>
+                            <td>{{submenu.subMenuName}}</td>
+                            <td>
+                                <input type="checkbox" class="messageCheckbox" *ngIf="showbutton==0"
+                                    (change)="GetMenuslist($event,submenu)">
+
+                                <input type="checkbox" class="messageCheckbox" *ngIf="showbutton==1"
+                                    [checked]="submenu.isChecked" (change)="GetSavedList($event,submenu)">
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <br /><br />
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-2">
+                <button type="button" class="save" (click)="InsertSaveMenus()"
+                    *ngIf="showbutton=='0'">{{labels.save}}</button>
+                <button type="button" class="save" (click)="UpdateMenunus()"
+                    *ngIf="showbutton=='1'">{{labels.update}}</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" routerLink="/menus/RoleMenumappingDetails">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>
+</div>

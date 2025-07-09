@@ -1,0 +1,602 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <form #pharmacyform="ngForm">
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="headings">{{labels.pharmacy}}</p>
+            </div>
+            <div class="col-lg-8"></div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="row">
+                <h4 class="sideheading">{{labels.basicInformation}}</h4>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <img src="{{photoUrl}}" style="width: 78%; height: 400px">
+                    </div><br>
+                    <div class="col-lg-12">
+                        <button class="edit" (click)="editPhoto()">{{labels.edit}}</button>&nbsp;&nbsp;&nbsp;
+                        <button class="edit" data-bs-toggle="modal" data-bs-target="#photos"
+                            (click)="GetPhotos()">{{labels.multiplePhotos}}</button><br><br>
+                        <div class="col-lg-6" *ngIf="showEdit==1">
+                            <!-- <label>Photo</label><br> -->
+                            <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                                <ngx-dropzone-label>{{labels.uploadClinicPhoto}}</ngx-dropzone-label>
+                                <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"
+                                    (removed)="onRemove(f)">
+                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                </ngx-dropzone-preview>
+                            </ngx-dropzone>
+                        </div>
+
+                    </div><br>
+                    <button type="button" class="edit" (click)="updatephotos()" *ngIf="showEdit==1">
+                        {{ labels.update }}
+                    </button>
+
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputfield" id="floatingInput"
+                                    placeholder="Pharmacy Name" [(ngModel)]="pharmacyName" name="pharmacyName" required>
+                                <label for="floatingInput" class="floatingLabel">{{labels.name}}<span
+                                        class="required">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputfield" id="floatingInput"
+                                    placeholder="Contact Person Name" [(ngModel)]="contactPersonName"
+                                    name="contactPersonName" required>
+                                <label for="floatingInput" class="floatingLabel">{{labels.contactPersonName}}<span
+                                        class="required">*</span></label>
+                            </div>
+                        </div>
+
+
+                    </div> <br>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputfield" id="floatingInput"
+                                    [(ngModel)]="licenseNumber" name="licenseNumber" placeholder="License Number">
+                                <label for="floatingInput" class="floatingLabel">{{labels.licenceNumber}}<span
+                                        class="required">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input (keypress)="numberOnly($event)" type="text" class="form-control inputfield"
+                                    id="floatingInput" placeholder="Phone Number" [(ngModel)]="phoneNumber"
+                                    (ngModelChange)="preventZero(phoneNumber)" name="phoneNumber">
+                                <label for="floatingInput" class="floatingLabel">{{labels.phoneNumber}}<span
+                                        class="required">*</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                                    [(ngModel)]="address" name="address"></textarea>
+                                <label for="floatingTextarea">{{labels.address}}</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <button class="addnew" (click)="geocode()">{{labels.getLocation}}</button>
+                        </div>
+
+                    </div> <br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                                    [(ngModel)]="latitude" name="latitude"></textarea>
+                                <label for="floatingTextarea">lattitude</label>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                                    required [(ngModel)]="longitude" name="longitude"></textarea>
+                                <label for="floatingTextarea">longitude</label>
+
+                            </div>
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputfield" id="floatingInput"
+                                    placeholder="Email" [(ngModel)]="email" name="email"
+                                    (ngModelChange)="isValidEmail(email)">
+                                <label for="floatingInput" class="floatingLabel">{{labels.emailID}}<span
+                                        class="required">*</span></label>
+                                <span *ngIf="valid==false" class="emailvalidation">{{labels.validEmail}}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <select class="form-control" (change)="getCountryID($event)" [(ngModel)]="countryID"
+                                name="countryID">
+                                <option value="">{{labels.country}}</option>
+                                <option *ngFor="let cou of countryList" value="{{cou.id}}">{{cou.short}}</option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <select class="form-control" (change)="GetRegionID($event)" [(ngModel)]="regionID"
+                                name="regionID">
+                                <option value="0">Select</option>
+                                <option *ngFor="let reg of regionList" value={{reg.id}}>{{reg.regionName}}</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6">
+
+                            <select class=" form-control" required [(ngModel)]="cityID" name="cityID"
+                                (change)="GetCityID($event)">
+                                <option value="">Select</option>
+                                <option *ngFor="let city of cityList" value="{{city.id}}">{{city.short}}</option>
+                            </select>
+
+
+                        </div>
+                    </div><br>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <select class="form-control" required [(ngModel)]="areaID" name="areaID"
+                                (change)="GetAreaID($event)">
+                                <option value="">Select</option>
+                                <option *ngFor="let area of areaList" value={{area.id}}>{{area.areaName}}</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputfield" id="floatingInput"
+                                    placeholder="Monthly Subscription" [(ngModel)]="monthlySubscriptipon"
+                                    name="monthlySubscriptipon">
+                                <label for="floatingInput" class="floatingLabel">{{labels.monthly}}</label>
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control inputfield" id="floatingInput"
+                                    placeholder="Email" [(ngModel)]="morningOpeninghours" name="morningOpeninghours">
+                                <label for="floatingInput" class="floatingLabel">{{labels.morningOpeningHours}}<span class="required">*</span></label>
+                            </div>
+                        </div> -->
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="text" placeholder="fromDate" class="form-control"
+                                [(ngModel)]="contractStartDate" name="contractStartDate" bsDatepicker
+                                [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
+                                (ngModelChange)="getContractStratDate(contractStartDate)">
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" placeholder="toDate" class="form-control" [(ngModel)]="ContractEndDate"
+                                name="ContractEndDate" bsDatepicker
+                                [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
+                                (ngModelChange)="getContractEndDate(ContractEndDate)">
+                        </div>
+                    </div><br>
+
+
+                    <div class="row">
+
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputfield" id="floatingInput"
+                                    placeholder="Website" [(ngModel)]="website" name="website">
+                                <label for="floatingInput" class="floatingLabel">{{labels.website}}</label>
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-6">
+                            <label>{{labels.homeDelivery}} :</label> &nbsp;
+                            <input type="radio" [(ngModel)]="homeDelivery" name="homeDelivery" [value]="true">
+                            {{labels.yes}}
+                            &nbsp;
+                            <input type="radio" [(ngModel)]="homeDelivery" name="homeDelivery"
+                                [value]="false">{{labels.no}}
+                            &nbsp;
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                                    [(ngModel)]="decsription" name="decsription"></textarea>
+                                <label for="floatingTextarea">{{labels.decsription}}</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <!-- <label>Upload Resume</label><br> -->
+                            <!-- <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                                <ngx-dropzone-label>{{labels.uploadClinicPhoto}}</ngx-dropzone-label>
+                                <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"
+                                    (removed)="onRemove(f)">
+                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                </ngx-dropzone-preview>
+                            </ngx-dropzone> -->
+                            <label>{{labels.nightPharmacy}} :</label> &nbsp;
+                            <input type="radio" [(ngModel)]="nightPharmacy" name="nightPharmacy" [value]="true">
+                            {{labels.yes}}
+                            &nbsp;
+                            <input type="radio" [(ngModel)]="nightPharmacy" name="nightPharmacy"
+                                [value]="false">{{labels.no}}
+                            &nbsp;
+                        </div>
+                    </div><br>
+                    <!-- <div class="row">
+                        <div class="col-lg-6">
+                          
+                        </div>
+                        <div class="col-lg-6">
+                        <label>{{labels.teleOrdering}} :</label> &nbsp;
+                        <input type="radio" [(ngModel)]="teleOrdering" name="teleOrdering" [value]="true"> {{labels.yes}}
+                        &nbsp;
+                        <input type="radio" [(ngModel)]="teleOrdering" name="teleOrdering" [value]="false">{{labels.no}}
+                        &nbsp;
+                    </div>
+                    </div><br> -->
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label>{{labels.mrngopenhours}}</label>
+                            <input type="time" class="form-control" [(ngModel)]="mrngOpenIngHours"
+                                name="mrngOpenIngHours">
+                        </div>
+                        <div class="col-lg-6">
+                            <label>{{labels.mrngClosedHours}}</label>
+                            <input type="time" class="form-control" [(ngModel)]="mrngClosedHours"
+                                name="mrngClosedHours">
+                        </div>
+
+                    </div><br>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label>{{labels.EvngOpeningHours}}</label>
+                            <input type="time" class="form-control" [(ngModel)]="evengingOpeningHours"
+                                name="evengingOpeningHours">
+                        </div>
+                        <div class="col-lg-6">
+                            <label>{{labels.EvngClosedHours}}</label>
+                            <input type="time" class="form-control" [(ngModel)]="eveningClosedHours"
+                                name="eveningClosedHours">
+                        </div>
+
+                    </div><br>
+                    <div class="row">
+
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input (keypress)="numberOnly($event)" type="email" class="form-control inputfield"
+                                    id="floatingInput" placeholder="Phone no" [(ngModel)]="docnearesNumber"
+                                    name="docnearesNumber" required />
+                                <label for="floatingInput" class="floatingLabel">KM<span
+                                        class="required">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control inputfield" id="floatingInput"
+                                    placeholder="Phone no" [(ngModel)]="docNearestkm" name="docNearestkm" required />
+                                <label for="floatingInput" class="floatingLabel">Distance<span
+                                        class="required">*</span></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label>       {{ labels.partner }}</label>&nbsp;&nbsp;
+                            <input type="radio" [(ngModel)]="Partner" name="Partner" required [value]="true" />&nbsp;{{ labels.yes
+                            }}&nbsp;&nbsp;&nbsp;
+                            <input type="radio" [(ngModel)]="Partner" name="Partner" required [value]="false" />&nbsp;{{ labels.no
+                            }}&nbsp;&nbsp;&nbsp;
+                            <br>
+                        </div>
+
+                        <div class="row">
+                         
+                            <div class="col-lg-6">
+                                <br>
+                                <ngx-dropzone (change)="onSelectSignature($event)" class="dropZone">
+                                    <ngx-dropzone-label>{{labels.signature}}</ngx-dropzone-label>
+                                    <ngx-dropzone-preview *ngFor="let f of file1" [removable]="true"
+                                        (removed)="onRemoveSignature(f)">
+                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                </ngx-dropzone>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="{{sigPhoto}}" style="height: 50px;width:100px">
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+
+                            <div class="col-lg-6">
+                                <ngx-dropzone (change)="onSelectStamp($event)" class="dropZone">
+                                    <ngx-dropzone-label>{{labels.Stamp}}</ngx-dropzone-label>
+                                    <ngx-dropzone-preview *ngFor="let f of file2" [removable]="true"
+                                        (removed)="onRemoveStamp(f)">
+                                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                </ngx-dropzone>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="{{stpPhoto}}" style="height: 50px;width:100px">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+        </div>
+        <br>
+        <div class="card">
+            <div class="row">
+                <h4 class="sideheading">{{labels.finance}}</h4>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Tax identification " [(ngModel)]="taxIdentification" name="taxIdentification">
+                        <label for="floatingInput" class="floatingLabel">{{labels.taxIdentification}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Business ID"
+                            [(ngModel)]="businessID" name="businessID">
+                        <label for="floatingInput" class="floatingLabel">{{labels.businessID}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Commercial registration & city" [(ngModel)]="commercialRegCity"
+                            name="commercialRegCity">
+                        <label for="floatingInput"
+                            class="floatingLabel">{{labels.commercialRegistrationAndCity}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Social security fund no" [(ngModel)]="socialSeccurityNo"
+                            name="socialSeccurityNo">
+                        <label for="floatingInput" class="floatingLabel">{{labels.socialSecurityfundno}}</label>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Social security fund no" [(ngModel)]="taxProfessional" name="taxProfessional">
+                        <label for="floatingInput" class="floatingLabel">{{labels.taxProffessional}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Name Of The Bank" [(ngModel)]="nameOfTheBank" name="nameOfTheBank">
+                        <label for="floatingInput" class="floatingLabel">{{labels.nameofthebank}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Account Name"
+                            [(ngModel)]="accountName" name="accountName">
+                        <label for="floatingInput" class="floatingLabel">{{labels.accountName}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Account Number" [(ngModel)]="accountNumber" name="accountNumber">
+                        <label for="floatingInput" class="floatingLabel">{{labels.accountNumber}}</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br>
+        <div class="card">
+            <div class="row">
+                <h4 class="sideheading">{{ labels.directPayment }}</h4>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Doctor name"
+                            [(ngModel)]="accountNames" name="accountNames" required />
+                        <label for="floatingInput" class="floatingLabel">{{ labels.accountNames }}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input (keypress)="numberOnly($event)" type="text" class="form-control inputfield"
+                            id="floatingInput" placeholder="Doctor name" [(ngModel)]="accountNumbers"
+                            name="accountNumbers" required />
+                        <label for="floatingInput" class="floatingLabel">{{ labels.accountNumbers }}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Doctor name"
+                            [(ngModel)]="paymentCompany" name="paymentCompany" required />
+                        <label for="floatingInput" class="floatingLabel">{{labels.paymentCompany}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="card">
+            <div class="row">
+                <h4 class="sideheading">{{labels.modeOfPayments}}</h4>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-1">
+                    <label>{{ labels.cash }}</label>
+                </div>
+                <div class="col-lg-2">
+                    <input type="radio" [(ngModel)]="cash" name="cash" [value]="true" required />&nbsp;{{ labels.yes
+                    }}&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="cash" name="cash" [value]="false" required />&nbsp;{{ labels.no
+                    }}&nbsp;&nbsp;
+                </div>
+
+                <div class="col-lg-1">
+                    <label>{{ labels.wallet }}</label>
+                </div>
+                <div class="col-lg-2">
+                    <input type="radio" [(ngModel)]="wallet" name="wallet" required [value]="true" />&nbsp;{{ labels.yes
+                    }}&nbsp;&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="wallet" name="wallet" required [value]="false" />&nbsp;{{ labels.no
+                    }}&nbsp;&nbsp;&nbsp;
+                </div>
+
+                <div class="col-lg-1">
+                    {{ labels.creditcard }}
+                </div>
+                <div class="col-lg-2">
+                    <input type="radio" [(ngModel)]="creditCard" name="creditCard" required [value]="true" />&nbsp;{{
+                    labels.yes }}&nbsp;&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="creditCard" name="creditCard" required [value]="false" />&nbsp;{{
+                    labels.no }}&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="col-lg-1">
+                    {{ labels.providerPay }}
+                </div>
+                <div class="col-lg-2">
+                    <input type="radio" [(ngModel)]="ProviderPay" name="ProviderPay" required [value]="true" />&nbsp;{{
+                    labels.yes }}&nbsp;&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="ProviderPay" name="ProviderPay" required [value]="false" />&nbsp;{{
+                    labels.no }}&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="col-lg-1">
+                    {{ labels.MvolaPay }}
+                </div>
+                <div class="col-lg-2">
+                    <input type="radio" [(ngModel)]="MvolaPay" name="MvolaPay" required [value]="true" />&nbsp;{{
+                    labels.yes
+                    }}&nbsp;&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="MvolaPay" name="MvolaPay" required [value]="false" />&nbsp;{{
+                    labels.no
+                    }}&nbsp;&nbsp;&nbsp;
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-lg-9"></div>
+                <div class="col-lg-2">
+                    <button type="button" class="save" (click)="updatedetails()"
+                        [disabled]="pharmacyform.form.invalid">{{labels.update}}</button>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" routerLink="/countrymanager/Pharmacy">{{labels.back}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div><br>
+
+
+
+
+
+
+
+<div class="modal fade" id="photos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Photos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6" *ngFor="let photo of photos">
+                            <br>
+                            <img src="{{photo.photoUrl}}" alt="" style="width: 100%;height: 60%;"><br><br><br>
+                            <button class="add" (click)="editMultipPhoto(photo.id)">{{labels.edits}}</button>
+                            <button style="float: right;" class="add"
+                                (click)="deletePhotos(photo.id)">{{labels.delete}}</button>
+
+                            <br>
+                        </div><br>
+                    </div><br>
+                    <div class="row" *ngIf="showMul==true||showMultiple==1">
+                        <div class="col-lg-3">
+                            <!-- <label>Upload Resume</label><br> -->
+                            <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                                <ngx-dropzone-label>{{labels.uploadPharmacyPhoto}}</ngx-dropzone-label>
+                                <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"
+                                    (removed)="onRemove(f)">
+                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                </ngx-dropzone-preview>
+                            </ngx-dropzone>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <button class="add" (click)="InsertPharmcyPhotos()" *ngIf="showMul==true"
+                                data-bs-dismiss="modal"> {{labels.save}}</button>
+                            <button class="add" (click)="UpdateMultiplePhotos()" *ngIf="showMultiple==1"
+                                data-bs-dismiss="modal"> {{labels.update}}</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" (click)="addPhotos()">{{labels.add}}</button>
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>

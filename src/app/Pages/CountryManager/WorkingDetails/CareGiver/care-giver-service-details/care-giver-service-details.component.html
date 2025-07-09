@@ -1,0 +1,108 @@
+<br>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid">
+    <form #CareGiver="ngForm">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{labels.physiotherapistServices}}</p>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <div *ngIf="showDropdown=='1'">
+                    <select class="form-control" (change)="GetPhysioID($event)" [(ngModel)]="physioid" name="physioid">
+                        <option value="">{{labels.select}}</option>
+                        <option *ngFor="let phsio of physiolist" value="{{phsio.id}}">{{phsio.name}}</option>
+                    </select>
+                </div>
+                <div *ngIf="showDropdown=='2'">
+                    <input type="text" class="form-control" disabled [(ngModel)]="user" name="user">
+                </div><br>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Service Name" required
+                        [(ngModel)]="servicename" name="servicename" required>
+                    <label for="floatingInput" class="floatingLabel">{{labels.serviceName}} <span class="required">*</span></label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input (keypress)="numberOnly($event)" type="email" class="form-control inputfield" id="floatingInput" placeholder="Charges"
+                     required   [(ngModel)]="charges" name="charges">
+                    <label for="floatingInput" class="floatingLabel">{{labels.charges}} <span class="required">*</span></label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                        [(ngModel)]="description" name="description"></textarea>
+                    <label for="floatingTextarea">{{labels.description}}</label>
+                </div>
+
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-1">
+                <button type="button" class="save" *ngIf="showbit==0"
+                    (click)="insertdetails()" [disabled]="CareGiver.form.invalid">{{labels.add}}</button>&nbsp;
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" *ngIf="showbit==0"
+                routerLink="/countrymanager/CareGiverServices">{{labels.back}}</button>
+            </div>
+        </div><br>
+        <div class="row" *ngIf="tablecount=='1'">
+            <div class="col-lg-12 overflowauto">
+                <table>
+                    <tr>
+                        <th>{{labels.serviceName}}</th>
+                        <th>{{labels.description}}</th>
+                        <th>{{labels.charges}}</th>
+                        <th>{{labels.actions}}</th>
+                    </tr>
+                    <tr *ngFor="let det of qwerty">
+                        <td>{{det.ServiceName}}</td>
+                        <td>{{det.ServiceDescription}}</td>
+                        <td>{{det.ServiceCharges}}</td>
+                        <td>
+                            <img src="assets/Icons/delete.png" (click)="delete(det.Sno)">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br>       
+        <div class="row">
+            <div class="col-lg-9">
+            </div>
+            <div class="col-lg-2">
+                <button type="button" text_align="center" *ngIf="showbit==0&&tablecount=='1'" class="save"
+                    (click)="SaveDetails()">{{labels.save}}</button>
+                <button type="button" text_align="center" *ngIf="showbit==1" class="save"
+                    (click)="updatedetails()">{{labels.update}}</button>&nbsp;
+            </div>
+           <div class="col-lg-1">
+            <button type="button" class="save" *ngIf="showbit==1"
+            routerLink="/countrymanager/CareGiverServices">{{labels.back}}</button>
+           </div>
+        </div>
+
+    </div>
+    <br>
+
+
+
+
+
+</form>
+</div>

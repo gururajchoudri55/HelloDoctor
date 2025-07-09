@@ -1,0 +1,92 @@
+.manually {
+    padding: 5px;
+    border: 2px solid #322b6b;
+    color: #322b6b;
+    border-radius: 10px;
+    font-weight: 600;
+
+    width: 174px;
+}
+
+.manually:hover {
+    padding: 5px;
+    background-color: #322b6b;
+    border: 2px solid #322b6b;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+
+    width: 174px;
+}
+
+
+.testDatabse {
+    padding: 5px;
+    border: 2px solid green;
+    color: green;
+    border-radius: 10px;
+    font-weight: 600;
+   
+
+}
+
+.testDatabse:hover {
+    padding: 5px;
+    background-color: green;
+    border: 2px solid green;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+ 
+
+}
+
+.textarea{
+    height: 54px;
+}
+
+
+.Addbutton{
+    padding: 5px;
+  
+    border: 2px solid #f18235;
+    color: #f18235;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+
+}
+
+.Addbutton:hover{
+    padding: 5px;
+  background-color: #f18235;
+    border: 2px solid #f18235;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+
+}
+p {
+    margin-bottom: -1em;
+    margin-top: 0em;
+  }
+  
+  th,
+  td {
+    font-weight: 500;
+  }
+  hr.new4 {
+    /* border: 1px solid red; */
+    color: red;
+  }
+  
+  hr.new5 {
+    /* border: 1px solid rgb(8, 126, 245); */
+    color: rgb(8, 126, 245);
+  
+  }
+  .new4, .new5 {
+    margin: 2px;
+    padding: 2px;
+  }

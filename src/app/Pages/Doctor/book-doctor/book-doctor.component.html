@@ -1,0 +1,40 @@
+<app-sms></app-sms>
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-2">
+            <label class="selectapp" >{{labels.selectApptype}} :</label>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control"  (change)="GetAppointmentTypeID($event)" [(ngModel)]="appointmentTypeID" name="appointmentTypeID">
+                <option value="0">{{labels.select}}</option>
+                <option value="1">{{labels.inClinic}}</option>
+                <option value="2">{{labels.videoCall}}</option>
+                <option value="5">{{labels.homeVisit}}</option>
+            </select>
+        </div>
+        
+    </div>
+</div><br>
+
+<div class="container-fluid headerspace">
+    <div class="row">
+        <div class="col-lg-3" *ngFor="let doc of doctorList">
+            <div class="card">
+                <img src="{{doc.photoUrl}}" alt="John" class="imgclass">
+                <h6>{{doc.doctorName}}</h6>
+                <!-- <p class="title">{{doc.degreeName}}</p> -->
+                <p>{{doc.departmentname}}</p>
+                <p>
+                    <button  [routerLink]="['/Doctor/Doctorslots',doc.doctorID,doc.id,doc.hospital_ClinicID,doc.appointmentTypeID,doc.bookingTypeID,doc.slotDurationID,doc.doctorName]">{{labels.book}}</button>
+
+                    <!-- <button  *ngIf="appointmentTypeID=='2'" [routerLink]="['/Doctor/Doctorslots',doc.doctorID,doc.id,doc.hospital_ClinicID,doc.appointmentTypeID,doc.bookingTypeID,doc.slotDurationID]">View</button> -->
+                
+                </p>
+            </div><br>
+        </div>
+    </div>
+
+
+</div>

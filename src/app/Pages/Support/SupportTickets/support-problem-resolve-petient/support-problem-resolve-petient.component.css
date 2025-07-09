@@ -1,0 +1,11 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+  .imgclass{
+    height: auto;
+    width: 100%;
+  }

@@ -1,0 +1,126 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+
+<div class="container-fluid" id="content">
+    <div>
+        <div class="row">
+            <div class="col-lg-4">
+                <label>Date of Precription : {{details.prescriptionAddedDate}}</label>
+            </div>
+            <div class="col-lg-4 text-center">
+                <img src="assets/Icons/logo1.png" style="width: 100px;">
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-5">
+                <label><b>{{labels.patientName}}</b> : {{details.relationpatentname}}</label><br>
+                <label><b>{{labels.identityno}}</b> : {{details.nationalIdentityNo}}</label><br>
+                <label><b>{{labels.phoneNumber}}</b> : {{details.mobileNumber}}</label><br>
+                <label><b>{{labels.address}}</b> : {{details.address}}</label><br>
+                <label><b>{{labels.dateOfBirth}}</b> : {{details.dateofbirth}}</label><br>
+                <label><b>{{labels.gender}}</b> : {{details.gender}}</label><br>
+                <label><b>Age</b> : {{details.age}}</label><br>
+                <label><b>{{labels.orderNumber}}</b> : {{OrdersList.id}}</label><br>
+                <label><b>{{labels.referenceNumber}}</b>:{{ReferenceNumber}}</label>
+            </div>
+            <div class="col-lg-3  text-center">
+
+                <!-- <img src="assets/Icons/logo1.png" style="width: 100px;"> -->
+            </div>
+            <div class="col-lg-4">
+                <label><b>{{labels.providerName}}</b> : {{details.doctorName}}</label><br>
+                <label><b>{{labels.address}}</b> : {{details.docaddress}}</label><br>
+                <label><b>{{labels.registrationno}}</b> : {{details.registrationNo}}</label><br>
+                <label><b>{{labels.phoneNumber}}</b> : {{details.docmobile}}</label><br>
+                <label><b>{{labels.emailID}}</b> : {{details.patientemail}}</label><br>
+            </div>
+
+        </div><br>
+        <div class="row">
+            <div class="col-lg-12">
+                <table>
+                    <tr>
+                        <th>{{labels.medicineName}}</th>
+                        <th>{{labels.sig}}</th>
+                        <th>{{labels.dispenseQuantity}}</th>
+                        <th>{{labels.howmanyrefils}}</th>
+                        <th>{{labels.notetoPharmacist}}</th>
+                        <th>{{labels.amount}}</th>
+                        <th>{{labels.substitute}}</th>
+                        <th>{{labels.actions}}</th>
+                    </tr>
+                    <tr *ngFor="let medicinelist of medicineList">
+                        <td>
+                            {{medicinelist.medicineName}}
+                            <input type="text" class="form-control" *ngIf="medicinelist.substituteBit==true"
+                                [(ngModel)]="medicinelist.subMedicineName" placeholder={{labels.medicineName}}
+                                name="medicinelist.subMedicineName" [disabled]="details.showUpdate==1">
+                        </td>
+
+                        <td> {{medicinelist.sig}}
+
+                            <input type="text" class="form-control" *ngIf="medicinelist.substituteBit==true"
+                                [(ngModel)]="medicinelist.subPhysology" name="medicinelist.subPhysology" [disabled]="details.showUpdate==1">
+                        </td>
+                        <td>{{medicinelist.quantity}}
+
+                            <input type="text" *ngIf="medicinelist.substituteBit==true"
+                                [(ngModel)]="medicinelist.subQuantity" name="medicinelist.subQuantity"
+                                class="form-control" [disabled]="details.showUpdate==1">
+                        </td>
+                        <td>{{medicinelist.refills}}</td>
+                        <td> {{medicinelist.noteToPharmacist}}</td>
+                        <td>
+                            <input type="text" [disabled]="medicinelist.substituteBit==true" class="form-control" [disabled]="details.showUpdate==1"
+                                [(ngModel)]="medicinelist.amount" name="medicinelist.amount">
+
+                            <input type="text" *ngIf="medicinelist.substituteBit==true" class="form-control" [disabled]="details.showUpdate==1"
+                                [(ngModel)]="medicinelist.subAmount" name="medicinelist.subAmount">
+                        </td>
+                        <td>
+                            <input type="checkbox" [disabled]="medicinelist.subtute=='2' || details.showUpdate==1"
+                                [(ngModel)]="medicinelist.substituteBit" name="medicinelist.substituteBit">
+                        </td>
+                        <td>
+                            <input type="checkbox" [(ngModel)]="medicinelist.availableBit"
+                                name="medicinelist.availableBit" [disabled]=" details.showUpdate==1">
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" [disabled]="details.showUpdate==1"
+                      [(ngModel)]="remarks" name="remarks" required></textarea>
+                    <label for="floatingTextarea">{{labels.remarks}}
+                  </label>
+                  </div>
+            </div>
+            <div class="col-lg-9">
+                <label class="sig">{{labels.signature}}</label><br>
+                <label class="signature">{{details.doctorName}}</label><br>
+                <label class="signature">{{details.registrationNo}}</label>
+            </div>
+
+        </div><br>
+
+        <div class="row">
+            
+            <div class="col-lg-7">
+                <button class="save" *ngIf="details.showUpdate==0"
+                    (click)="Updateavailablemedicines()" >{{labels.senttoPatient}}</button>
+            </div>
+        </div>
+    </div>
+    <div style="    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 160px;"><br><div style="color: red;"> {{ labels.pharmaNote}}</div>
+<div >    <button (click)="SavePDF()" class="download">{{labels.download}}</button></div></div>
+  
+</div>

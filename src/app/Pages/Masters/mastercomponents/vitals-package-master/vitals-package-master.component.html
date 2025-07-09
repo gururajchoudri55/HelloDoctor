@@ -1,0 +1,161 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.vitalsPackage}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="save" routerLink="/Masters/VitalsPackage">{{labels.add}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search" [(ngModel)]="search" name="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+        <div class="col-lg-3">
+            <input type="text"
+            placeholder="Select Date"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            >
+        </div>
+        <div class="col-lg-4"></div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+  
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.id}}</th>
+                    <th>{{labels.quentity}}</th>
+                    <th>{{labels.amount}}</th>
+                    <th>{{labels.credit}}</th>  
+                    <th>{{labels.total}}</th>  
+                    <th>{{labels.createDate}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let list of charges|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p},index as i ">
+                    <td>{{i+1}}</td>
+                    <td>{{list.quentity}}</td>
+                    <td>{{list.amount}}</td>
+                    <td>{{list.charges}}</td>
+                   <td>{{list.total}}</td>
+                   <td>{{list.modifiedDate}}</td>
+                    <td>
+                    
+                        <img class="image" src="assets/Icons/active.png" *ngIf="list.enabled=='1'"
+                            (click)="GetDisableFess(list.id)">
+                        <img class="image" src="assets/Icons/dactive.png" *ngIf="list.disabled=='1'"
+                            (click)="EnableFess(list.id)">
+                            <img src="assets/Icons/upload.png" (click)="UpdateVitalsPackagePublish(list.id)">
+                            <img src="assets/Icons/edit.png" (click)="GetDetails(list.id)" *ngIf="list.publish==0">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+<!-- 
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.edit}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" *ngIf="typeid=='1'">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control inputfield" id="floatingInput"
+                                placeholder="deliverycharges" [(ngModel)]="deliverycharges" name="deliverycharges">
+                            <label for="floatingInput" class="floatingLabel">{{labels.feespaidBypatients}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control inputfield" id="floatingInput"
+                                placeholder="patientvideocalltiminngs" [(ngModel)]="meridionalcommission"
+                                name="meridionalcommission" (ngModelChange)="GetCommission($event)">
+                            <label for="floatingInput" class="floatingLabel">{{labels.meridionalCommission}}</label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control inputfield" id="floatingInput"
+                                placeholder="deliveryPatnerFees" [(ngModel)]="deliveryPatnerFees"
+                                name="deliveryPatnerFees">
+                            <label for="floatingInput" class="floatingLabel">{{labels.deliveryPartnerFees}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" *ngIf="typeid=='1'">
+                <button type="button" class="addnew" (click)="updatedetails()">{{labels.update}}</button>&nbsp;&nbsp;
+                <button type="button" class="addnew" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+
+
+            <div class="modal-body" *ngIf="typeid=='2'">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control inputfield" id="floatingInput"
+                                placeholder="deliverycharges" [(ngModel)]="deliverycharges" name="deliverycharges">
+                            <label for="floatingInput" class="floatingLabel">{{labels.deliveryCharges}}</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control inputfield" id="floatingInput"
+                                placeholder="patientvideocalltiminngs" [(ngModel)]="meridionalcommission"
+                                name="meridionalcommission" (ngModelChange)="GetCommission($event)">
+                            <label for="floatingInput" class="floatingLabel">{{labels.meridionalCommission}}</label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control inputfield" id="floatingInput"
+                                placeholder="deliveryPatnerFees" [(ngModel)]="deliveryPatnerFees"
+                                name="deliveryPatnerFees">
+                            <label for="floatingInput" class="floatingLabel">{{labels.deliveryPartnerFees}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer"   *ngIf="typeid=='2'">
+                <button type="button" class="save" (click)="updatedetails()">{{labels.update}}</button>&nbsp;&nbsp;
+                <button type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div> -->

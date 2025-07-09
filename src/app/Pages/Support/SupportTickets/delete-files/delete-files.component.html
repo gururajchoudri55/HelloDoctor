@@ -1,0 +1,136 @@
+
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.deleteFiles}}</h5>
+        </div>
+
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <!-- <div class="col-lg-3">
+            <input type="text"
+            placeholder="Select Date"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            [bsConfig]="{ isAnimated: true }">
+        </div> -->
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-7"></div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>Date</th>
+                    <th>{{labels.patientID}}</th>
+                    <th>{{labels.patientname}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.emailID}}</th>
+                    <th>{{labels.nationalIdentityno}}</th>
+                    <th>{{labels.received}}</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+                <tr
+                    *ngFor="let list of patientslist|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{list.date}}</td>
+                    <td>{{list.patientID}}</td>
+                    <td>{{list.patientName}}</td>
+                    <td>{{list.mobileNumber}}</td>
+                    <td>{{list.emailID}}</td>
+                    <td>{{list.nationalIdentityNo}}</td>
+                    <td>Oui</td>
+                    <td >
+                        <label *ngIf="list.fileDeleted==1">{{labels.dataDiabled}}</label>
+                        <label *ngIf="list.requestRejected==1">{{labels.requestRejected}}</label>
+                    </td>
+                    <td>
+                        <table style="background-color: none;">
+                            <tr>
+                                <td>{{labels.calledPatient}}</td>
+                             <td>
+                                <input type="checkbox" [(ngModel)]="list.calledPatient" value={{list.calledPatient}}  name="list.calledPatient"  (change)="updatedetails(list,list.calledPatient,1)">
+                             </td>
+                            
+                            </tr>
+                            <tr>
+                                <td>
+                                    {{labels.sentformtopatient}}
+                                </td>
+                              <td>
+                                <input type="checkbox" [(ngModel)]="list.sentForm"  name="list.sentForm" (change)="updatedetails(list,list.sentForm,2)">
+                              </td>
+                              
+                             </tr>
+                             <tr>
+                                <td>
+                                   {{labels.completedformreceived}}
+                                </td>
+                            <td>
+                                <input type="checkbox" [(ngModel)]="list.completedForm" name="list.completedForm" (change)="updatedetails(list,list.completedForm,3)">
+                            </td>
+                            
+                             </tr>
+                             <tr>
+                                <td>
+                                    {{labels.investigate}}
+                                </td>
+                              <td>
+                                <input type="checkbox" [(ngModel)]="list.investigate" name="list.investigate" (change)="updatedetails(list,list.investigate,4)">
+                              </td>
+                             
+                             </tr>
+                             <tr>
+                                <td>
+                                    {{labels.filedeleted}}
+                                </td>
+                                <td>
+                                    <input type="checkbox"  *ngIf="list.fileDeleted==0&&list.requestRejected==0" [(ngModel)]="list.fileDeleted" name="list.fileDeleted" (change)="updatedetails(list,list.fileDeleted,5)">
+                                </td>
+                               
+                             
+                             </tr>
+                             <tr>
+                                <td>
+                                   {{labels.requestRejected}}
+                                </td>
+                                <td>
+                                    <input type="checkbox" *ngIf="list.fileDeleted==0&&list.requestRejected==0" [(ngModel)]="list.requestRejected" name="list.requestRejected" (change)="updatedetails(list,list.requestRejected,6)">
+                                </td>
+                              
+                               
+                             </tr>
+                           
+                        </table>
+
+
+                    </td>
+
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{labels.deliverycompanyRegistration}}</p>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Company Name"
+                        [(ngModel)]="companyname" name="companyname">
+                    <label for="floatingInput" class="floatingLabel">{{labels.companyName}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Contact Person"
+                        [(ngModel)]="contactname" name="contactname">
+                    <label for="floatingInput" class="floatingLabel">{{labels.contactPerson}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Phone Number"
+                        name="phno" [(ngModel)]="phno">
+                    <label for="floatingInput" class="floatingLabel">{{labels.phoneNumber}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Email"
+                        name="email" [(ngModel)]="email">
+                    <label for="floatingInput" class="floatingLabel">{{labels.emailID}}</label>
+                </div>
+            </div>
+        </div> <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                        name="address" [(ngModel)]="address"></textarea>
+                    <label for="floatingTextarea">{{labels.address}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <select class="form-control" required (change)="GetDeliveryTypeID($event)" [(ngModel)]="deliverytypeid"
+                    name="deliverytypeid">
+                    <option value="">{{labels.select}}</option>
+                    <option value="1">{{labels.medicine}}</option>
+                    <option value="2">{{labels.shopping}}</option>
+                    <option value="3">{{labels.both}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <select class="form-control" (change)="getCountryID($event)" [(ngModel)]="countryID" name="countryID">
+                    <option value="">{{labels.selectCountry}}<span class="required">*</span></option>
+                    <option *ngFor="let cou of countryList" value="{{cou.id}}">{{cou.short}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="region" [settings]="regiondd" [data]="regionList"
+                    (onSelect)="GetRegionID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="province" [settings]="citydd" [data]="cityList"
+                    (onSelect)="GetCityID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="city" [settings]="areadd" [data]="areaList"
+                    (onSelect)="GetAreaID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Pincode"
+                    [(ngModel)]="pinCode" name="pinCode">
+                    <label for="floatingInput" class="floatingLabel">{{labels.pinCode}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <ngx-dropzone (change)="onSelect($event)" style="width:100% ;height: auto;">
+                    <ngx-dropzone-label>{{labels.attachment}}</ngx-dropzone-label>
+                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+                </ngx-dropzone>
+            </div>
+        </div> <br>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-1">
+                <button type="button" class="save" *ngIf="showedit==0"  (click)="insertdeliverycompany()">{{labels.save}}</button>
+                <button type="button" class="save" *ngIf="showedit==1" (click)="updatedetails()">{{labels.update}}</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" routerLink="/countrymanager/deliverydash/">{{labels.back}}</button>
+            </div>
+        </div>
+        <br>
+    </div>

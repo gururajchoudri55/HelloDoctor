@@ -1,0 +1,128 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 *ngIf="languageid==1 && id==1">Appointments(total)</h5>
+            <h5 *ngIf="languageid==1 && id==2">Pending Acceptence</h5>
+            <h5 *ngIf="languageid==1 && id==3">Accepted(pending visit)</h5>
+            <h5 *ngIf="languageid==1 && id==4">Patients visited</h5>
+            <h5 *ngIf="languageid==1 && id==6">Patient no show</h5>
+            <h5 *ngIf="languageid==1 && id==5">Cancelled</h5>
+            <h5 *ngIf="languageid==1 && id==7">Revenue</h5>
+            <h5 *ngIf="languageid==6 && id==1">RENDEZ-VOUS (TOTAL)</h5>
+            <h5 *ngIf="languageid==6 && id==2">EN ATTENTE D'ACCEPTATION</h5>
+            <h5 *ngIf="languageid==6 && id==3">RV ACCEPTÉ (NON EFFECTUÉ)</h5>
+            <h5 *ngIf="languageid==6 && id==4">PATIENTS VUS</h5>
+            <h5 *ngIf="languageid==6 && id==6">PATIENTS NE S'EST PAS PRÉSENTÉ</h5>
+            <h5 *ngIf="languageid==6 && id==5">RV ANNULÉ</h5>
+            <h5 *ngIf="languageid==6 && id==7">REVENUS</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text"
+            placeholder="{{labels.selectDate}}"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" [(ngModel)]="term"  placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+        <div class="col-lg-4"></div>
+          <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentNo}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.emailID}}</th>
+                    <th>{{labels.address}}</th>
+                    <th>{{labels.appointmentTime}}</th>
+                    <th>{{labels.reason}}</th>
+                    <th *ngIf="id=='7'">{{labels.paidAmount}}</th>
+                    <th>{{labels.status}}</th>
+                </tr>
+                <tr *ngFor="let app of appointmentreportlist|filter:term|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{app.apptDate}}</td>
+                    <td>{{app.id}}</td>
+                    <td>{{app.patientName}}</td>
+                    <td>{{app.mobileNumber}}</td>
+                    <td>{{app.emailID}}</td>
+                    <td>
+                        <img src="assets/Icons/location.png" data-bs-toggle="modal" data-bs-target="#location"
+                            (click)="getaddress(app.address)">
+                    </td>
+                    <td>{{app.bookedTime}}</td>
+                    <!-- <td>{{app.reasonForVisit}}</td> -->
+                    <td>
+                        <img src="assets/Icons/view_16.png" data-bs-toggle="modal" data-bs-target="#location"
+                            (click)="getaddress(app.reasonForVisit)">
+                    </td>
+                    <td *ngIf="id=='7'" >{{app.physiorevenue|number:'1.2-2'|noComma}}Ar</td>
+                    <td>
+                        <label *ngIf="app.isVisited=='1'" style="color:green">{{labels.visited}}</label>
+                        <label *ngIf="app.physioCancelled=='1'||app.cancelled=='1'" style="color:red">{{labels.cancelled}}</label>
+                        <label *ngIf="app.notVisited=='1'" style="color:rgb(122, 20, 20)">{{labels.notVisited}}</label>
+                        <label *ngIf="app.notVisited=='0'&&app.physioCancelled=='0'&&app.cancelled=='0'&&app.accepted=='0'&&app.isVisited=='0'" style="color:green">{{labels.pending}}</label>
+                        <label *ngIf="app.notVisited=='0'&&app.physioCancelled=='0'&&app.cancelled=='0'&&app.accepted=='1'&&app.isVisited=='0'" style="color:green">{{labels.accepted}}</label>
+                    </td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>
+
+
+
+
+<div class="modal fade" id="location" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <!-- <h5 class="modal-title" id="staticBackdropLabel">Address</h5> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    {{location}}
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

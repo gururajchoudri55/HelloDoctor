@@ -1,0 +1,106 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-6">
+            <h5 *ngIf="languageid==1 && id==1">Appointments(total)</h5>
+            <h5 *ngIf="languageid==1 && id==2">Pending Acceptence</h5>
+            <h5 *ngIf="languageid==1 && id==3">Accepted(pending visit)</h5>
+            <h5 *ngIf="languageid==1 && id==4">Patients visited</h5>
+            <h5 *ngIf="languageid==1 && id==5">Cancelled</h5>    
+            <h5 *ngIf="languageid==1 && id==6">Patient no show</h5>
+            <h5 *ngIf="languageid==1 && id==7">Revenue</h5>
+            <h5 *ngIf="languageid==6 && id==1">RENDEZ-VOUS (TOTAL)</h5>
+            <h5 *ngIf="languageid==6 && id==2">EN ATTENTE D'ACCEPTATION</h5>
+            <h5 *ngIf="languageid==6 && id==3">RV ACCEPTÉ (NON EFFECTUÉ)</h5>
+            <h5 *ngIf="languageid==6 && id==4">PATIENTS VUS</h5>
+            <h5 *ngIf="languageid==6 && id==6">PATIENTS NE S'EST PAS PRÉSENTÉ</h5>
+            <h5 *ngIf="languageid==6 && id==5">RV ANNULÉ</h5>
+            <h5 *ngIf="languageid==6 && id==7">REVENUS</h5>
+          </div>
+        <div class="col-lg-5"></div>
+      </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+        <div class="col-lg-7"></div>
+          <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                  <th>{{labels.appointmentDate}}</th>
+                  <th>{{labels.appointmentNo}}</th>
+                  <th>{{labels.patientName}}</th>
+                  <th>{{labels.emailID}}</th>
+                  <th>{{labels.address}}</th>
+                  <th>{{labels.appointmentTime}}</th>
+                  <th>{{labels.reason}}</th>
+                  <th>{{labels.paidAmount}}</th>
+                  <th>{{labels.status}}</th>
+                </tr>
+                <tr *ngFor="let app of appointmentreportlist|filter:search| paginate: { id: 'foo', itemsPerPage: 5, currentPage: p}">
+                    <td>{{app.apptDate}}</td>
+                    <td>{{app.patientName}}</td>
+                    <td>{{app.mobileNumber}}</td>
+                    <td>{{app.emailID}}</td>
+                    <td>{{app.address}}</td>
+                    <td>{{app.bookedTime}}</td>
+                    <td>{{app.reasonForVisit}}</td>
+                    <td>{{app.midwiferevenue}}</td>
+                    <td>
+                      <label *ngIf="app.isVisited=='1'" style="color:yellowgreen">{{labels.visited}}</label>
+                      <label *ngIf="app.midwivesCancelled=='1'||app.cancelled=='1'"
+                        style="color:red">{{labels.cancelled}}</label>
+                      <label *ngIf="app.notVisited=='1'" style="color:rgb(23, 206, 115)">{{labels.notVisited}}</label>
+                      <label
+                        *ngIf="app.notVisited=='0'&&app.midwivesCancelled=='0'&&app.isVisited=='0'&&app.cancelled=='0'&&app.accepted=='0'"
+                        style="color:rgb(23, 206, 115)">{{labels.pending}}</label>
+                      <label
+                        *ngIf="app.notVisited=='0'&&app.midwivesCancelled=='0'&&app.isVisited=='0'&&app.cancelled=='0'&&app.accepted=='1'"
+                        style="color:rgb(23, 206, 115)">{{labels.accepted}}</label>
+                    </td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+      <br>
+      <div class="col-lg-1">
+          <button class="save" routerLink="/midwife/ActivityDashboard">{{labels.back}}</button>
+      </div>
+      <div class="col-lg-10" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+    </div>
+   
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

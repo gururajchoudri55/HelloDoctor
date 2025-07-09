@@ -1,0 +1,66 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-9">
+            <h5 class="headings">{{labels.hosAppointments}}</h5>
+        </div>
+        <div class="col-lg-3">
+
+        </div>
+    </div>
+</div>
+<div class="container-fluid headercard headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetAppointmentTypeID($event)" [(ngModel)]="appointmentypeid"
+              name="appointmentypeid">
+              <option value="0" selected>{{labels.selectAppType}}</option>
+              <option value="1">{{labels.inclinic}}</option>
+              <option value="2">{{labels.video}}</option>
+              <option value="5">{{labels.homeVisit}}</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <select class="form-control" (change)="GetDepartmentID($event)">
+              <option value="0" selected>{{labels.selectDepartment}}</option>
+              <option *ngFor="let department of departmentlist" value={{department.id}}>
+                {{department.departmentname}}</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="term"> 
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div><br>
+        <div class="col-lg-3">
+          
+            <ng-multiselect-dropdown [placeholder]="labels.selectDoctor" [settings]="docdd" [data]="filterdummlist" 
+            (onSelect)="GetDoctorID($event)">
+          </ng-multiselect-dropdown>
+          </div>
+        </div><br>
+        <div class="row">
+            <div class="col-lg-3" *ngFor="let doc of doctorslist|filter:term">
+                <div class="card">
+                    <img src="{{doc.photoUrl}}" alt="John" class="imgclass">
+                    <div style="height: 100px;">
+                        <h6>{{doc.doctorName}}</h6>
+                        <p class="title">{{doc.degreeName}}</p>
+                        <p>{{doc.departmentname}}</p>
+                        <p>
+                           
+                        
+                        </p>
+                    </div>
+                    <button *ngIf="appointmentypeid=='1'||appointmentypeid=='5' || appointmentypeid=='2'"  [routerLink]="['/Doctor/Doctorslots',doc.doctorID,doc.id,doc.hospital_ClinicID,doc.appointmentTypeID,doc.bookingTypeID,doc.slotDurationID,doc.doctorName]">{{labels.book}}</button>
+        
+                    <!-- <button  *ngIf="appointmentypeid=='2'" [routerLink]="['/Doctor/Doctorslots',doc.doctorID,doc.id,doc.hospital_ClinicID,doc.appointmentTypeID,doc.bookingTypeID,doc.slotDurationID]">View</button> -->
+                </div><br>
+            </div>
+        </div>
+    
+    </div>
+
+

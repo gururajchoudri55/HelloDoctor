@@ -1,0 +1,74 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-register-provider-sm-s></app-register-provider-sm-s>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.receptionist}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <form #independentdoctorForm="ngForm">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Name"
+                            name="name" required [(ngModel)]="name">
+                        <label for="floatingInput" class="floatingLabel">{{labels.name}} <span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <select class="form-control" style="width: 97px;"  (change)="getCountryCode($event)" [(ngModel)]="countryCode" name="countryCode">
+                        <option value="0">{{labels.select}}</option>
+                        <option value="" *ngFor="let country of countryCodeList" value="{{country.countryCodeInt}}">{{country.countryCodeNew}}</option>
+                    </select>
+                </div>
+                <div class="col-lg-3">
+
+                    <div class="form-floating mb-3">
+                        <input (keypress)="numberOnly($event)"  type="email" class="form-control inputfield" id="floatingInput"
+                            placeholder="Phone Number" name="phoneno" required [(ngModel)]="phoneno" (ngModelChange)="preventHospitalnoZero(phoneno)">
+                        <label for="floatingInput" class="floatingLabel">{{labels.phonenumber}}<span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="emialID"
+                            name="emailid" rquired [(ngModel)]="email" (ngModelChange)="isValidEmail(email)">
+                        <label for="floatingInput" class="floatingLabel">{{labels.emialID}}<span class="required">*</span></label>
+                        <span *ngIf="valid==false" class="emailvalidation">Please enter a valid Email ID</span>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Username"
+                            name="username" required [(ngModel)]="username">
+                        <label for="floatingInput" class="floatingLabel">{{labels.username}}<span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                            name="Address" [(ngModel)]="address" required></textarea>
+                        <label for="floatingTextarea">{{labels.address}} <span class="required">*</span></label>
+                    </div>
+                </div>
+            </div> <br>
+    
+            <div class="row">
+                <div class="col-lg-10"></div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" (click)="insertdetails()" [disabled]="independentdoctorForm.form.invalid">{{labels.save}}</button>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" routerLink="/Doctor/IndependentRecpDash">{{labels.back}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br>
+</div>

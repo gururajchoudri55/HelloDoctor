@@ -1,0 +1,163 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid">
+    <div class="row" *ngIf="typeID==10">
+        <div class="col-lg-12 tableoverflow" style="height: 350px;">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.referenceNumber}}</th>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.date}}</th>
+                    <th>{{labels.department}}</th>
+                    <th>{{labels.doctorName}}</th>
+                    <th>{{labels.drugName}}</th>
+                    <th>{{labels.sig}}</th>
+                    <th>{{labels.dispenseQuality}}</th>
+                    <th>{{labels.substitutePermitted}}</th>
+                    <th>{{labels.howManyrefills}}</th>
+                    <th>{{labels.notetoPharmacist}}</th>
+                    <th>{{labels.substituteMedicineName}}</th>
+                    <th>{{labels.quantity}}</th>
+                </tr>
+                <tr *ngFor="let presciption of prescriptionList">
+                    <td>{{presciption.referenceNumber}}</td>
+                    <td>{{presciption.appointmentID}}</td>
+                    <td>{{presciption.date}}</td>
+                    <td>{{presciption.departmentname}}</td>
+                    <td>{{presciption.doctorName}}</td>
+                    <td >
+                        
+                        <label [ngClass]="{'textstrike':presciption.substituteBit==true}">{{presciption.medicineName}}</label>
+                        </td>
+                    <td >
+                        <label [ngClass]="{'textstrike':presciption.substituteBit==true}">{{presciption.sig}}</label>
+                        </td>
+                    <td>
+                        <label [ngClass]="{'textstrike':presciption.substituteBit==true}">{{presciption.dispenseQuantity}}</label>
+                        </td>
+                    <td>
+                        <span *ngIf="presciption.substainablenotPermitted=='1'">Yes</span>
+                        <span *ngIf="presciption.substainablenotPermitted=='2'"> NO</span>
+                    </td>
+                    <td>{{presciption.howmanyRefills}}</td>
+                    <td>{{presciption.noteToPharmasist}}</td>
+                    <td>
+                        <label
+                            [ngClass]="{'substiutecolor':presciption.substituteBit==true}">{{presciption.subMedicineName}}</label>
+
+                    </td>
+                    <td>
+                        <label   [ngClass]="{'substiutecolor':presciption.substituteBit==true}">{{presciption.subPhysology}}</label>
+                    </td>
+                    <!-- <td>
+                        <label [ngClass]="{'substiutecolor':presciption.substituteBit==true}">{{presciption.subQuantity}}</label>
+                    </td> -->
+
+                </tr>
+
+            </table>
+        </div>
+
+    </div>
+
+
+
+    <div class="row" *ngIf="typeID==11">
+        <div class="col-lg-12 tableoverflow" style="height: 350px;">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.department}}</th>
+                    <th>{{labels.doctorName}}</th>
+                    <th>{{labels.testType}}</th>
+                    <th>{{labels.test}}</th>
+                </tr>
+                <tr *ngFor="let dia of diagnosticList">
+                    <td>{{dia.appointmentID}}</td>
+                    <td>{{dia.appdate}}</td>
+                    <td>{{dia.departmentname}}</td>
+                    <td>{{dia.doctorName}}</td>
+                    <td>{{dia.name}}</td>
+                    <td>{{dia.diagnosticTestName}}</td>
+                </tr>
+
+            </table>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="row" *ngIf="typeID==12">
+        <div class="col-lg-12 tableoverflow" style="height: 350px;">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.department}}</th>
+                    <th>{{labels.doctorName}}</th>
+                    <th>{{labels.subjective}}</th>
+                    <th>{{labels.objective}}</th>
+                    <th>{{labels.assessment}}</th>
+                    <th>{{labels.plan}}</th>
+                    <th>{{labels.diagnosisCode}}</th>
+                    <th>{{labels.diagnosisDescription}}</th>
+                    <th>{{labels.followUpPlan}}</th>
+                    <th>{{labels.notes}}</th>
+                </tr>
+                <tr *ngFor="let soap of SoapList">
+                    <td>{{soap.appointmentdate}}</td>
+                    <td>{{soap.departmentname}}</td>
+                    <td>{{soap.doctorName}}</td>
+                    <td>{{soap.subjective}}</td>
+                    <td>{{soap.objective}}</td>
+                    <td>{{soap.assessment}}</td>
+                    <td>{{soap.plan}}</td>
+                    <td>{{soap.icrDescription}}</td>
+                    <td>{{soap.diagnosisCode}}</td>
+                    <td>{{soap.followUpPlan}}</td>
+                    <td>{{soap.notes}}</td>
+
+                </tr>
+
+            </table>
+        </div>
+
+    </div>
+
+
+
+    <div class="row" *ngIf="typeID==13">
+        <div class="col-lg-12 tableoverflow" style="height: 350px;">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.date}}</th>
+                    <th>{{labels.doctorName}}</th>
+                    <th>{{labels.patientname}}</th>
+                    <th>{{labels.phonenumber}}</th>
+                    <th>{{labels.emialID}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let details of medicalCertificateList">
+                    <td>{{details.sdate}}</td>
+                    <td>{{details.doctorName}}</td>
+                    <td>{{details.patientName}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>
+                     <button class="view" (click)="view(details.description)">{{labels.view1}}</button>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div>
+
+</div>

@@ -1,0 +1,269 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-doctor-sms></app-doctor-sms>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-10">
+            <h5 class="headings">{{labels.myAppointments}}</h5>
+        </div>
+        <div class="col-lg-2">
+            <button class="add" routerLink="/Doctor/BookDoctor">{{labels.addAppointment}}</button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker
+                [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }" [bsConfig]="{ showWeekNumbers:false }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="{{labels.search}}"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <button class="all" (click)="getAllAppts()">{{labels.allopenappts}}</button>
+          </div>
+          <div class="col-lg-2">
+            <button class="all"  (click)="getTodayAppts()"> {{labels.todayAppts}}</button>
+          </div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}}</label>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.appointmentNumber}}</th>
+                    <th>{{labels.appointmentdate}}</th>
+                    <th>{{labels.appointmentTime}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.appointmentType}}</th>
+                    <th>{{labels.doctorname}}</th>
+                    <th>{{labels.department}}</th>
+                    <th>{{labels.reason}}</th>
+                    <th>{{labels.status}}</th>
+                    <th class="thwidth">{{labels.actions}}</th>
+
+                </tr>
+                <tr [style.background-color]="details.appointmentColorCode"
+                    *ngFor="let details of appointmentList|filter:search| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{details.appointmentID}}</td>
+                    <td>{{details.appoinmentttdate}}</td>
+                    <td>{{details.slots}}</td>
+                    <td>{{details.primarypatientname}}</td>
+                    <td>+{{details.countryCodeNew}} {{details.primarymobileno}}</td>
+                    <td>{{details.appointmentTypeText}}</td>
+                    <td>{{details.doctorName}}</td>
+                    <td>{{details.departmentname}}</td>
+                    <td>{{details.reasonForVisit}}</td>
+                    <td>
+                        <label *ngIf="details.followApp=='1'"
+                            style="color:red;font-size: 5px;">{{labels.followUp}}</label>
+
+                        <label *ngIf=" details.accepted=='1' &&details.cancelled=='0' &&details.docCancelled=='0'
+                  &&details.isVisited=='0' &&details.noShow=='0'&&details.earlycall=='0'"
+                            class="AcceptLable">{{labels.accepted}}</label>
+
+                        <label *ngIf="details.earlycall=='1'&&details.isVisited=='0'"
+                            style="color: red;">{{labels.waitingForReponse}}</label>
+
+                        <label *ngIf="details.earlycall=='2'&&details.isVisited=='0'"
+                            style="color: red;">{{labels.earlyCallAccepted}}
+                        </label>
+
+                        <label *ngIf="details.earlycall=='3'&&details.isVisited=='0'"
+                            style="color: red;">{{labels.earlyCallRejected}}
+                        </label>
+                        <label *ngIf="details.cancelled=='1'" style="color: red;">{{labels.patientCancelled}}</label>
+
+                        <label *ngIf="details.docCancelled=='1'" style="color: red;">{{labels.doctorCancelled}}</label>
+
+                        <label *ngIf="details.isVisited=='1'" style="color: orange;">{{labels.completed}}</label>
+                        <label *ngIf="details.noShow=='1'" style="color: orange;">{{labels.notVisited}}</label><br>
+                        <label
+                            *ngIf="details.payPayment=='1'&&details.cancelled=='0'&&details.docCancelled=='0'&&details.accepted=='1'"
+                            class="paid">{{labels.paid}}</label>
+                    </td>
+                    <td>
+                        <!-- Accept Appointment -->
+                        <button class="Accept"
+                            *ngIf="details.accepted=='0'&&details.isVisited=='0'&&details.cancelled=='0'&&details.docCancelled=='0'&&details.paymentType!='3'"
+                            (click)="getSelectedDetails(details,1)">{{labels.accept}}</button>
+                        <!-- Web Panel Appointment -->
+                            <button class="Accept"
+                            *ngIf="details.accepted=='0'&&details.isVisited=='0'&&details.cancelled=='0'&&details.docCancelled=='0' &&details.paymentType=='3'"
+                            (click)="getWebPanelAppointmentDetails(details,10)">{{labels.accept}}</button><br>
+                
+
+                        <!-- Cancel Appointment -->
+                        <button class="Cancel"
+                            *ngIf="details.cancelled=='0'&&details.docCancelled=='0'&&details.isVisited=='0'&&details.bookingTypeID=='1'"
+                            (click)="getSelectedDetails(details,2)">{{labels.cancel}}</button>
+
+                        <!-- Cancel Appointment -->
+                        <button class="Cancel"
+                            *ngIf="details.cancelled=='0'&&details.docCancelled=='0'&&details.isVisited=='0'&&details.bookingTypeID!='1'&&details.doctorCancelvalidation=='1'"
+                            (click)="getSelectedDetails(details,2)">{{labels.cancel}}</button>
+
+                        <button class="pay"
+                            *ngIf="details.payPayment=='0'&&details.cancelled=='0'&&details.docCancelled=='0'&&details.accepted=='1'"
+                            (click)="GetDetails(details)" [disabled]="details.followApp == '1'"
+                            [ngStyle]="{ 'background-color': details.followApp == '1' ? 'gray' : 'initial' }"
+                              data-bs-toggle="modal" data-bs-target="#pay">
+                        {{labels.pay}}
+                        </button>
+
+                        <div *ngIf="details.accepted=='1'">
+                            <select class="form-control" (change)="getTypeID($event,details)">
+                                <option value="0">{{labels.select}}</option>
+                                <option value="15">{{labels.uploadDocuments}}</option>
+                                <option value="17">{{labels.consultationReport}}</option>
+                                <option value="22" *ngIf="details.isVisited=='1'&&details.reportBit=='0'&&details.payPayment=='1'">
+                                    {{labels.receipt}}</option>
+
+                            </select>
+                        </div>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>
+
+
+
+
+<div class="modal fade" id="pay" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.payments}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control inputfield" id="floatingInput"
+                                    [(ngModel)]="PaidAmount" name="PaidAmount" placeholder="Montant">
+                                <label for="floatingInput" class="floatingLabel">{{labels.amount}} (Ar) </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <select class="form-control" (change)="GetPaymentTypeID($event)">
+                                <option value="0">{{labels.select}}</option>
+                                <option value="3">{{labels.cash}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="paybutton" (click)="insertpaymentDetails()"
+                    data-bs-dismiss="modal">{{labels.pay}}</button>
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="uploadDocuments" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==15">{{labels.uploadDocuments}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" *ngIf="typeID==17">{{labels.consultationReport}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="typeID==15">
+                    <app-upload-prescriptions [Details]="[selectedAppointment]" (close)="close($event)"
+                        (showLoader)="showLoader()" (Message)="Message($event)" *ngIf="typeID==15">
+                    </app-upload-prescriptions>
+                </div>
+                <div *ngIf="typeID==17">
+                    <app-check-pdfs [Details]="[selectedAppointment]" (generatePDF)="generatePDF($event)"
+                        (showLoader)="showLoader()" *ngIf="typeID==17"></app-check-pdfs>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="generatePDF" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="typeID==18">
+                    <app-generate-pdfs [Details]="[selectedAppointment]" [checkedList]="[checkedList]"
+                        (showLoader)="showLoader()" (Message)="Message($event)"
+                        (closeGeneratePopUP)="closeGeneratePopUP($event)" *ngIf="typeID==18">
+                    </app-generate-pdfs>
+                </div>
+                <div *ngIf="typeID==22">
+                    <app-payment-recepit [Details]="[selectedAppointment]" (showLoader)="showLoader()"
+                      (closeReceipt)="closeReceipt($event)" *ngIf="typeID==22">
+                    </app-payment-recepit>
+                  </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,384 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid">
+    <form #DiagnosticForm="ngForm">
+        <div class="row">
+            <div class="col-lg-3">
+            </div>
+            <div class="col-lg-4">
+                <button class="testDatabse" (click)="testDatabase()">{{labels.testDatabase}}</button>
+            </div>
+            <div class="col-lg-2">
+                <button class="manually" (click)="manuallyWritten()">{{labels.manuallyWritten}}</button>
+            </div>
+        </div><br>
+
+        <div class="row">
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating" *ngIf="showTest==1">
+                    <textarea class="form-control textarea" placeholder="Leave a comment here" id="floatingTextarea2"
+                        [(ngModel)]="testsName" name="testsName" required
+                        (ngModelChange)="SearchTestname(testsName)"></textarea>
+                    <label for="floatingTextarea2">{{labels.diagnosticTestName}}</label>
+                </div>
+                <div class="form-floating" *ngIf="showTest==2">
+                    <textarea class="form-control textarea" required placeholder="Leave a comment here"
+                        id="floatingTextarea2" [(ngModel)]="diagnosticTestName" name="diagnosticTestName"></textarea>
+                    <label for="floatingTextarea2">{{labels.diagnosticTestName}}</label>
+                </div>
+            </div>
+        </div><br>
+        <div class="row" *ngIf="showTest==2">
+            <div class="col-lg-12">
+                <button class="save" (click)="addManuallyTests()"
+                    [disabled]="DiagnosticForm.form.invalid">{{labels.add}}</button>
+            </div>
+            <br>
+        </div>
+        <div class="row" *ngIf="showManualtest=='1' && showTest==2 && showTest!=1">
+            <div class="col-lg-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.testName}}</th>
+                            <th>{{labels.actions}}</th>
+                        </tr>
+                        <tr *ngFor="let diagtest of diaManualtestArray">
+
+                            <td>{{diagtest.TestName}}</td>
+                            <td>
+                                <img src="assets/Icons/delete.png" (click)="deleteDiagnostic(diagtest.Sno)">
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <br>
+        </div>
+        <br>
+        <div class="row" *ngIf="showManualtest=='1'&& showTest==2 && showTest!=1">
+            <div class="col-lg-12">
+                <button class="save" style="margin-left: 10px;" (click)="downloadpdf()">{{labels.print}}</button>
+
+                <button class="save" (click)="insertDignosticManualTest()">{{labels.save}}</button>
+            </div>
+
+        </div>
+
+        <!-- database Test  -->
+        <div class="row" *ngIf="tableCount=='1' && showTest!=2">
+            <div class="col-lg-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.testType}}</th>
+                            <th>{{labels.testName}}</th>
+                            <th>{{labels.actions}}</th>
+                        </tr>
+                        <tr *ngFor="let diagtest of diagnosticArray">
+                            <td>{{diagtest.DiagnosticTestTypeName}}</td>
+                            <td>{{diagtest.TestName}}</td>
+                            <td>
+                                <img src="assets/Icons/delete.png" (click)="delete(diagtest.Sno)">
+
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div><br>
+        <div class="row" *ngIf="tableCount=='1' && showTest!=2">
+            <div class="col-lg-12">
+                <button class="save" style="margin-left: 10px;" (click)="downloadpdf()">{{labels.print}}</button>
+
+                <button class="save" (click)="insertDiagnostictDetails()">{{labels.save}}</button>
+            </div>
+        </div>
+        <br>
+        <div class="row" *ngIf="SerachtestOn=='1'&&showTest==1 && showTest!=2">
+            <div class="col-lg-12" style="overflow-y:auto;height:300px">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.testType}}</th>
+                            <th>{{labels.testName}}</th>
+                            <th>{{labels.actions}}</th>
+                        </tr>
+                        <tr *ngFor="let code of testList|filter:testsName">
+                            <td>{{code.name}}</td>
+                            <td>
+                                {{code.short}}
+                                <!-- <input type="text" class="form-control" [(ngModel)]="code.short" name="code.short" disabled> -->
+                            </td>
+                            <td>
+                                <img src="assets/Icons/succes.png" *ngIf="code.checked==true" style="width: 18%;"
+                                    class="imgcheck_circle"><button class="Addbutton" (click)="adddetails(code)"
+                                    *ngIf="code.checked!=true">{{labels.add}}</button>
+                            </td>
+                        </tr>
+
+                    </thead>
+                </table>
+            </div>
+            <br>
+        </div><br>
+
+
+    </form>
+
+
+    <div id="diagnosticTest">
+        <div class="row">
+            <div class="col-lg-12 text-center" style="margin-top: 7px;">
+                <h6 style="letter-spacing:0.8px;"> <b>{{labels.diagnosticTests}}</b> </h6>
+            </div>
+            <div class="col-lg-12 text-center">
+                <h6>{{labels.appointmentDate}} :  {{Details[0].appdate}}</h6>
+
+            </div>
+        </div>
+        <hr class="new4">
+        <hr class="new5">
+
+        <br><br><br>
+        <!-- <hr style="color:#333;background-color:#333;"> -->
+        <div class="row" style="letter-spacing:0.7px;">
+            <div class="col-lg-5">
+                <p><b>{{labels.doctorName}}</b> : {{Details[0].doctorName}}</p><br>
+                <p>{{labels.address}} : {{Details[0].docaddress}}</p><br>
+                <p>{{labels.registration}} : {{Details[0].registrationNo}}</p><br>
+                <p>{{labels.department}} : {{Details[0].departmentname}}</p><br>
+                <p>{{labels.emialID}} : {{Details[0].docemailid}}</p><br>
+
+                <!--  -->
+
+            </div>
+            <div class="col-lg-3">
+                
+            </div>
+            <div class="col-lg-4">
+                <p><b>{{labels.patientName}}</b> : {{Details[0].patientName}}</p><br>
+                <p><b>{{labels.phoneNumber}}</b> : {{Details[0].mobileNumber}}</p><br>
+                <p><b> {{labels.emialID}}</b> : {{Details[0].emailID}}</p><br>
+                <p><b> {{labels.nationalIDNo}}</b> : {{Details[0].nationalidno}}</p><br>
+                <p><b>{{labels.age}}</b> : {{Details[0].age}}</p><br>
+                <p><b> {{labels.dateofBirth}}</b> : {{Details[0].dateofbirth}}</p><br>
+                <p><b> {{labels.gender}}</b> : {{Details[0].gender}}</p><br>
+                <p><b> {{labels.appointmentNumber}}</b> : {{appointmentID}}</p><br>
+            </div>
+            <br>
+        </div><br><br>
+        <div class="row">
+            <div class="col-lg-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.testType}}</th>
+                            <th>{{labels.testName}}</th>
+                        </tr>
+                        <tr *ngFor="let diagtest of diagnosticArray">
+                            <td>{{diagtest.DiagnosticTestTypeName}}</td>
+                            <td>{{diagtest.TestName}}</td>
+
+                        </tr>
+                    </thead>
+                </table>
+            </div><br>
+        </div><br><br><br><br>
+        <div class="row">
+            <div class="col-lg-12">
+            </div><br><br><br><br><br><br><br><br>
+        </div><br><br>
+        <div class="row">
+            <div class="col-lg-4">
+                <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+                    style="width: 100px;height:50px"><br>
+                <b>Dr. {{Details[0].doctorName}}</b><br>
+                <label><b>{{labels.registration}} : {{Details[0].registrationNo}}</b></label><br>
+            </div>
+            <div class="col-lg-8">
+                <!-- <img src="assets/Images/sign.png" style="width: 39%;"><br> -->
+                <!-- <label>Diagnostic Test provided by doctor</label><br> -->
+
+
+            </div>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+
+
+    <div id="htmlData">
+        <div>
+            <div class="container-fluid">
+                <br>
+                <div class="row">
+                    <div class="col-lg-12 text-center" style="margin-top: 10px;">
+                        <h6 style="letter-spacing:0.8px;"> <b>{{labels.diagnosticTests}}</b> </h6>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <h6>{{labels.appointmentDate}} :  {{Details[0].appdate}}</h6>
+        
+                    </div>
+                </div>
+                <br>
+                <hr class="new4">
+                <hr class="new5">
+        
+                <br>
+                <!-- <hr style="color:#333;background-color:#333;"> -->
+                <div class="row" style="letter-spacing:0.7px;">
+                    <div class="col-lg-5">
+                        <p><b>{{labels.doctorName}}</b> : {{Details[0].doctorName}}</p><br>
+                        <p>{{labels.address}} : {{Details[0].docaddress}}</p><br>
+                        <p>{{labels.registration}} : {{Details[0].registrationNo}}</p><br>
+                        <p>{{labels.department}} : {{Details[0].departmentname}}</p><br>
+                        <p>{{labels.emialID}} : {{Details[0].docemailid}}</p><br>
+        
+                        <!--  -->
+        
+                    </div>
+                    <div class="col-lg-3">
+                        
+                    </div>
+                    <div class="col-lg-4">
+                        <p><b>{{labels.patientName}}</b> : {{Details[0].patientName}}</p><br>
+                        <p><b>{{labels.phoneNumber}}</b> : {{Details[0].mobileNumber}}</p><br>
+                        <p><b> {{labels.emialID}}</b> : {{Details[0].emailID}}</p><br>
+                        <p><b> {{labels.nationalIDNo}}</b> : {{Details[0].nationalidno}}</p><br>
+                        <p><b>{{labels.age}}</b> : {{Details[0].age}}</p><br>
+                        <p><b> {{labels.dateofBirth}}</b> : {{Details[0].dateofbirth}}</p><br>
+                        <p><b> {{labels.gender}}</b> : {{Details[0].gender}}</p><br>
+                        <p><b> {{labels.appointmentNumber}}</b> : {{appointmentID}}</p><br>
+                    </div>
+                    <br>
+                </div><br><br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>{{labels.testType}}</th>
+                                    <th>{{labels.testName}}</th>
+                                </tr>
+                                <tr *ngFor="let diagtest of diagnosticArray">
+                                    <td>{{diagtest.DiagnosticTestTypeName}}</td>
+                                    <td>{{diagtest.TestName}}</td>
+        
+                                </tr>
+                            </thead>
+                        </table>
+                    </div><br>
+                </div><br><br><br><br>
+                <div class="row">
+                    <div class="col-lg-12">
+                    </div><br><br><br><br><br><br><br><br>
+                </div><br><br>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+                            style="width: 100px;height:50px"><br>
+                        <b>Dr. {{Details[0].doctorName}}</b><br>
+                        <label><b>{{labels.registration}} : {{Details[0].registrationNo}}</b></label><br>
+                    </div>
+                    <div class="col-lg-8">
+                        <!-- <img src="assets/Images/sign.png" style="width: 39%;"><br> -->
+                        <!-- <label>Diagnostic Test provided by doctor</label><br> -->
+        
+        
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
+
+
+    <!-- <div id="htmlData" style="padding: 0px 7px 0px;">
+        <div class="row">
+            <div class="col-lg-12 text-center" style="margin-top: 10px;">
+                <h6 style="letter-spacing:0.8px;"> <b>{{labels.diagnosticTests}}</b> </h6>
+            </div>
+            <div class="col-lg-12 text-center">
+                <h6>{{labels.appointmentDate}} :  {{Details[0].appdate}}</h6>
+            </div>
+        </div>
+        <br><br>
+        <hr class="new4">
+        <hr class="new5">
+        <div class="row" style="letter-spacing:0.7px;">
+            <div class="col-lg-5">
+                <p><b>{{labels.doctorName}}</b> : {{Details[0].doctorName}}</p><br>
+                <p>{{labels.address}} : {{Details[0].docaddress}}</p><br>
+                <p>{{labels.registration}} : {{Details[0].registrationNo}}</p><br>
+                <p>{{labels.department}} : {{Details[0].departmentname}}</p><br>
+                <p>{{labels.emialID}} : {{Details[0].docemailid}}</p><br>
+               
+            </div>
+            <div class="col-lg-3">
+            </div>
+            <div class="col-lg-4">
+                <p><b>{{labels.patientName}}</b> : {{Details[0].patientName}}</p><br>
+                <p><b>{{labels.phoneNumber}}</b> : {{Details[0].mobileNumber}}</p><br>
+                <p><b> {{labels.emialID}}</b> : {{Details[0].emailID}}</p><br>
+                <p><b> {{labels.nationalIDNo}}</b> : {{Details[0].nationalidno}}</p><br>
+                <p><b>{{labels.age}}</b> : {{Details[0].age}}</p><br>
+                <p><b> {{labels.dateofBirth}}</b> : {{Details[0].dateofbirth}}</p><br>
+                <p><b> {{labels.gender}}</b> : {{Details[0].gender}}</p><br>
+                <p><b> {{labels.appointmentNumber}}</b> : {{appointmentID}}</p><br>
+            </div>
+            <br>
+        </div><br><br>
+        <div class="row">
+            <div class="col-lg-12">
+                <table>
+                    <thead>
+                        <tr> 
+                            <th >{{labels.date}}</th>
+                            <th>{{labels.testType}}</th>
+                            <th>{{labels.testName}}</th>
+                        </tr>
+                        <tr *ngFor="let diagtest of diagnosticArray">
+                            <td>{{todayDate}}</td>
+                            <td>{{diagtest.DiagnosticTestTypeName}}</td>
+                            <td>{{diagtest.TestName}}</td>
+
+                        </tr>
+                    </thead>
+                </table>
+            </div><br>
+        </div><br><br><br><br>
+        <div class="row">
+            <div class="col-lg-12">
+            </div><br><br><br><br><br><br><br><br>
+        </div><br><br>
+        <div class="row">
+            <div class="col-lg-4">
+                <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+                    style="width: 100px;height:50px"><br>
+                <b>Dr. {{Details[0].doctorName}}</b><br>
+                <label><b>{{labels.registration}} : {{Details[0].registrationNo}}</b></label><br>
+            </div>
+        </div>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    </div> -->
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--  -->
+
+
+<!--  -->

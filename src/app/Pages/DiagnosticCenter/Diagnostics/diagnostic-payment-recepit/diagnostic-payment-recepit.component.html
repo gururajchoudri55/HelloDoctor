@@ -1,0 +1,319 @@
+<br>
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid  headerspace" id="Receipts">
+    <br><br><br>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="headerContent">
+            <h3>{{labels.paymentReceipt}}</h3>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="headerContent">
+            <h3>{{labels.contant}}</h3>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+    <hr style="height: 3px; color:#f07e2e;">
+    <br>
+    <hr style="height: 3px; color: #322b6b; margin-top: -15px">
+   
+    <div class="recepitHeader">
+        <div class="headerfront">
+            <label><b>{{labels.patientName}}</b></label> : <label>{{appointmentDetails?.patientName}}</label><br>
+            <label><b>{{labels.nationalIdentityno}}</b></label> : <label>{{appointmentDetails?.nationalIdentityNo}}</label><br>
+            <label><b>{{labels.dateofBirth}}</b></label> : <label>{{appointmentDetails?.dateofbirth}}</label><br>
+          <label><b>{{labels.phoneNumber}}</b></label> : <label>{{appointmentDetails?.mobileNumber}}</label><br>
+          <label><b>{{labels.email}}</b></label> : <label>{{appointmentDetails?.emailID}}</label><br>
+          <label><b>{{labels.docPrescrptionID}}</b></label>: {{appointmentDetails?.docPrescrptionID}}
+          
+        </div>
+        <div class="headeredge">
+            <label><b>{{labels.diagnosticCenter}}</b></label> : <label>{{appointmentDetails?.diagnosticCenterName}}</label><br>
+          <label><b>{{labels.phoneNumber}}</b></label> : <label>{{appointmentDetails?.diagnosticPhone}}</label><br>
+          <label><b>{{labels.address}}</b> </label> :  <label>{{appointmentDetails?.diagnosticAddress}}</label><br>
+             <label><b>{{labels.email}}</b> </label> : {{appointmentDetails?.diagnosticEmail}}<br>
+        </div>
+    </div>
+    <div class="voila">
+        <p class="get">
+            <span style="color: #322b6b;"><b>Voila</b></span><span style="color: #f07e2e;"><b>doc</b></span>
+          </p>
+    </div>
+    <hr style="height: 3px">
+
+    <div class="headerfront">
+        <label><b>{{labels.prescribedby}}</b></label> : <label>{{appointmentDetails?.doctorName}} / {{appointmentDetails?.docInpeID}}</label><br>
+        <label><b>{{labels.department}}</b></label> : <label>{{appointmentDetails?.departmentname}} </label><br>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div *ngIf="appointmentDetails?.packageCount!=0"  class="row">
+        <div class="col-lg-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{{labels.test}}</th>
+                        <th id="imp">{{labels.quantity}} </th>
+                        <th id="imp">{{labels.unitcost}} </th>
+                    </tr>
+                    
+                    <tr >
+                        <!-- <td *ngIf="appointmentDetails?.packageCount!=1">{{list?.testName}}</td> -->
+                        <td>{{appointmentDetails?.description}}</td>
+                        <td>1</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                    </tr> 
+                    <tr>
+                    
+                        <td></td>
+                        <td>Total</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                    </tr>                   
+                </thead>
+            </table>
+        </div><br>
+    </div>
+
+    <div *ngIf="appointmentDetails?.appointmentType==1 && appointmentDetails?.packageCount==0"  class="row">
+        <div class="col-lg-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{{labels.test}}</th>
+                        <th id="imp">{{labels.quantity}} </th>
+                        <th id="imp">{{labels.unitcost}} </th>
+                    </tr>
+                    
+                    <tr *ngFor="let list of testList">
+                        <td >{{list?.testName}}</td>
+                        <td>1</td>
+                        <td>{{list?.fees}}</td>
+                    </tr> 
+                    <tr>
+                    
+                        <td></td>
+                        <td>Total</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                    </tr>                   
+                </thead>
+            </table>
+        </div><br>
+    </div>
+
+    <div *ngIf="appointmentDetails?.appointmentType==2"  class="row">
+        <div class="col-lg-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{{labels.test}}</th>
+                        <th id="imp">{{labels.quantity}} </th>
+                        <th id="imp">{{labels.unitcost}} </th>
+                    </tr>
+                    
+                    <tr>
+                        <td>{{labels.attachment}}</td>
+                        <td>1</td>
+                        <td>{{appointmentDetails?.paidAmount}}
+                    </tr> 
+                    <tr>
+                    
+                        <td></td>
+                        <td>Total</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                    </tr>                   
+                </thead>
+            </table>
+        </div><br>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-10"></div>
+        <div class="col-lg-2">
+            <br>
+            <img src="{{appointmentDetails?.signatureURL}}" class="Imagesize" />
+            <img src="{{appointmentDetails?.stampURL}}" class="Imagesize" /><br>
+            <label style="font-style: italic;"><b>{{appointmentDetails?.diagnosticCenterName}}</b></label>
+            <label><b>{{labels.registrationno}}</b></label>:<label>{{appointmentDetails?.diagnosticRegistrationNumber}}</label>
+            <br>
+            <br>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <button class="print" style="margin-left: 10px;" (click)="downloadpdf()">{{labels.print}}</button> &nbsp;
+
+            <button class="save" (click)="SavePDF()">{{labels.send}}</button>
+        </div>
+    </div>
+</div>
+
+<div id="receipts">
+    <div class="container-fluid  headerspace">
+        <br><br>
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="headerContent">
+                <h3>{{labels.paymentReceipt}}</h3>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="headerContent">
+                <h3>{{labels.contant}}</h3>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+        <hr style="height: 3px; color:#f07e2e;">
+        <br>
+        <hr style="height: 3px; color: #322b6b; margin-top: -15px">
+       
+        <div class="recepitHeader">
+            <div class="headerfront">
+                <label><b>{{labels.patientName}}</b></label> : <label>{{appointmentDetails?.patientName}}</label><br>
+                <label><b>{{labels.nationalIdentityno}}</b></label> : <label>{{appointmentDetails?.nationalIdentityNo}}</label><br>
+                <label><b>{{labels.dateofBirth}}</b></label> : <label>{{appointmentDetails?.dateofbirth}}</label><br>
+              <label><b>{{labels.phoneNumber}}</b></label> : <label>{{appointmentDetails?.mobileNumber}}</label><br>
+              <label><b>{{labels.email}}</b></label> : <label>{{appointmentDetails?.emailID}}</label><br>
+              <label><b>{{labels.docPrescrptionID}}</b></label>: {{appointmentDetails?.docPrescrptionID}}
+            </div>
+           
+          
+            <div class="headeredge">
+                <label><b>{{labels.diagnosticCenter}}</b></label> : <label>{{appointmentDetails?.diagnosticCenterName}}</label><br>
+              <label><b>{{labels.phoneNumber}}</b></label> : <label>{{appointmentDetails?.diagnosticPhone}}</label><br>
+              <label><b>{{labels.INPE}}</b> </label> : {{appointmentDetails?.diagnosticInpe}}<br>
+              <label><b>{{labels.address}}</b> </label> :  <label>{{appointmentDetails?.diagnosticAddress}}</label><br>
+                 <label><b>{{labels.email}}</b> </label> : {{appointmentDetails?.diagnosticEmail}}<br>
+            
+            </div>
+        </div>
+        <div class="voila">
+
+            <p class="get">
+                <span style="color: #322b6b;"><b>Voila</b></span><span style="color: #f07e2e;"><b>doc</b></span>
+            </p>
+        </div>
+        <hr style="height: 3px">
+    
+        <div class="headerfront">
+            <label><b>{{labels.prescribedby}}</b></label> : <label>{{appointmentDetails?.doctorName}} / {{appointmentDetails?.docInpeID}}</label><br>
+            <label><b>{{labels.department}}</b></label> : <label>{{appointmentDetails?.departmentname}} </label><br>
+
+        </div>
+    
+        <br>
+        <br>
+        <br>
+    
+        <div *ngIf="appointmentDetails?.packageCount!=0"  class="row">
+            <div class="col-lg-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.test}}</th>
+                            <th id="imp">{{labels.quantity}} </th>
+                            <th id="imp">{{labels.unitcost}} </th>
+                        </tr>
+                        
+                        <tr >
+                            <!-- <td *ngIf="appointmentDetails?.packageCount!=1">{{list?.testName}}</td> -->
+                            <td>{{appointmentDetails?.description}}</td>
+                            <td>1</td>
+                            <td>{{appointmentDetails?.paidAmount}}</td>
+                        </tr> 
+                        <tr>
+                        
+                            <td></td>
+                            <td>Total</td>
+                            <td>{{appointmentDetails?.paidAmount}}</td>
+                        </tr>                   
+                    </thead>
+                </table>
+            </div><br>
+        </div>
+    
+        <div *ngIf="appointmentDetails?.appointmentType==1 && appointmentDetails?.packageCount==0"  class="row">
+            <div class="col-lg-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.test}}</th>
+                            <th id="imp">{{labels.quantity}} </th>
+                            <th id="imp">{{labels.unitcost}} </th>
+                        </tr>
+                        
+                        <tr *ngFor="let list of testList">
+                            <td >{{list?.testName}}</td>
+                            <td>1</td>
+                            <td>{{list?.fees}}</td>
+                        </tr> 
+                        <tr>
+                        
+                            <td></td>
+                            <td>Total</td>
+                            <td>{{appointmentDetails?.paidAmount}}</td>
+                        </tr>                   
+                    </thead>
+                </table>
+            </div><br>
+        </div>
+    
+        <div *ngIf="appointmentDetails?.appointmentType==2"  class="row">
+            <div class="col-lg-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.test}}</th>
+                            <th id="imp">{{labels.quantity}} </th>
+                            <th id="imp">{{labels.unitcost}} </th>
+                        </tr>
+                        
+                        <tr>
+                            <td>{{labels.attachment}}</td>
+                            <td>1</td>
+                            <td>{{appointmentDetails?.paidAmount}}
+                        </tr> 
+                        <tr>
+                        
+                            <td></td>
+                            <td>Total</td>
+                            <td>{{appointmentDetails?.paidAmount}}</td>
+                        </tr>                   
+                    </thead>
+                </table>
+            </div><br>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-2">
+                <br>
+                <img src="{{appointmentDetails?.signatureURL}}" class="Imagesize" />
+                <img src="{{appointmentDetails?.stampURL}}" class="Imagesize" /><br>
+                <label style="font-style: italic;"><b>{{appointmentDetails?.diagnosticCenterName}}</b></label>
+                <label><b>{{labels.registrationno}}</b></label>:<label>{{appointmentDetails?.diagnosticRegistrationNumber}}</label>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,86 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+  .color{
+      background-color: #322c6c;
+      color:white;
+  }
+  .button2{
+      background-color: #4d65af;
+      color:white;
+  }
+  .button3{
+      background-color:  #09f;
+      color:white
+  }
+  .button4{
+    background-color:   #d3d3d3;
+    color:white
+  }
+  .button5{
+    background-color:   #ffc000;
+    color:white
+  }
+
+
+  
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    width: 100%;
+}
+
+
+/* Style the buttons inside the tab */
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+    width: 50%;
+}
+
+
+/* Change background color of buttons on hover */
+
+.tab button:hover {
+    background-color: lightgreen;
+}
+
+
+/* Create an active/current tablink class */
+
+.tab button.active {
+    background-color: #f18235;
+    color:white;
+}
+
+/* Style the tab content */
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.tab a:hover {
+    background-color: #322b6b;
+    color:white;
+  }
+  
+  .tab a.active {
+    /* background-color: #f18235; */
+    color: #f18235;
+    width: 100%;
+  }

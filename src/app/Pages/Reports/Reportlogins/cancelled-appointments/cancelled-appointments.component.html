@@ -1,0 +1,109 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.cancelledAppointments}}</h5>
+        </div>
+        <div class="col-lg-4 buttonsss" >
+            <button class="addnew" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text"
+            placeholder="Select Date"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search" [(ngModel)]="term" name="term">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+        <div class="col-lg-4">
+            <select class="form-control" (change)="Gettypeid($event)" [(ngModel)]="typeid" name="typeid">
+                <option selected value="0">{{labels.selectType}}</option>
+                <option value="1">{{labels.doctor}}</option>
+                <option value="2">{{labels.nurse}}</option>
+                <option value="3">{{labels.physiotherapist}}</option>
+                <option value="4">{{labels.midWife}}</option>
+            </select>
+        </div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmentID}}</th>
+                    <th>{{labels.type}}</th>
+                    <th *ngIf="typeid=='1'">Doctor Name</th>
+                    <th *ngIf="typeid=='2'">Nurse Name</th>
+                    <th *ngIf="typeid=='3'">Physiotherapist Name</th>
+                    <th *ngIf="typeid=='4'">Midwife Name</th>
+                    <th *ngIf="typeid=='1'">Appointment Type</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.address}}</th>
+                    <th>{{labels.appointmentTime}}</th>
+                    <th>{{labels.reason}}</th>
+                    <th>{{labels.status}}</th>
+                </tr>
+                <tr *ngFor="let app of appointmentreportList|filter:term| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{app.appdate}}</td>
+                    <td>{{app.id}}</td>
+                    <td>{{app.typeName}}</td>
+                    <td>{{app.provdername}}</td>
+                    <td *ngIf="typeid=='1'">{{app.combinationValue}}</td>
+                    <td>{{app.patientName}}</td>
+                    <td>{{app.mobileNumber}}</td>
+                    <td>{{app.emailID}}</td>
+                    <!-- <td>{{app.address}}</td> -->
+                    <td>
+                        <img src="assets/Icons/location.png" (click)="GetAddress(app.address)" data-bs-toggle="modal"
+                        data-bs-target="#location">
+                    </td>
+                    <td>{{app.bookedtime}}</td>
+                    <td>{{app.reasonForCancel}}</td>
+                    <td style="color:red">
+                      {{app.status}}
+                    </td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="location" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content card card-hover">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{location}}
+      </div>
+    </div>
+  </div>
+</div>

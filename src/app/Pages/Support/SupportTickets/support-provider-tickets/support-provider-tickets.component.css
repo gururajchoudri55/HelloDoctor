@@ -1,0 +1,79 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+  .imgclass{
+    height: auto;
+    width: 100%;
+  }
+
+
+  .pending{
+    color: red;
+  }
+
+  .Accepted{
+    color: green;
+  }
+
+  .assignedmeridional{
+    color: orange;
+  }
+
+
+  .accept{
+    padding: 5px;
+    border: 2px solid green;
+    color: green;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+
+  }
+
+  .cancel{
+    padding: 5px;
+    border: 2px solid #D82E2F;
+    color: #D82E2F;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+   
+  }
+
+  .resolved{
+    padding: 5px;
+    border: 2px solid red;
+    color: red;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 10px;
+  }
+
+  .inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+    font-weight: 400;
+  }
+
+  .dropzone{
+    width: 100%;
+    height: 50px;
+  }
+
+  .assignmeridional{
+    padding: 1px;
+    border: 2px solid #03C6C7;
+    color: #03C6C7;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    
+  }

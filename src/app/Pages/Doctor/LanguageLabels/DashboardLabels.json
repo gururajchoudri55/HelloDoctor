@@ -1,0 +1,17 @@
+{
+    "en": [
+      {
+        "dashboard": "Dashboard",
+        "firstName": "Tom",
+        "lastName": "english"
+      }
+     
+    ],
+    "fr": [
+      {
+        "dashboard": "dashboard",
+        "firstName": "Tom",
+        "lastName": "french"
+      }
+    ]
+}

@@ -1,0 +1,182 @@
+.logo {
+  height: auto;
+  width: 80px;
+}
+
+/* .notification {
+  padding: 25px;
+  float: right;
+} */
+
+.logout {
+  padding: 25px;
+  float: right;
+}
+
+.centerlabel {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 16px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 1px;
+  color: #322b6b;
+  margin-top: 15px;
+}
+
+.open {
+  display: none;
+}
+
+.notificationCount {
+  float: right;
+  margin: 15px -62px 10px 8px;
+  font-weight: 800;
+  color: green;
+}
+
+
+.notification {
+
+  color: white;
+  text-decoration: none;
+  position: relative;
+  border-radius: 2px;
+  top: 26px;
+  float: right;
+
+}
+
+
+.notification .badge {
+  position: absolute;
+  top: -9px;
+  right: -7px;
+  /* padding: 8px 10px; */
+  border-radius: 52%;
+  background-color: red;
+  color: white;
+}
+
+.showtime{
+  display: block;
+}
+
+@media only screen and (max-width:600px) {
+  .logout {
+    margin-top: -74px;
+  }
+
+  .notification {
+    margin-top: -75px;
+  }
+
+  .open {
+    display: block;
+    margin-top: -45px;
+    margin-left: 163px;
+  }
+  .showtime{
+    display: none;
+  }
+}
+
+.cardheight {
+  height: auto;
+  overflow: auto;
+}
+
+
+
+
+
+.lang {
+
+  width: 45px;
+  float: right;
+  margin: 20px;
+  border: 3px solid #322b6b;
+}
+
+
+.box {
+  width: 45px;
+  height: 34px;
+  border: 3px solid #322b6b;
+
+  color: black;
+  float: right;
+  border-radius: 10px;
+}
+
+
+.time {
+
+  height: 65%;
+
+  background: #FFFFFF;
+
+  border: 1px solid #DBDBDB;
+
+  box-sizing: border-box;
+
+  border-radius: 4px;
+
+  width: 19%;
+
+  margin-top: 4px;
+
+  margin-right: 10px;
+
+  left: 20.50%;
+
+  right: 75.28%;
+
+  top: 25.71%;
+
+  bottom: 24.29%;
+
+background: #FFFFFF;
+
+border: 1px solid #DBDBDB;
+
+box-sizing: border-box;
+
+border-radius: 4px;
+
+}
+
+
+
+.time1 {
+
+  text-align: center;
+  letter-spacing: -0.05em;
+  color: white;
+  font-size: 27px;
+  background-color: #1dbfd2;
+
+}
+
+
+.timeheader{
+  display: flex;
+  align-items: center;  
+  flex-wrap: nowrap;
+  /* justify-content: start;  */
+  padding-bottom: 12px;
+
+}
+
+
+.melody{
+  width: 37px;
+  float: right;
+  padding: 4% 0%;
+
+}
+/* .container-fluid{
+  display: flex;
+} */

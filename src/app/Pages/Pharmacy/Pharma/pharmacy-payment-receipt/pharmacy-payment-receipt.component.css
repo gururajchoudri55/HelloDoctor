@@ -1,0 +1,71 @@
+.font {
+    font-size: 20px;
+}
+
+/* .background {
+    background-image: url("../../../../assets/Images/doc.jpg");
+} */
+
+.underline {
+    text-decoration: underline;
+    width: 100%;
+}
+
+.recepitHeader {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerfront {
+    width: 30%;
+    margin-top: 20px;
+}
+
+.headerContent {
+    display: flex;
+    justify-content: center;
+}
+
+.headeredge {
+    width: 25%;
+    margin-top: 20px;
+}
+
+.get {
+    margin: 0px 190px 0px 20px;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0rem;
+}
+
+hr {
+    margin: 0rem 0;
+    color: inherit;
+    background-color: currentColor;
+    border: 0;
+    opacity: .25;
+}
+
+.voila {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+}
+
+.print {
+    border-radius: 10px;
+    background-color: blue;
+    color: #fff;
+    border: 2px solid blue;
+    font-family: 'Poppins', sans-serif;
+    padding: 5px;
+    float: right;
+    min-width: 80px;
+    border-radius: 12px;
+  
+  }

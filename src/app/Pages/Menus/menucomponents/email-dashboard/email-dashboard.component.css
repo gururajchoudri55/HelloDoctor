@@ -1,0 +1,17 @@
+.inputfield{
+    border-radius: 12px;
+    height: 40px;
+  }
+  .floatingLabel{
+    line-height: 0px;
+  }
+
+  .imageattchment{
+    width: 437px;
+    height: auto;
+  }  
+  .nodocuments{
+    font-weight: 600;
+    font-size: 13px;  
+    color: #0C275A;
+  }

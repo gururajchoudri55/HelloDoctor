@@ -1,0 +1,225 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <h5 class="headings">{{labels.billing}}</h5>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div><br>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetType($event)" [(ngModel)]="typeid" name="typeid">
+                <option value="0">{{labels.select}}</option>
+                <option value="1">{{labels.hospital}}</option>
+                <option value="2">{{labels.clinic}}</option>
+                <option value="3">{{labels.independentDoctor}}</option>
+                <option value="4">{{labels.independentNurses}}</option>
+                <option value="5">{{labels.independentPhysiotherapist}}</option>
+                <option value="6">{{labels.independentmidwife}}</option>
+                <option value="7">{{labels.pharmacy}}</option>
+                <option value="8">{{labels.diagnosticCenter}}</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetYear($event)" [(ngModel)]="year" name="year">
+                <option value="0">{{labels.select}}</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetMonth($event)" [(ngModel)]="month" name="month">
+                <option value="0">{{labels.select}}</option>
+                <option value="1">{{labels.january}}</option>
+                <option value="2">{{labels.february}}</option>
+                <option value="3">{{labels.march}}</option>
+                <option value="4">{{labels.april}}</option>
+                <option value="5">{{labels.may}}</option>
+                <option value="6">{{labels.june}}</option>
+                <option value="7">{{labels.july}}</option>
+                <option value="8">{{labels.august}}</option>
+                <option value="9">{{labels.september}}</option>
+                <option value="10">{{labels.october}}</option>
+                <option value="11">{{labels.november}}</option>
+                <option value="12">{{labels.december}}</option>
+            </select>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table" id="download">
+                <tr>
+                    <th *ngIf="typeid==1">{{labels.hospital}}</th>
+                    <th *ngIf="typeid==2">{{labels.clinic}}</th>
+                    <th *ngIf="typeid==3">{{labels.independentDoctor}}</th>
+                    <th *ngIf="typeid==4">{{labels.independentNurses}}</th>
+                    <th *ngIf="typeid==5">{{labels.independentPhysiotherapist}}</th>
+                    <th *ngIf="typeid==6">{{labels.independentmidwife}}</th>
+                    <th>{{labels.contactPerson}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.emailID}}</th>
+                    <th>{{labels.month}}</th>
+                    <th>{{labels.monthlySubscriptions}}</th>
+                    <th>{{labels.paymentMode}}</th>
+                    <!-- <th>Total Appointments Commission</th> -->
+                    <!-- <th>TVA</th> -->
+                    <th>{{labels.actions}}</th>
+                    <th>{{labels.paymentStatus}}</th>
+                    <th>{{labels.paymentDate}}</th>
+                </tr>
+                <tr *ngFor="let details of billinglist|filter:search">
+                    <td>{{details.providerName}}</td>
+                    <td>{{details.providerName}}</td>
+                    <td>{{details.phoneNo}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>{{details.name}}</td>
+                    <td>{{details.monthlySubscription|number:'1.2-2'|noComma}}Ar</td>
+                    <!-- <td>{{details.totalCommissionsAmount}}</td> -->
+                    <!-- <td>{{details.vatPercentage}}</td> -->
+                    <td>{{details.monthlyType}}</td>
+                    <td><button (click)="GetList(details)" class="btncolor" data-bs-toggle="modal"
+                            data-bs-target="#viewinvoice">{{labels.viewInvoice}}
+                        </button></td>
+
+                    <td>
+                        <button class="due">{{labels.due}}</button>
+                    </td>
+
+                    <td>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <!-- <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="Previous" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div> -->
+</div>
+<br>
+
+
+<div class="modal fade" id="viewinvoice" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="container-fluid" id="content">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <img class="teleimage" src="assets/Icons/telehealth.png">
+                            </div>
+                            <div class="col-lg-6">
+                                <span>Lot IVX 5A BIS Ankazomanga Sud , Antananarivo</span>
+                                <br>
+                                <span>RCS Antananarivo 2003 B 00894, Capital de 2,000,000 Ar</span>
+                                <br>
+                                <span>NIF: 3000003944, Statistique No 64211 11 1995 0 00180</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 text-alignments "><br>
+                                <h6 style="background:#303577;color:white;padding: 10px;">{{labels.client}} : {{hospitalname}}</h6>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-7">
+
+                                    <label>{{labels.address}} : {{address}}</label><br>
+                                    <label>{{labels.pinCode}} : {{pincode}}</label><br>
+                                    <label>{{labels.phoneNumber}}: {{phoneNo}}</label><br>
+                                    <label>{{labels.emailID}} : {{emailid}}</label><br>
+                                </div>
+                                <div class="col-lg-5">
+                                    <label>{{labels.statementDate}}: {{todaydate}} </label><br>
+                                    <label>{{labels.statementNo}}: {{invoicenumber}}</label><br>
+                                    <label>{{labels.clientNo}} </label><br>
+                                    <!-- <label>{{labels.clientIceNo}} </label><br> -->
+                                    <label>{{labels.contactNumber}} </label><br>
+                                    <label>{{labels.year}} : {{year}}</label><br>
+                                    <label>{{labels.month}} : {{monthName}} </label><br>
+                                    <label>{{labels.paymentMode}} : {{paymentMode}}</label>
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="row">
+                            <h6>{{labels.subscriptionservice}}</h6>
+                            <div class="col-lg-12">
+                                <table>
+                                    <tr>
+                                        <th>{{labels.provideName}}</th>
+                                        <th>{{labels.phoneNumber}}</th>
+                                        <th>{{labels.description}}</th>
+                                        <th>{{labels.monthlySubscriptions}}</th>
+                                        <!-- <th>{{labels.totalcommission}}</th> -->
+                                        <th>{{labels.totalAmount}}</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{hospitalname}}</td>
+                                        <td>{{phoneNo}}</td>
+                                        <td>{{labels.serviceVoiladoc}} </td>
+                                        <td>{{monthlysub|number:'1.2-2'|noComma}}Ar</td>
+                                        <!-- <td>{{totalCommission|number:'1.2-2'|noComma}}Ar</td> -->
+                                        <td>{{totalamount|number:'1.2-2'|noComma}}Ar</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <br> <br>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <table>
+                                    <tr>
+                                        <th>{{labels.telehealth}}:</th>
+                                    </tr>
+                                    <tr>
+                                        <label>{{labels.bankName}} : BNI Madagascar</label><br>
+                                        <label>{{labels.accountNumber}} :00005    CodeGuiche:00007   CPTE Numero : 73940440001     CLE RIB : 33 </label><br>
+                                        <label>{{labels.ifscCode}} : MG4600005 00007739404000133         MVola : 0381765396</label><br>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-lg-4 text-alignments">
+                                <span>{{labels.monthlySubscriptions}} : {{monthlysub|number:'1.2-2'|noComma}}Ar</span><br>
+                                <span>{{labels.totalAppointmentcommission}} : {{totalCommission|number:'1.2-2'|noComma}}
+                                   Ar</span><br>
+                                <span>{{labels.tva}} : {{vatAmount}}</span><br>
+                                <span>{{labels.totalttcdh}} : {{totalamount|number:'1.2-2'|noComma}}Ar</span><br>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+                <button type="button" class="save" data-bs-dismiss="modal" (click)="downloadpdf()">{{labels.print}}</button>
+                <button type="button" class="save" data-bs-dismiss="modal" (click)="SavePDF()">{{labels.savepdf}}</button>
+            </div>
+        </div>
+    </div>
+</div>

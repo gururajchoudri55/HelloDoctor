@@ -1,0 +1,268 @@
+.inputfield {
+    border-radius: 12px;
+    height: 40px;
+  }
+  
+  .floatingLabel {
+    line-height: 0px;
+  }
+  
+  
+  
+  table,
+  tr{
+  
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    /* line-height: 17px;        */
+    /* color: #0C275A; */
+    text-align: center;
+  
+  }
+  
+  td{
+  
+    font-family: 'Poppins', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 13px;
+    /* line-height: 17px;        */
+    /* color: #0C275A; */
+    text-align: center;
+    border-bottom: 2px solid lightgray;
+  }
+  
+  
+  table {
+    font-family: 'Poppins', sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 10px;
+  }
+  
+  th {
+    background-color: #322B6B;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    /* border: 1px solid #dddddd; 
+       border: 1px solid gray; */
+  }
+  
+  .datalist-input {
+    width: 50%;
+    color: black;
+  }
+  
+  .thwidth {
+    width: 17%;
+  }
+  
+  .Video {
+    background-color: white;
+    color: #322B6B;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #322B6B;
+    font-weight: 600;
+    width: 160px;
+  }
+  
+  /* .Video {
+    color: #322B6B;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #322B6B;
+    font-weight: 600;
+    width: 100px;
+  } */
+  
+  .Video:hover {
+    background-color: #322B6B;
+    color: white;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #322B6B;
+    font-weight: 600;
+    width: 160px;
+  }
+  
+  
+  .InClinic {
+    background-color: white;
+    color: #1dbfd2;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #1dbfd2;
+    font-weight: 600;
+    width: 100px;
+  }
+  
+  .InClinic:hover {
+    background-color: #1dbfd2;
+    color: white;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #1dbfd2;
+    font-weight: 600;
+    width: 100px;
+  }
+  
+  
+  .HomeVisit {
+    background-color: white;
+    color: #00926e;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #00926e;
+    font-weight: 600;
+    width: 100px;
+  }
+  
+  
+  .HomeVisit:hover {
+    background-color: white;
+    color: white;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #00926e;
+    font-weight: 600;
+    width: 100px;
+    background-color: #00926e;
+  }
+  .Accept {
+    padding: 5px;
+    border: 2px solid green;
+    color: green;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+  }
+  
+  
+  .Accept:hover {
+    padding: 5px;
+    border: 2px solid green;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    background-color: green;
+    color: white;
+  }
+  
+  
+  .Cancel {
+    padding: 5px;
+    border: 2px solid red;
+    color: red;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 5px;
+  }
+  
+  .Cancel:hover{
+    padding: 5px;
+    border: 2px solid red;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 5px;
+    background-color: red;
+  }
+  
+
+
+
+  
+  .pay {
+    padding: 5px;
+    border: 2px solid #2827CC;
+    color: #2827CC;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 5px;
+  }
+  
+  .pay:hover{
+    padding: 5px;
+    border: 2px solid #2827CC;
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    width: 100px;
+    margin-top: 5px;
+    background-color: #2827CC;
+  }
+
+
+  .paybutton{
+    padding: 3px;
+    background-color: #322b6b;
+    color:white;
+    border-radius: 10px;
+    width: 92px;
+  }
+
+
+
+  .AcceptLable{
+    color: green;
+  }
+  
+  .modaltitle{
+    font-size: 12px;
+    color:red;
+  }
+  
+  .modai-height{
+    height: 450px;
+    overflow: auto;
+  }
+  
+  .info{
+    width: 50px;
+  }
+  
+  .Video:disabled{
+    cursor: 'nodrop';
+  }
+  
+  .imgwidth{
+    width: 35px;
+  }
+
+  .paid{
+    color: green;
+  }
+
+  .all
+{
+  padding: 10px;
+  border: 2px solid #1dbfd2;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 200px;
+  background-color: #1dbfd2;;
+
+}

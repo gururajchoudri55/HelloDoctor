@@ -1,0 +1,64 @@
+.substiutecolor
+{
+  color:#322b6b;
+}
+.textstrike
+{
+  text-decoration: line-through;
+  color:red;
+}
+
+
+
+
+table,
+tr{
+
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  /* line-height: 17px;        */
+  /* color: #0C275A; */
+  text-align: center;
+
+}
+
+td{
+
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  /* line-height: 17px;        */
+  /* color: #0C275A; */
+  text-align: center;
+  border: 1px solid #dee2e6;
+  /* border-bottom: 2px solid lightgray; */
+}
+
+
+table {
+  font-family: 'Poppins', sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 10px;
+}
+
+th {
+  background-color: #322B6B;
+  color: white;
+  text-align: center;
+
+  /* border: 1px solid #dddddd; 
+     border: 1px solid gray; */
+}
+
+
+.view{
+  padding: 10px;
+  border: 1px solid #f18235;
+  background-color: #f18235;
+  border-radius: 5px;
+  color: white;
+}

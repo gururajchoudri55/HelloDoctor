@@ -1,0 +1,112 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-8">
+      <h5 class="headings">{{labels.fieldTeamWork}}</h5>
+    </div>
+  </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="Select Date" class="form-control" bsDaterangepicker [(ngModel)]="bsRangeValue"
+        (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+    </div>
+    <div class="col-lg-3">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+          [(ngModel)]="search">
+        <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <select class="form-control" (change)="GetUserID($event)">
+        <option value="0">{{labels.select}}</option>
+        <option *ngFor="let det of myteamlist" value="{{det.id}}">{{det.name}}</option>
+      </select>
+    </div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 countClass">
+      <label>{{labels.count}} : {{count}} </label>
+    </div>
+  </div>
+  <br>
+  <div class="row ">
+    <div class="col-lg-12 tableoverflow">
+      <table class="table table-hover" id="download">
+        <tr>
+          <th>{{labels.appointmentDate}}</th>
+          <th>{{labels.appointmentTime}}</th>
+          <th>{{labels.appointmentNumber}}</th>
+          <th>{{labels.agentName}}</th>
+          <th>{{labels.labStaffphoneNumber}}</th>
+          <th>{{labels.patientName}}</th>
+          <th>{{labels.patientPhoneNumer}}</th>
+          <th>{{labels.address}}</th>
+          <th>{{labels.pickUptime}}</th>
+          <th>{{labels.details}}</th>
+          <th>{{labels.status}}</th>
+        </tr>
+        <tr
+          *ngFor="let details of userreportlist|filter:search| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+          <td>{{details.appdate}}</td>
+          <td>{{details.slotName}}</td>
+          <td>{{details.id}}</td>
+          <td>
+            {{details.assinedname}}
+          </td>
+          <td>
+            {{details.agentphoneno}}
+          </td>
+          <td>{{details.patientName}}</td>
+          <td>{{details.mobileNumber}}</td>
+          <!-- <td>{{details.address}}</td> -->
+          <td>
+            <img src="assets/Icons/location.png" (click)=" GetAddress(details.address)" data-bs-toggle="modal"
+              data-bs-target="#location">
+          </td>
+          <td>
+                    <!-- <ng-template #tipcontent18>{{labels[0].tests}}</ng-template>
+                    <a [ngbTooltip]="tipcontent18" *ngIf="details.testsCount!=0">
+                      <img src="assets/Images/test1.png" data-toggle="modal" data-target="#exampleModal2" style="height:20px;"
+                        (click)="GetTestsID(details.id)">
+                    </a>&nbsp;
+                    <ng-template #tipcontent20>{{labels[0].packages}}</ng-template>
+                    <a [ngbTooltip]="tipcontent20" *ngIf="details.packageCount!=0">
+                      <img src="assets/Images/pack1.png" data-toggle="modal" data-target="#exampleModal3" style="height:20px;"
+                        (click)="GetPackageID(details.id)">
+                    </a> -->
+                  </td>
+                  <td></td>
+          <td>
+            <label style="color:red">{{details.status}}</label>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-lg-12" style="text-align: end">
+    <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+      screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="location" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content card card-hover">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{location}}
+      </div>
+    </div>
+  </div>
+</div>

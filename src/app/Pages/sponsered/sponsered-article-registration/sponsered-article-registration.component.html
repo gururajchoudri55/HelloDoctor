@@ -1,0 +1,97 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<!-- <app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms> -->
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{labels.writeArticle}}</p>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <select class="dropdown form-control" (change)="GetCategoryID($event)" [(ngModel)]="categoryid"
+                name="categoryid">
+                <option value="" selected>{{labels.select}}</option>
+                <option *ngFor="let category of categorylist" value={{category.id}}>{{category.category}}</option>
+              </select>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                    [(ngModel)]="topic" name="topic"></textarea>
+                    <label for="floatingTextarea">{{labels.topic}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                    [(ngModel)]="subtopic"  name="subtopic"></textarea>
+                    <label for="floatingTextarea">{{labels.subtopic}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                    [(ngModel)]="tags" name="tags"></textarea>
+                    <label for="floatingTextarea">{{labels.siteInternet}}</label>
+                </div>
+            </div>
+        </div> <br>
+
+  
+
+        <div class="row">
+            <div class="col-lg-3" >
+                <ngx-dropzone (change)="onSelect($event,2)" class="dropZone">
+                    <ngx-dropzone-label>Banner Photo</ngx-dropzone-label>
+                    <ngx-dropzone-preview *ngFor="let f of files1" [removable]="true" (removed)="onRemove1(f)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+                </ngx-dropzone>
+            </div>
+            <div class="col-lg-3" *ngIf="typeid==1">
+                <ngx-dropzone (change)="onSelect($event,1)" class="dropZone">
+                    <ngx-dropzone-label>Upload</ngx-dropzone-label>
+                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+                </ngx-dropzone>
+            </div>
+            <div class="col-lg-6" *ngIf="typeid==3">
+                <!-- <ckeditor data="" [(ngModel)]="description" name="description"></ckeditor> -->
+                <textarea class="form-control" placeholder="Leave description here" id="floatingTextarea"
+                    [(ngModel)]="description"  name="description"></textarea>
+            </div>
+            <div class="col-lg-3">
+                <label>Type :</label> &nbsp;
+                <input type="radio"  [value]="1" [(ngModel)]="typeid" name="typeid" >&nbsp; Pdf
+                &nbsp;
+                <!-- <input type="radio" [value]="2"  [(ngModel)]="typeid" name="typeid" >&nbsp; Image
+                &nbsp; -->
+                <input type="radio" [value]="3" [(ngModel)]="typeid" name="typeid" >&nbsp; Text
+            </div>
+        </div>
+        <br>
+
+        <div class="row" >
+            
+        </div>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-1">
+                <button type="button" class="save"  *ngIf="showicon=='0'"  (click)="insertdetails()">{{labels.save}}</button>
+                <button type="button" class="save"  *ngIf="showicon=='1'"  (click)="updatedetails()">{{labels.update}}</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" routerLink="/Sponsered/SponseredArticleDashboard">{{labels.back}}</button>
+            </div>
+        </div>
+    </div><br>
+
+    <div id="qwerty">
+
+    </div>

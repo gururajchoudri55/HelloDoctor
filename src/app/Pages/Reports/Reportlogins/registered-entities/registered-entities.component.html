@@ -1,0 +1,174 @@
+<app-sms></app-sms>
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <h5 class="headings">{{labels.dashboard}}</h5>
+        </div>
+        <!-- <div class="col-lg-4 col-sm-6 buttonsss">
+           <input type="date" class="form-control">
+        </div> -->
+    </div>  
+</div>
+<div class="container-fluid headercard card-hover headerspace">
+    <br>
+    <div class="row">
+      <div class="col-lg-3">
+        <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker [(ngModel)]="bsRangeValue"
+          (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+      </div>
+    </div>
+<br>
+<div class="row">
+    <div class="col-lg-3" *ngFor="let count of allcounts">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        [routerLink]="['/countrymanager/Hospitaldash']">
+          <br />
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.registeredHospitals}}</b>
+          </label>
+          <br />
+          <br>
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{count.hospitalcount}}</u>
+            </b>
+          </label>
+        </div>
+        <br />
+        <br />
+      </div>
+      <div class="col-lg-3" *ngFor="let count of allcounts">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        [routerLink]="['/countrymanager/Clinicsdash']">
+          <br />
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.registeredClinics}}</b>
+          </label>
+          <br />
+          <br>
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{count.cliniccount }}</u>
+            </b>
+          </label>
+        </div>
+        <br />
+        <br />
+      </div>
+      <div class="col-lg-3" *ngFor="let count of allcounts">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        [routerLink]="['/countrymanager/Doctordash']">
+          <br />
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.registeredDoctors}}</b>
+          </label>
+          <br />
+          <br>
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{count.doctorscount}}</u>
+            </b>
+          </label>
+        </div>
+        <br />
+        <br />
+      </div>
+      <div class="col-lg-3" *ngFor="let count of allcounts">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        [routerLink]="['/countrymanager/Pharmacy']">
+          <br />
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.registeredPharnmacy}}</b>
+          </label>
+          <br />
+          <br>
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{count.pharmacyCount}}</u>
+            </b>
+          </label>
+        </div>
+        <br />
+        <br />
+      </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-3" *ngFor="let count of allcounts">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        [routerLink]="['/countrymanager/Nurse']">
+          <br />
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.registeredNurse}}</b>
+          </label>
+          <br />
+          <br>
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{count.nurseCount }}</u>
+            </b>
+          </label>
+        </div>
+        <br />
+        <br />
+      </div>
+      <div class="col-lg-3" *ngFor="let count of allcounts">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        [routerLink]="['/countrymanager/Physiotherapist']">
+          <br />
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.registeredPhysiotherapists}}</b>
+          </label>
+          <br /><br>
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{count.phsyciocount}}</u>
+            </b>
+          </label>
+        </div>
+        <br />
+        <br />
+      </div>
+      <div class="col-lg-3" *ngFor="let count of allcounts">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        [routerLink]="['/countrymanager/Midwife']">
+          <br />
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.registeredMidwife}}</b>
+          </label>
+          <br />
+          <br>
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{count.midwivwcount }}</u>
+            </b>
+          </label>
+        </div>
+        <br />
+        <br />
+      </div>
+      <div class="col-lg-3" *ngFor="let count of allcounts">
+        <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+        [routerLink]="['/countrymanager/Diagnosticdash']">
+          <br />
+          <label style="color: black;font-size: 30px;color: white;">
+            <b style="font-size: 15px;">{{labels.registeredLab}}</b>
+          </label>
+          <br />
+          <br>
+          <label style="color: black;font-size: 30px;color: #f17e2d;">
+            <b>
+              <u style="font-size: 20px;">{{count.diagnosticCount}}</u>
+            </b>
+          </label>
+        </div>
+        <br />
+        <br />
+      </div>
+</div>
+<br>
+<br>
+
+  
+</div>

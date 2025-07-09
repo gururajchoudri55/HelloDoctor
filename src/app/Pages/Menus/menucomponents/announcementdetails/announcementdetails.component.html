@@ -1,0 +1,87 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <form #announcementForm="ngForm">
+        <div class="row">
+            <div class="col-lg-12">
+                <h5 class="headings">{{labels.announcement}}</h5>
+            </div>
+            <div class="col-lg-8"></div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput"
+                            placeholder="Announcement Name" [(ngModel)]="announsementname" name="announsementname" required>
+                        <label for="floatingInput" class="floatingLabel">{{labels.announcementName}}<span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput"
+                            placeholder="WebSite Link" [(ngModel)]="websitelink" name="websitelink">
+                        <label for="floatingInput" class="floatingLabel">{{labels.webLink}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                            [(ngModel)]="description" name="description"></textarea>
+                        <label for="floatingTextarea">{{labels.description}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                        <ngx-dropzone-label>{{labels.photo}}</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+                <br>
+            </div> <br>
+            <div class="row">
+                <div class="col-lg-3" *ngIf="showicon=='0'">
+                    <select class="form-control" (change)="getCountryID($event)">
+                        <option value="">{{labels.country}}</option>
+                        <option *ngFor="let cou of countryList" value="{{cou.id}}">{{cou.short}}</option>
+                    </select>
+                </div>
+                <div class="col-lg-3" *ngIf="showicon=='0'">
+                    <ng-multiselect-dropdown [placeholder]="selectregion" [settings]="regiondd" [data]="regionList"
+                        (onSelect)="GetRegionID($event)">
+                    </ng-multiselect-dropdown>
+                </div>
+                <div class="col-lg-3" *ngIf="showicon=='0'">
+                    <ng-multiselect-dropdown [placeholder]="selectprovince" [settings]="citydd" [data]="cityList"
+                        (onSelect)="GetCityID($event)">
+                    </ng-multiselect-dropdown>
+                </div>
+                <div class="col-lg-3" *ngIf="showicon=='0'">
+                    <ng-multiselect-dropdown [placeholder]="selectcity" [settings]="areadd" [data]="areaList"
+                        (onSelect)="GetAreaID($event)">
+                    </ng-multiselect-dropdown>
+                </div>
+
+            </div> <br>
+            <br>
+            <div class="row">
+                <div class="col-lg-9"></div>
+                <div class="col-lg-2">
+                    <button type="button" class="save" (click)="insertdetails()"
+                        *ngIf="showicon=='0'" [disabled]="announcementForm.form.invalid">{{labels.save}}</button>
+                    <button type="button" class="save" (click)="updatedetails()"
+                        *ngIf="showicon=='1'">{{labels.update}}</button>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" routerLink="/menus/Announcements">{{labels.back}}</button>
+                </div>
+            </div>
+        </div>
+        <br>
+    </form>
+</div>

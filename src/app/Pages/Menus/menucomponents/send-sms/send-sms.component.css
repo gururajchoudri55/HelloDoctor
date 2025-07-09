@@ -1,0 +1,19 @@
+.inputfield {
+  border-radius: 12px;
+  height: 40px;
+}
+
+.floatingLabel {
+  line-height: 0px;
+}
+
+.email {
+  width: 35px;
+  height: auto;
+}
+
+.email-all {
+  width: 25px;
+  height: auto;
+  margin-left: 5px;
+}

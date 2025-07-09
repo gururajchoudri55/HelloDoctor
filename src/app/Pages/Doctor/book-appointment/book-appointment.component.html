@@ -1,0 +1,305 @@
+<br>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.bookAppointment}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectpatient" [settings]="patientdd" [data]="patientList"
+                    (onSelect)="GetPatientID($event)" (onDeSelect)="clear($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-3">
+                <button class="voiladocpatients" data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop">{{labels.voiladocPatients}}</button>
+            </div>
+            <div class="col-lg-3" *ngIf="showSearchBox=='1'">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="term" name="term"
+                        placeholder="Doctor name" (ngModelChange)="Searchpatient(term)">
+                    <label for="floatingInput" class="floatingLabel">{{labels.mobileNumber}}</label>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row" *ngIf="searchon=='1'">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10" style="overflow: auto;">
+                <table id="Appointment">
+                    <thead>
+                        <tr>
+                            <th>{{labels.patientname}}</th>
+                            <th>{{labels.mobileNumber}}</th>
+                            <th>{{labels.emailID}}</th>
+                            <th>{{labels.address}}</th>
+                            <th>{{labels.dateofBirth}}</th>
+                            <th>{{labels.select}}</th>
+                        </tr>
+                        <tr *ngFor="let details of patientDetails|filter:term">
+                            <td>{{details.patientName}}</td>
+                            <td>{{details.mobileNumber}}</td>
+                            <td>{{details.emailID}}</td>
+                            <td>{{details.address}}</td>
+                            <td>{{details.dateOfBirth}}</td>
+                            <td>
+                                <button class="listCss" (click)="GetPatientsID(details)">{{labels.valider}}</button>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div><br>
+        </div><br>
+
+ 
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput " disabled
+                        [(ngModel)]="patientName" name="patientName" placeholder="Doctor name">
+                    <label for="floatingInput" class="floatingLabel">{{labels.patientname}} </label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" disabled
+                        [(ngModel)]="mobileNumber" name="mobileNumber" placeholder="Doctor name">
+                    <label for="floatingInput" class="floatingLabel">{{labels.mobileNumber}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+
+                <div class="form-floating">
+                    <textarea class="form-control" disabled placeholder="Leave a comment here" id="floatingTextarea2"
+                        [(ngModel)]="address" name="address"></textarea>
+                    <label for="floatingTextarea2">{{labels.address}}</label>
+                </div>
+
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" disabled
+                        [(ngModel)]="appointmentDate" name="appointmentDate" placeholder="Doctor name">
+                    <label for="floatingInput" class="floatingLabel">{{labels.appointmentDate}} </label>
+                </div>
+            </div>
+
+        </div><br>
+
+        <div class="row">
+
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" disabled
+                        [(ngModel)]="slotname" name="slotname" placeholder="Doctor name">
+                    <label for="floatingInput" class="floatingLabel">{{labels.appointmentTime}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                        [(ngModel)]="reasonForVisit" name="reasonForVisit"></textarea>
+                    <label for="floatingTextarea2">{{labels.reason}}</label>
+                </div>
+
+            </div>
+            <div class="col-lg-3">
+                <select class="form-control" (change)="GetFollowUpID($event)"[(ngModel)]="PaymentTypeID" name="PaymentTypeID">
+                  <option value="0">{{labels.modeOfPayment}}</option>
+                  <option value="3" *ngIf="appointmentTypeID!=2">{{labels.cash}}</option>   
+                  <option value="4">{{labels.followUpVisit}}</option>                
+                </select>
+              </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                      disabled  [(ngModel)]="PaidAmount" name="PaidAmount"></textarea>
+                    <label for="floatingTextarea2">{{labels.thesumofRupees}}</label>
+                </div>
+
+                <!-- <div class="form-floating" *ngIf="this.PaymentTypeID==4" >
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                        [(ngModel)]="PaidAmount" name="PaidAmount"></textarea>
+                    <label for="floatingTextarea2">{{labels.thesumofRupees}}</label>
+                </div> -->
+
+            </div>
+
+        </div><br><br>
+
+
+        <div class="row">
+            <div class="col-lg-10">
+
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" 
+                    (click)="bookappointment()" [disabled]="PaymentTypeID=='0'">{{labels.save}}</button>
+            </div>
+            <div class="col-lg-1" >
+                <button class="close" *ngIf="showback==1"
+                    routerLink="/HospitalClinic/HospitalAppointments">{{labels.back}}</button>
+                <button class="close" *ngIf="showback==2" routerLink="/Doctor/RecpAppointments">{{labels.back}}</button>
+            </div>
+          
+        </div>
+    </div><br><br>
+
+</div>
+
+<br><br>
+
+
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" *ngIf="languageID==6">
+                    <h4 style="text-decoration: underline;">Conditions d’utilisation – Protection des données
+                        personnelles</h4>
+                    <br>
+                    <p>
+                        Vous allez accéder à la base de données des patients de Voiladoc. Veuillez vous assurer que le
+                        patient à
+                        donné
+                        son consentement avant d’accéder à ses informations personnelles qui consistent en son nom,
+                        prénom, adresse,
+                        adresse email, date de naissance, numéro de téléphone ainsi que son numéro d’identité et sa
+                        carte
+                        d’assurance
+                        (le renseignement de ces deux derniers champs est optionnel pour le patient).
+                    </p>
+                    <p>
+                        Vous allez effectuer une recherche a l’aide du numéro de téléphone portable du patient. Veuillez
+                        vérifier
+                        que
+                        les données obtenues correspondent bien au nom, prénom et date de naissance du patient.
+                    </p>
+                    <p>
+                        Vous confirmez que vous n’utiliserez pas ces informations sauf aux fins prévues par la
+                        plateforme Voiladoc
+                        et
+                        ne les divulguerez pas à des tiers non autorisés.
+                    </p>
+                    <p>
+                        Si vous n’acceptez pas ces conditions, vous ne serez pas en mesure de continuer
+                        l’enregistrement.
+                    </p>
+                    <p>
+                        <b>Cordialement <br>
+                            Le Service d’audit de données de Voiladoc</b>
+
+                    </p>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                data-bs-target="#cancel" class="cancel">{{labels.reject}}
+                            </button>
+                        </div>
+                        <div class="col-lg-6">
+
+                        </div>
+                        <div class="col-lg-3">
+                            <button type="button" class="btn btn-primary" class="accept" (click)="acceptedTerms()"
+                                data-bs-dismiss="modal">{{labels.accept}}</button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="container-fluid" *ngIf="languageID==1">
+                    <h4 style="text-decoration: underline;">Terms of Use - Protection of personal data</h4>
+                    <br>
+                    <p>
+                        You will access Voiladoc's patient database. Please ensure that the patient has given consent
+                        before accessing their personal information which consists of their surname, first name,
+                        address, email address, date of birth, telephone number as well as their identity number and
+                        insurance card (the information in these last two fields is optional for the patient).
+                    </p>
+                    <p>
+                        You will perform a search using the patient's mobile phone number. Please check that the data
+                        obtained, corresponds to the patient's family name, first name and date of birth.
+                    </p>
+                    <p>
+                        You confirm that you will not use this information except for the intended purposes on the
+                        Voiladoc platform and will not disclose it to unauthorized third parties.
+                    </p>
+                    <p>
+                        If you do not agree to these conditions, you will not be able to continue the registration.
+                    </p>
+                    <p>
+                        <b>Kind regards <br>
+                            Voiladoc's Data Audit Service</b>
+
+                    </p>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                data-bs-target="#cancel" class="cancel">{{labels.reject}}
+                            </button>
+                        </div>
+                        <div class="col-lg-6">
+
+                        </div>
+                        <div class="col-lg-3">
+                            <button type="button" class="btn btn-primary" class="accept" (click)="acceptedTerms()"
+                                data-bs-dismiss="modal">{{labels.accept}}</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="cancel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Désolé, nous ne sommes pas en mesure de vous donner accès aux données du patient.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>

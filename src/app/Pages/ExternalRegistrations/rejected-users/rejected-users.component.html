@@ -1,0 +1,103 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-9 col-sm-6">
+      <h5 class="headings">{{labels.rejectedUserDashboard}}</h5>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker
+        [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+    </div>
+    <div class="col-lg-3">
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="{{labels.search}}">
+        <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+      </div>
+    </div><br>
+    <div class="col-lg-3">
+      <select class="form-control" (change)="GetTypeID($event)" [(ngModel)]="typeid" name="typeid">
+        <option value="0">{{labels.selectType}}</option>
+        <option value="1">{{labels.hospital}}</option>
+        <option value="2">{{labels.inClinic}}</option>
+        <option value="3">{{labels.independentDoctor}}</option>
+        <option value="4">{{labels.independentNurse}}</option>
+        <option value="5">{{labels.independentPhysiotherapist}}</option>
+        <option value="6">{{labels.independentMidwife}}</option>
+        <option value="7">{{labels.pharmacy}}</option>
+        <option value="8">{{labels.diagnosticCenter}}</option>
+      </select>
+    </div>
+
+    <div class="col-lg-3 countClass">
+      <label>{{labels.count}} : {{count}}</label>
+    </div>
+  </div>
+
+  <div class="row" *ngFor="let det of countlist">
+    <div class="col-lg-3">
+      <label><b>{{labels.username}} : {{det.rejectHospitalsCount2}}</b></label><br>
+      <label><b>{{labels.password}} : {{det.rejectClinicsCount2}} </b></label>
+
+    </div>
+    <div class="col-lg-3">
+      <label><b>{{labels.independentDoctor}}: {{det.rejectDoctorsCount2}}</b></label><br>
+      <label><b>{{labels.nurse}} : {{det.rejectNurseCount2}}</b></label>
+
+    </div>
+    <div class="col-lg-3">
+      <label><b>{{labels.independentPhysiotherapist}} : {{det.rejectPhysioCount2}}</b></label><br>
+      <label><b>{{labels.independentMidwife}} : {{det.rejectMidwifeCount2}}</b></label>
+
+    </div>
+    <div class="col-lg-3">
+      <label><b>{{labels.pharmacy}} : {{det.rejectPharmacyCount2}}</b></label><br>
+      <label><b>{{labels.diagnosticCenter}} : {{det.rejectDiagnosticCount2}}</b></label>
+
+    </div>
+  </div>
+
+  <div class="row ">
+    <div class="col-lg-12 tableoverflow">
+      <table class="table table-striped" id="download">
+        <tr>
+          <th>{{labels.date}}</th>
+          <th>{{labels.type}}</th>
+          <th>{{labels.name}}</th>
+          <th>{{labels.phoneNumber}}</th>
+          <th *ngIf="typeid!='1'&&typeid!='2'&&typeid!='7'&&typeid!='8'">{{labels.gender}}</th>
+          <th>{{labels.email}}</th>
+          <th>{{labels.address}}</th>
+          <th>{{labels.status}}</th>
+        </tr>
+        <tr *ngFor="let list of RegisteredList|filter:search| paginate: { id: 'foo', itemsPerPage: 5, currentPage: p}">
+          <td>{{list.date}}</td>
+          <td>{{list.typeName}}</td>
+          <td>{{list.username}}</td>
+          <td>{{list.phoneNo}}</td>
+          <td *ngIf="typeid!='1'&&typeid!='2'&&typeid!='7'&&typeid!='8'">
+            <span *ngIf="list.genderID=='1'">{{labels.male}}</span>
+            <span *ngIf="list.genderID=='2'">{{labels.female}}</span>
+          </td>
+          <td>{{list.email}}</td>
+          <td>{{list.address}}</td>
+          <td>
+            <span *ngIf="list.rejected&&!list.approved" style="color: red;">{{labels.reject}}</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="col-lg-12" style="text-align: end">
+    <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+      nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>
+<br>

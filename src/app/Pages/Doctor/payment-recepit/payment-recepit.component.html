@@ -1,0 +1,324 @@
+
+<app-loader *ngIf="loader==true"></app-loader>
+<br>
+<div class="container-fluid  headerspace" id="Receipts">
+    <div class="recepitHeader">
+        <div class="headerfront" *ngIf="appointmentDetails?.orderType!=3">
+            <label><b>{{labels.provider}}</b></label>  : <label>{{appointmentDetails?.doctorName}}</label><br>
+            <label><b>{{labels.clinic}}</b></label>  :  <label>{{appointmentDetails?.hospital_ClinicName}}</label><br>
+            <label>{{appointmentDetails?.departmentname}}</label><br>
+            <label>{{appointmentDetails?.docaddress}}</label>
+            <label>{{appointmentDetails?.emailID}}</label><br>
+            <label><b>{{labels.registrationno}}</b></label>  :  <label>{{appointmentDetails?.registrationNo}}</label>
+        </div>
+        <div class="headerfront" *ngIf="appointmentDetails?.orderType==3">
+            <label>{{appointmentDetails?.pharmacyName}}</label><br>
+            <label>{{appointmentDetails?.pharmacyAddress}}</label><br>
+            <label>{{appointmentDetails?.pharmacyNo}}</label><br>
+            <label>{{appointmentDetails?.pharmacyWebsite}}</label>
+            <label>{{appointmentDetails?.pharmacyEmail
+                }}</label><br>
+
+        </div>
+        <div class="headerContent">
+            <h3>{{labels.paymentReceipt}}</h3>
+            <br>
+            <br>
+            <br>
+        </div>
+        <!--   <div class="headeredge" *ngIf="typeID">
+            <label><b>Date: </b></label> <label>{{appointmentDetails?.appdate}}</label><br>
+            <label><b>{{labels.receiptNo}} : </b></label> <label>{{appointmentDetails?.appointmentID}}</label><br>
+
+
+        </div> -->
+        <div class="headeredge">
+            <label><b>Date</b></label> :    <label>{{appointmentDetails?.appdate}}</label><br>
+            <label><b>{{labels.receiptNo}}</b></label>  :    <label>{{appointmentDetails?.appointmentID}}</label><br>
+
+
+        </div>
+    </div>
+    <div class="voila">
+        <p class="get">voiladoc</p>
+    </div>
+    <hr style="height: 3px">
+
+    <div class="headerfront">
+        <label><b>{{labels.patientName}}</b></label> : <label>{{appointmentDetails?.patientName}}</label><br>
+        <label><b>{{labels.nationalIdentityno}}</b></label> :
+        <label>{{appointmentDetails?.nationalIdentityNo}}</label><br>
+        <label><b>{{labels.address}}</b></label>: <label>{{appointmentDetails?.patientaddress}}</label>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th id="imp">{{labels.Type}}</th>
+                        <th id="imp">{{labels.quantity}} </th>
+                        <th id="imp">{{labels.unitcost}} </th>
+                        <th id="imp">{{labels.total}} </th>
+
+                    </tr>
+                    <tr *ngIf="typeID">
+                        <td>Consultation</td>
+                        <td>1</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                    </tr>
+                    <tr *ngIf="!typeID">
+                        <td>Consultation</td>
+                        <td>2</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                    </tr>
+                </thead>
+            </table>
+        </div><br>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-10"></div>
+        <div class="col-lg-2">
+            <br>
+            <img src="{{appointmentDetails?.signatureURL}}" class="Imagesize" />
+            <img src="{{appointmentDetails?.stampURL}}" class="Imagesize" /><br>
+            <label style="font-style: italic;"><b>{{appointmentDetails?.doctorName}}</b></label>
+            <label><b>{{labels.registrationno}}:</b></label><label>{{appointmentDetails?.registrationNo}}</label>
+            <!--   <label *ngIf="!typeID" style="font-style: italic;"><b>{{appointmentDetails?.pharmacyName}}</b></label>
+            <label
+                *ngIf="!typeID"><b>{{labels.registrationno}}</b></label>:<label>{{appointmentDetails?.registrationNo}}</label> -->
+            <br>
+            <br>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid  headerspace" id="Receipts1">
+    <div class="recepitHeader">
+        <div class="headerfront" *ngIf="appointmentDetails?.orderType!=3">
+            <label><b>{{labels.provider}}</b></label>  : <label>{{appointmentDetails?.doctorName}}</label><br>
+            <label><b>{{labels.clinic}}</b></label>  :  <label>{{appointmentDetails?.hospital_ClinicName}}</label><br>
+            <label>{{appointmentDetails?.departmentname}}</label><br>
+            <label>{{appointmentDetails?.docaddress}}</label>
+            <label>{{appointmentDetails?.emailID}}</label><br>
+            <label><b>{{labels.registrationno}}</b></label>  :  <label>{{appointmentDetails?.registrationNo}}</label>
+        </div>
+        <div class="headerfront" *ngIf="appointmentDetails?.orderType==3">
+            <label>{{appointmentDetails?.pharmacyName}}</label><br>
+            <label>{{appointmentDetails?.pharmacyAddress}}</label><br>
+            <label>{{appointmentDetails?.pharmacyNo}}</label><br>
+            <label>{{appointmentDetails?.pharmacyWebsite}}</label>
+            <label>{{appointmentDetails?.pharmacyEmail
+                }}</label><br>
+
+        </div>
+        <div class="headerContent">
+            <h3>{{labels.paymentReceipt}}</h3>
+            <br>
+            <br>
+            <br>
+        </div>
+        <!--   <div class="headeredge" *ngIf="typeID">
+            <label><b>Date: </b></label> <label>{{appointmentDetails?.appdate}}</label><br>
+            <label><b>{{labels.receiptNo}} : </b></label> <label>{{appointmentDetails?.appointmentID}}</label><br>
+
+
+        </div> -->
+        <div class="headeredge">
+            <label><b>Date</b></label>  :  <label>{{appointmentDetails?.appdate}}</label><br>
+            <label><b>{{labels.receiptNo}}</b></label> :   <label>{{appointmentDetails?.appointmentID}}</label><br>
+
+
+        </div>
+    </div>
+    <div class="voila">
+        <p class="get">voiladoc</p>
+    </div>
+    <hr style="height: 3px">
+
+    <div class="headerfront">
+        <label><b>{{labels.patientName}}</b></label> : <label>{{appointmentDetails?.patientName}}</label><br>
+        <label><b>{{labels.nationalIdentityno}}</b></label> :
+        <label>{{appointmentDetails?.nationalIdentityNo}}</label><br>
+        <label><b>{{labels.address}}</b></label>: <label>{{appointmentDetails?.patientaddress}}</label>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th id="imp">{{labels.Type}}</th>
+                        <th id="imp">{{labels.quantity}} </th>
+                        <th id="imp">{{labels.unitcost}} </th>
+                        <th id="imp">{{labels.total}} </th>
+
+                    </tr>
+                    <tr *ngIf="typeID">
+                        <td>Consultation</td>
+                        <td>1</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                    </tr>
+                    <tr *ngIf="!typeID">
+                        <td>Consultation</td>
+                        <td>2</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                        <td>{{appointmentDetails?.paidAmount}}</td>
+                    </tr>
+                </thead>
+            </table>
+        </div><br>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-10"></div>
+        <div class="col-lg-2">
+            <br>
+            <img src="{{appointmentDetails?.signatureURL}}" class="Imagesize" />
+            <img src="{{appointmentDetails?.stampURL}}" class="Imagesize" /><br>
+            <label style="font-style: italic;"><b>{{appointmentDetails?.doctorName}}</b></label>
+            <label><b>{{labels.registrationno}}:</b></label><label>{{appointmentDetails?.registrationNo}}</label>
+            <!--   <label *ngIf="!typeID" style="font-style: italic;"><b>{{appointmentDetails?.pharmacyName}}</b></label>
+            <label
+                *ngIf="!typeID"><b>{{labels.registrationno}}</b></label>:<label>{{appointmentDetails?.registrationNo}}</label> -->
+            <br>
+            <br>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8">
+
+        </div>
+        <div class="col-lg-2">
+            <button class="save" (click)="downloadpdf()">{{labels.downloadPdf}}</button>
+        </div>
+        <div class="col-lg-2">
+            <button class="save" (click)="SavePDF()">{{labels.sendtopatient}}</button>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 
+
+<div class="container-fluid  headerspace" id="Receipts">
+    <div>
+      
+        <div class="row">
+            <div class="col-lg-4">
+                <label><b
+                        style="color:#322b6b ; font-size: 20px;text-align: center;">{{labels.voiladoc}}</b></label><br>
+                <label>{{appointmentDetails.doctorName}}</label><br>
+                <label>{{appointmentDetails.docemailid}}</label><br>
+                <label>{{appointmentDetails.departmentname}}</label><br>
+                <label>{{appointmentDetails.docaddress}}</label>
+            </div>
+        </div>
+        <br> <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <label><b>{{labels.receiptNo}} : </b></label>
+            </div>
+            <div class="col-lg-4">
+                <label>{{appointmentID}}</label>
+           
+            </div>
+            <div class="col-lg-3">
+                <label style="float:right"><b>{{labels.date}} : {{appointmentDetails.date}}</b></label>
+            </div>
+
+        </div>
+       
+        <br>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <label><b>{{labels.patientName}}</b></label>
+            </div>
+            <div class="col-lg-6">
+                <span>
+                    {{appointmentDetails.patientName}}
+                </span>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-lg-3">
+                <label><b>{{labels.thesumofRupees}}</b></label>
+            </div>
+            <div class="col-lg-6">
+                <span class="underline">
+                    {{appointmentDetails.paidAmount|number:'1.2-2'|noComma}} Ar
+                </span>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-lg-3">
+                <label><b>{{labels.typeOfpayment}}</b></label>
+            </div>
+            <div class="col-lg-6">
+                {{appointmentDetails.paymentType}}
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <label><b>{{labels.for}}</b></label>
+            </div>
+            <div class="col-lg-6">
+                {{appointmentDetails.combinationValue}}
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-lg-3">
+                <label><b>{{labels.nationalIdentityno}}</b></label>
+            </div>
+            <div class="col-lg-6">
+                {{appointmentDetails.nationalIdentityNo}}
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-lg-3">
+                <label><b>{{labels.address}}</b></label>
+            </div>
+            <div class="col-lg-6">
+                {{appointmentDetails.patientaddress}}
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-2">
+                <label><b>{{labels.signature}} </b></label>
+                <label style="font-style: italic;">{{appointmentDetails.doctorName}}</label>
+            </div>
+        </div>
+        <br>
+    </div>
+
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <button class="save" (click)="SavePDF()">{{labels.sendtopatient}}</button>
+        </div>
+    </div>
+</div> -->  

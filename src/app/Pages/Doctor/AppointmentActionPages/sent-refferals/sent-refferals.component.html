@@ -1,0 +1,297 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-8 col-sm-6">
+      <h5 class="headings">{{labels.sentRefferals}}</h5>
+    </div>
+  </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker
+        [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+    </div>
+    <div class="col-lg-3">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="search"
+          placeholder="Search">
+        <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+      </div>
+    </div>
+    <div class="col-lg-6 countClass">
+      <label>{{labels.count}} : {{count}} </label>
+    </div>
+  </div>
+  <br>
+  <div class="row ">
+    <div class="col-lg-12 tableoverflow">
+      <table class="table table-striped">
+        <tr>
+          <th>{{labels.patientID}}</th>
+          <th>{{labels.patientname}}</th>
+          <th>{{labels.phonenumber}}</th>
+          <th>{{labels.emialID}}</th>
+          <th>{{labels.refferedToDoctor}}</th>
+          <th>{{labels.refferedDoctorNo}}</th>
+          <th>{{labels.reffereddocEmail}}</th>
+          <th>{{labels.lettersAndAttachments}}</th>
+          <th>{{labels.actions}}</th>
+        </tr>
+        <tr *ngFor="let doc of docreferels|filter:search">
+          <td>{{doc.patientID}}</td>
+          <td>{{doc.patientName}}</td>
+          <td>{{doc.pMobileNo}}</td>
+          <td>{{doc.pEmail}}</td>
+          <td>{{doc.doctorName}}</td>
+          <td>{{doc.doctorPhNo}}</td>
+          <td>{{doc.doctorEmail}}</td>
+          <td>
+            <img src="assets/Icons/attachment_16.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop6"
+              (click)="GetPatientCondition(doc)" />
+            <img src="assets/Icons/view_16.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop5"
+              (click)="GetAppointmentID(doc)" />
+          </td>
+          <td>
+            <img src="assets/Icons/attachment_16.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop1"
+              (click)="GetSopaNotesID(doc.appointmentID)" />
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-lg-1">
+      <button class="save" routerLink="/Doctor/Dashboard">{{labels.back}}</button>
+    </div>
+    <div class="col-lg-11" style="text-align: end">
+      <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+        screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+      </pagination-controls>
+    </div>
+  </div>
+</div>
+<br>
+
+
+<div class="modal fade" id="staticBackdrop6" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{labels.patientCondition}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="col-lg-12">
+          <p innerHtml="{{referalnotes}}"></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="GetSickSlipID()" data-bs-dismiss="modal"
+          data-bs-target="#exampleModalCenterRefferal" class="save">{{labels.edit}}</button>
+        <button id="close" type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenterRefferal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{labels.refferedToDoctor}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <br>
+          <div class="row">
+            <div class="col-lg-4">
+              <label class="dname_label">{{labels.patientID}} : </label>
+              <span class="required">*</span>
+            </div>
+            <div class="col-lg-5">
+              <input type="text" placeholder="Patient ID" disabled class="form-control" [(ngModel)]="patientidd"
+                name="patientidd">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-4">
+              <label class="dname_label">{{labels.patientname}} : </label>
+              <span class="required">*</span>
+            </div>
+            <div class="col-lg-5">
+              <input type="text" placeholder="Patient Name" disabled class="form-control" [(ngModel)]="patientname"
+                name="patientname">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-4">
+              <label class="dname_label">{{labels.phonenumber}} : </label>
+              <span class="required">*</span>
+            </div>
+            <div class="col-lg-5">
+              <input type="number" name="mobileno" [(ngModel)]="mobileno" disabled class="form-control">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-4">
+              <label class="dname_label">{{labels.emialID}} : </label>
+            </div>
+            <div class="col-lg-5">
+              <input type="text" class="form-control" disabled name="email" [(ngModel)]="email">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-4">
+              <label class="dname_label">{{labels.referalNotes}} :</label>
+              <span class="required">*</span>
+            </div>
+            <div class="col-lg-8">
+              <ckeditor data="" [(ngModel)]="referalnotes" name="referalnotes"></ckeditor>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-10">
+            </div>
+            <div class="col-lg-1">
+              <button type="button" text_align="center" class="save" (click)="UpdateRefferalLetter()"
+                style="width: 260%;" data-bs-dismiss="modal">{{labels.save}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="close1" type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="staticBackdrop5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{labels.attachments}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-6" *ngFor="let att of attachments">
+              <img src="assets/Icons/pdf.png" (click)="GetPdf(att.attchments)"><br><br>
+              <button type="button" class="save" (click)="Deletefile(att.id)"
+                class="save">{{labels.delete}}</button>&nbsp; &nbsp; &nbsp; &nbsp;
+
+              <button type="button" class="save" (click)="GetPdf(att.attchments)">{{labels.view}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="save" data-bs-dismiss="modal">{{labels.save}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{labels.soapNotes}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-3">
+              <label>{{labels.subjective}}</label>
+            </div>
+            <div class="col-lg-7">
+              <textarea class="form-control" [(ngModel)]="subjective" name="subjective" required rows="4"
+                placeholder="Subjective"></textarea>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-3">
+              <label>{{labels.objective}}</label>
+              <span style="color: red;">*</span>
+            </div>
+            <div class="col-lg-7">
+              <textarea class="form-control" rows="4" name="objective" required [(ngModel)]="objective"
+                placeholder="Objective"></textarea>
+            </div>
+          </div><br>
+          <div class="row">
+            <div class="col-lg-3">
+              <label>{{labels.assessment}}</label>
+              <span style="color: red;">*</span>
+            </div>
+            <div class="col-lg-7">
+              <textarea class="form-control" rows="4" name="assessment" required [(ngModel)]="assessment"
+                placeholder="Assessment"></textarea>
+            </div>
+          </div><br>
+
+          <div class="row">
+            <div class="col-lg-3">
+              <label>{{labels.plan}}</label>
+              <span style="color: red;">*</span>
+            </div>
+            <div class="col-lg-7">
+              <textarea class="form-control" rows="4" name="plan" required [(ngModel)]="plan"
+                placeholder="plan"></textarea>
+            </div>
+          </div><br>
+          <div class="row">
+            <div class="col-lg-3">
+              <label>{{labels.diagnosisCode}}</label>8
+            </div>
+            <div class="col-lg-7">
+              <input type="text" class="form-control" [(ngModel)]="diagnosiscode" name="diagnosiscode"
+                placeholder="diagnosis Code" />
+            </div>
+          </div><br>
+          <div class="row">
+            <div class="col-lg-3">
+              <label>{{labels.followUpPlan}}</label>
+            </div>
+            <div class="col-lg-7">
+              <input type="text" class="form-control" [(ngModel)]="followupplan" name="followupplan"
+                placeholder="FollowUp Plan" />
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-3">
+              <label>{{labels.notes}}</label>
+            </div>
+            <div class="col-lg-7">
+              <textarea class="form-control" rows="4" name="notes" [(ngModel)]="notes" placeholder="Note"></textarea>
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+      </div>
+    </div>
+  </div>
+</div>

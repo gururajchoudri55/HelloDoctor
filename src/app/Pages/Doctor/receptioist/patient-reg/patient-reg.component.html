@@ -1,0 +1,192 @@
+
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <form #patinetForm="ngForm">
+        <div class="row">
+            <div class="col-lg-12">
+                <h5 class="headings">{{labels.patientRegistration}}</h5>
+            </div>
+            <div class="col-lg-8"></div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-5">
+                    <input type="radio" value="1" [(ngModel)]="typeID" name="typeID" required>&nbsp;{{labels.newadult}}&nbsp;
+                    <input type="radio" value="2" [(ngModel)]="typeID" name="typeID" required>&nbsp;{{labels.currentchild}}<span class="required">*</span>
+                </div>
+                <div class="col-lg-3" *ngIf="typeID==2">
+                    <ng-multiselect-dropdown [placeholder]="select" [settings]="patientdd" [data]="patientslist"
+                        (onSelect)="GetPatientID($event)">
+                    </ng-multiselect-dropdown>
+                </div>
+                <div class="col-lg-3" *ngIf="typeID==2">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Relation"
+                            required [(ngModel)]="relation" name="relation">
+                        <label for="floatingInput" class="floatingLabel">Relation<span class="required">*</span></label>
+                    </div>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="First Name"
+                            required [(ngModel)]="patientname" name="patientname">
+                        <label for="floatingInput" class="floatingLabel">{{labels.firstName}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Last Name"
+                            [(ngModel)]="lastname" required name="lastname">
+                        <label for="floatingInput" class="floatingLabel">{{labels.lastname}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <select class="form-control" style="width: 97px;" (change)="getCountryCode($event)"
+                        [(ngModel)]="countryCode" name="countryCode">
+                        <option value="" *ngFor="let country of countryCodeList" value="{{country.countryCodeInt}}">
+                            {{country.countryCodeNew}}</option>
+                    </select>
+
+
+                </div>
+                <div class="col-lg-2">
+                    <div class="form-floating mb-3">
+                        <input (keypress)="numberOnly($event)" type="text" class="form-control inputfield"
+                            id="floatingInput" [disabled]="typeID==2" placeholder="Mobile Number" [(ngModel)]="mobileno"
+                            required name="mobileno" (ngModelChange)="getphoneNumber(mobileno)">
+                        <label for="floatingInput" class="floatingLabel">{{labels.mobileNumber}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" [disabled]="typeID==2"
+                            placeholder="Email ID" [(ngModel)]="email" required name="email"
+                            (ngModelChange)="isValidEmail(email)">
+                        <label for="floatingInput" class="floatingLabel">{{labels.emailID}}<span
+                                class="required">*</span></label>
+                        <span *ngIf="valid==false" class="emailvalidation">{{labels.validEmail}}</span>
+                    </div>
+                </div>
+            </div> <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Email ID"
+                            [disabled]="typeID==2" required [(ngModel)]="nationalidentitycardno"
+                            name="nationalidentitycardno">
+                        <label for="floatingInput" class="floatingLabel">{{labels.nationalIdentityNumber}}
+                            <span class="required">*</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                        <ngx-dropzone-label>{{labels.identityPhoto}}</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Address" id="floatingTextarea"
+                            [(ngModel)]="insurancename" name="insurancename"></textarea>
+                        <label for="floatingTextarea">{{labels.insuranceNumber}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <ngx-dropzone (change)="onSelect1($event)" class="dropZone">
+                        <ngx-dropzone-label>{{labels.insurancePhoto}}</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files2" [removable]="true" (removed)="onRemove1(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Address" id="floatingTextarea" [(ngModel)]="address"
+                            name="address" required></textarea>
+                        <label for="floatingTextarea">{{labels.address}}<span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <input type="text" placeholder="{{labels.dateofBirth}}*" class="form-control"
+                        [(ngModel)]="dateofbirth" name="dateofbirth" bsDatepicker
+                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
+                        (ngModelChange)="dateofBirth(dateofbirth)">
+
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Address" id="floatingTextarea"
+                            [(ngModel)]="knownalrregies" name="knownalrregies"></textarea>
+                        <label for="floatingTextarea">{{labels.allergies}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label>{{labels.gender}}<span class="required">*</span></label> &nbsp;
+                    <input type="radio" [value]="1" [(ngModel)]="gender" name="gender" required> {{labels.male}} &nbsp;
+                    <input type="radio" [value]="2" [(ngModel)]="gender" name="gender" required> {{labels.female}}
+                    &nbsp;
+                </div>
+            </div>
+            <br>
+            <!-- <div *ngIf="showbit=='0'">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <select class="form-control" (change)="getCountryID($event)">
+                            <option value="">{{labels.selectCountry}}</option>
+                            <option *ngFor="let cou of countryList" value="{{cou.id}}">{{cou.short}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3">
+                        <ng-multiselect-dropdown [placeholder]="selectregion" [settings]="regiondd" [data]="regionList"
+                            (onSelect)="GetRegionID($event)">
+                        </ng-multiselect-dropdown>
+                    </div>
+                    <div class="col-lg-3">
+                        <ng-multiselect-dropdown [placeholder]="selectprovince" [settings]="citydd" [data]="cityList"
+                            (onSelect)="GetCityID($event)">
+                        </ng-multiselect-dropdown>
+                    </div>
+                    <div class="col-lg-3">
+                        <ng-multiselect-dropdown [placeholder]="selectcity" [settings]="areadd" [data]="areaList"
+                            (onSelect)="GetAreaID($event)">
+                        </ng-multiselect-dropdown>
+                    </div>
+
+                </div> <br>
+            </div> -->
+
+            <div class="row">
+                <div class="col-lg-9"></div>
+                <div class="col-lg-2">
+                    <button type="button" class="save" *ngIf="showbit=='0'" (click)="insertdetails()"
+                        [disabled]="patinetForm.form.invalid">{{labels.save}}</button>
+                    <button type="button" class="save" *ngIf="showbit=='1'"
+                        (click)="updatedetails()">{{labels.update}}</button>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" (click)="cancel()">{{labels.back}}</button>
+                </div>
+            </div>
+
+        </div>
+        <br>
+
+    </form>
+
+</div>

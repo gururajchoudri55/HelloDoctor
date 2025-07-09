@@ -1,0 +1,739 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+    <div class="col-lg-9 col-sm-6">
+      <h5 class="headings">{{labels.registeredDashboard}}</h5>
+    </div>
+  </div>
+</div>
+<br>
+
+<div class="container-fluid card card-hover">
+  <div class="row">
+    <div class="col-lg-3">
+      <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker
+        [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+    </div>
+    <div class="col-lg-3">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="search">
+        <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+      </div>
+    </div><br>
+    <div class="col-lg-3">
+      <select class="form-control" (change)="GetTypeID($event)" [(ngModel)]="typeid" name="typeid">
+        <option value="0" disabled>{{labels.selectType}}</option>
+        <option value="1">{{labels.hospital}}</option>
+        <option value="2">{{labels.inClinic}}</option>
+        <option value="3">{{labels.independentDoctor}}</option>
+        <option value="4">{{labels.independentNurse}}</option>
+        <option value="5">{{labels.independentPhysiotherapist}}</option>
+        <option value="6">{{labels.independentMidwife}}</option>
+        <option value="7">{{labels.pharmacy}}</option>
+        <option value="8">{{labels.diagnosticCenter}}</option>
+      </select>
+    </div>
+
+    <div class="col-lg-3 countClass">
+      <label>{{labels.count}} : {{count}}</label>
+    </div>
+  </div>
+
+  <div class="row" *ngFor="let det of countlist">
+    <div class="col-lg-3">
+      <label><b>{{labels.hospital}} : {{det.hospitalsCount2}}</b></label><br>
+      <label><b>{{labels.clinic}} : {{det.clinicsCount2}} </b></label>
+
+    </div>
+    <div class="col-lg-3">
+      <label><b>{{labels.independentDoctor}} : {{det.doctorsCount2}}</b></label><br>
+      <label><b>{{labels.nurse}} : {{det.nurseCount2}}</b></label>
+
+    </div>
+    <div class="col-lg-3">
+      <label><b>{{labels.independentPhysiotherapist}} : {{det.physioCount2}}</b></label><br>
+      <label><b>{{labels.independentMidwife}} : {{det.midwifeCount2}}</b></label>
+
+    </div>
+    <div class="col-lg-3">
+      <label><b>{{labels.pharmacy}} : {{det.pharmacyCount2}}</b></label><br>
+      <label><b>{{labels.diagnosticCenter}} : {{det.diagnosticCount2}}</b></label>
+
+    </div>
+  </div>
+
+  <div class="row ">
+    <div class="col-lg-12 tableoverflow">
+      <table class="table table-striped" id="download">
+        <tr>
+          <th>{{labels.date}}</th>
+          <th>{{labels.type}}</th>
+          <th>{{labels.name}}</th>
+          <th>{{labels.phoneNumber}}</th>
+          <th *ngIf="typeid!='1'&&typeid!='2'&&typeid!='7'&&typeid!='8'">{{labels.gender}}</th>
+          <th>{{labels.email}}</th>
+          <th>{{labels.address}}</th>
+          <th>{{labels.status}}</th>
+          <th>{{labels.actions}}</th>
+          <th>{{labels.view}}</th>
+          <th>{{labels.resume}}</th>
+        </tr>
+        <tr *ngFor="let list of RegisteredList|filter:search| paginate: { id: 'foo', itemsPerPage: 5, currentPage: p}">
+          <td>{{list.date}}</td>
+          <td>{{list.typeName}}</td>
+          <td>{{list.username}}</td>
+          <td>{{list.phoneNo}}</td>
+          <td *ngIf="typeid!='1'&&typeid!='2'&&typeid!='7'&&typeid!='8'">
+            <span *ngIf="list.genderID=='1'">{{labels.male}}</span>
+            <span *ngIf="list.genderID=='2'">{{labels.female}}</span>
+          </td>
+          <td>{{list.email}}</td>
+          <td>{{list.address}}</td>
+          <td>
+            <span *ngIf="list.rejected=='0'&&list.approved=='0'"
+              style="color: green;">{{labels.waitingForApproval}}</span>
+          </td>
+          <td>
+            <button class="Accept" *ngIf="list.approved=='0'&&list.rejected=='0'"
+              (click)="GetApproveRegistratuions(list)">{{labels.approve}}</button>
+            <button class="Cancel" *ngIf="list.rejected=='0'&&list.approved=='0'"
+              (click)="GetRejectedregistrations(list)">{{labels.reject}}</button>
+
+          </td>
+          <td>
+            <button class="view" data-bs-toggle="modal" data-bs-target="#subfolder"
+              (click)="GetViewdetails(list)">{{labels.views}}</button>
+          </td>
+          <td><a style="white-space: nowrap" *ngIf="list.resume!=null" href="{{list.resume}}" target="_blank">Cliquez sur</a>
+            <span *ngIf="list.resume==null">No Document</span>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+  </div>
+  <br>
+  <div class="col-lg-12" style="text-align: end" >
+    <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+      nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+  </div>
+</div>
+
+
+<div class="modal fade" id="subfolder" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content card card-hover">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{labels.details}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div *ngIf="typeids=='1'||typeids=='2'">
+              <div *ngIf="typeids=='1'">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label>{{labels.hospitalClinicName}} : </label>
+                  </div>
+                  <div class="col-lg-4">
+                    {{hospitalname}}
+                  </div>
+                </div><br>
+              </div>
+              <div *ngIf="typeids=='2'">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <label>{{labels.hospitalClinicName}} : </label>
+                  </div>
+                  <div class="col-lg-4">
+                    {{hospitalname}}
+                  </div>
+                </div><br>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.hospitalPhoneNo}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{phoneno}}
+                </div>
+              </div><br>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.contactPersonName}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{contactpersonname}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.contactPersonPhoneNumber}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{contactpersonphno}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.email}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{email}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.address}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{address}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.website}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{website}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.yearEstablished}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{yearEstablished}}
+                </div>
+              </div><br>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.description}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{description}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Photo : </label>
+                </div>
+                <div class="col-lg-4">
+                  <img src="{{photo}}" style="width: 100px;">
+                </div>
+              </div>
+            </div><br>
+
+            <div *ngIf="typeids=='3'">
+              <div class="row">
+                <div class="col-lg-6 text-center ">
+                  <label>{{labels.doctorName}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  {{doctorname}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.phoneNumber}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  {{phoneno}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.email}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  {{email}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.address}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  {{address}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.experience}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  {{experience}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.doctorType}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  <label *ngIf="doctortype=='1'">Local</label>
+                  <label *ngIf="doctortype=='2'">Foreign</label>
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.speaklanguge}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  {{speaklanguages}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.registrationNumber}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  {{regno}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.registrationCouncil}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  {{regcouncil}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.slotDuration}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  <label *ngIf="slotdurationid=='1'">15 Minutes</label>
+                  <label *ngIf="slotdurationid=='2'">30 Minutes</label>
+                  <label *ngIf="slotdurationid=='3'">45 Minutes</label>
+                  <label *ngIf="slotdurationid=='4'">1 hour</label>
+
+                  <!-- {{slotdurationid}} -->
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.college}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  {{colleage}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.otherExperiences}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  {{otherexp}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.profilePhoto}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  <img src="{{photo}}" style="width: 100px;">
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.medicalRegistrationProof}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  <img src="{{mediclproof}}" style="width: 100px;">
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{labels.signature}} : </label>
+                </div>
+                <div class="col-lg-6 text-center">
+                  <img src="{{signature}}" style="width: 100px;">
+                </div>
+              </div><br>
+            </div>
+
+            <div *ngIf="typeids=='4'">
+              <div class="row">
+                <div class="col-lg-6 text-center">
+                  <label>{{"labels.name"}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{nursename}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{"labels.phoneNo"}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{phoneno}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{"labels.emailID"}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{email}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{"labels.address"}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{address}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{"labels.experience"}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{experience}}
+                </div>
+              </div><br>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{"labels.spokenLanguages"}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{speaklanguages}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Professional profile : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{professionalprofile}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Photo : </label>
+                </div>
+                <div class="col-lg-4">
+                  <img src="{{photo}}" style="width: 100px;">
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.identityProof}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  <img src="{{mediclproof}}" style="width: 100px;">
+                </div>
+              </div><br>
+
+            </div>
+
+            <div *ngIf="typeids=='5'">
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.name}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{nursename}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.phoneNo}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{phoneno}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.email}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{email}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.address}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{address}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.experience}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{experience}}
+                </div>
+              </div><br>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.speaklanguge}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{speaklanguages}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Professional profile : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{professionalprofile}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Photo : </label>
+                </div>
+                <div class="col-lg-4">
+                  <img src="{{photo}}" style="width: 100px;">
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.identityProof}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  <img src="{{mediclproof}}" style="width: 100px;">
+                </div>
+              </div><br>
+
+            </div>
+            <div *ngIf="typeids=='6'">
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.name}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{nursename}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.phoneNumber}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{phoneno}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.email}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{email}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.address}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{address}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.experience}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{experience}}
+                </div>
+              </div><br>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.speaklanguge}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{speaklanguages}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Professional profile : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{professionalprofile}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Photo : </label>
+                </div>
+                <div class="col-lg-4">
+                  <img src="{{photo}}" style="width: 100px;">
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>{{labels.identityProof}} : </label>
+                </div>
+                <div class="col-lg-4">
+                  <img src="{{mediclproof}}" style="width: 100px;">
+                </div>
+              </div><br>
+
+            </div>
+
+
+            <div *ngIf="typeids=='7'">
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Pharmacy name: </label>
+                </div>
+                <div class="col-lg-4">
+                  {{pharmacyname}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Phone no : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{phoneno}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Email : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{email}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Address : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{address}}
+                </div>
+              </div><br>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Website : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{website}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>License no : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{licenceno}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Photo : </label>
+                </div>
+                <div class="col-lg-4">
+                  <img src="{{photo}}" style="width: 100px;">
+                </div>
+              </div><br>
+            </div>
+
+
+
+
+            <div *ngIf="typeids=='8'">
+              <div class="row">
+                <div class="col-lg-4">
+                  <label> Diagnostic center name : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{dianame}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Phone no : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{phoneno}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Email : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{email}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Address : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{address}}
+                </div>
+              </div><br>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Website : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{website}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>License no : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{licenceno}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Description : </label>
+                </div>
+                <div class="col-lg-4">
+                  {{description}}
+                </div>
+              </div><br>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label>Photo : </label>
+                </div>
+                <div class="col-lg-4">
+                  <img src="{{photo}}" style="width: 100px;">
+                </div>
+              </div><br>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-secondary"
+              style="background-color: #f18235;color: white;">{{labels.close}}</button>
+
+
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>

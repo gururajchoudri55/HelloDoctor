@@ -1,0 +1,196 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+  <div class="row">
+      <div class="col-lg-8 col-sm-6">
+          <h5 class="headings">{{labels.appointmentAndOrderDetails}}</h5>
+      </div>
+      <!-- <div class="col-lg-4 col-sm-6 buttonsss">
+         <input type="date" class="form-control">
+      </div> -->
+  </div>  
+</div>
+<div class="container-fluid headercard card-hover headerspace">
+  <br>
+  <br>
+    <div class="row">
+        <div class="col-lg-3" *ngFor="let count of allcounts">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;" (click)="dashboard(1)">
+              <br />
+              <label style="color: black;font-size: 30px;color: white;">
+                <b style="font-size: 15px;">{{labels.totalHospitalAppointments}}</b>
+              </label>
+              <br />
+              <br>
+              <label style="color: black;font-size: 30px;color: #f17e2d;">
+                <b>
+                  <u style="font-size: 20px;">{{count.hospitalappcount}}</u>
+                </b>
+              </label>
+            </div>
+            <br />
+            <br />
+          </div>
+          <div class="col-lg-3" *ngFor="let count of allcounts">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;" (click)="appointments(2)">
+              <br />
+              <label style="color: black;font-size: 30px;color: white;">
+                <b style="font-size: 15px;">{{labels.totalhomevisitAppointments}}</b>
+              </label>
+              <br />
+              <br>
+              <label style="color: black;font-size: 30px;color: #f17e2d;">
+                <b>
+                  <u style="font-size: 20px;">{{count.doctorhomevisitappcount}}</u>
+                </b>
+              </label>
+            </div>
+            <br />
+            <br />
+          </div>
+          <div class="col-lg-3" *ngFor="let count of allcounts">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;" (click)="appointments(1)">
+              <br />
+              <label style="color: black;font-size: 30px;color: white;">
+                <b style="font-size: 15px;">{{labels.totalInclincAppointments}}</b>
+              </label>
+              <br />
+              <br>
+              <label style="color: black;font-size: 30px;color: #f17e2d;">
+                <b>
+                  <u style="font-size: 20px;">{{count.doctorInclinicappcount}}</u>
+                </b>
+              </label>
+            </div>
+            <br />
+            <br />
+          </div>
+          <div class="col-lg-3" *ngFor="let count of allcounts">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;" (click)="appointments(5)">
+              <br />
+              <label style="color: black;font-size: 30px;color: white;">
+                <b style="font-size: 15px;">{{labels.totalVideoAppointments}}</b>
+              </label>
+              <br />
+              <br>
+              <label style="color: black;font-size: 30px;color: #f17e2d;">
+                <b>
+                  <u style="font-size: 20px;">{{count.doctorvideoappcount}}</u>
+                </b>
+              </label>
+            </div>
+            <br />
+            <br />
+          </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3" *ngFor="let count of allcounts">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+           (click)="getdiagnostic()" >
+              <br />
+              <label style="color: black;font-size: 30px;color: white;">
+                <b style="font-size: 15px;">{{labels.totalDiagnosticAppointments}}</b>
+              </label>
+              <br />
+              <br>
+              <label style="color: black;font-size: 30px;color: #f17e2d;">
+                <b>
+                  <u style="font-size: 20px;">{{count.diagnosticappcount }}</u>
+                </b>
+              </label>
+            </div>
+            <br />
+            <br />
+          </div>
+          <div class="col-lg-3" *ngFor="let count of allcounts">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+            (click)="getPharma()">
+              <br />
+              <label style="color: black;font-size: 30px;color: white;">
+                <b style="font-size: 15px;">{{labels.totalPharmacyOrders}}</b>
+              </label>
+              <br />
+              <br>
+              <label style="color: black;font-size: 30px;color: #f17e2d;">
+                <b>
+                  <u style="font-size: 20px;">{{count.pharmacyordercount }}</u>
+                </b>
+              </label>
+            </div>
+            <br />
+            <br />
+          </div>
+          <div class="col-lg-3" *ngFor="let count of allcounts">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;" (click)="getPhysio()"
+            >
+              <br />
+              <label style="color: black;font-size: 30px;color: white;">
+                <b style="font-size: 15px;">{{labels.totalcaregiverAppointments}}</b>
+              </label>
+              <br />
+              <br>
+              <label style="color: black;font-size: 30px;color: #f17e2d;">
+                <b>
+                  <u style="font-size: 20px;">{{count.physioappcount}}</u>
+                </b>
+              </label>
+            </div>
+            <br />
+            <br />
+          </div>
+          <div class="col-lg-3" *ngFor="let count of allcounts">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+            [routerLink]="['/reports/TotalMidwifeReports']" (click)="getMidwife()">
+              <br />
+              <label style="color: black;font-size: 30px;color: white;">
+                <b style="font-size: 15px;">{{labels.totalMidwifeAppointments}}</b>
+              </label>
+              <br />
+              <br>
+              <label style="color: black;font-size: 30px;color: #f17e2d;">
+                <b>
+                  <u style="font-size: 20px;">{{count.midwiveappcount }}</u>
+                </b>
+              </label>
+            </div>
+            <br />
+            <br />
+          </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3" *ngFor="let count of allcounts">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;"
+             (click)="getNures()">
+              <br />
+              <label style="color: black;font-size: 30px;color: white;">
+                <b style="font-size: 15px;">{{labels.totalNurseAppointments}}</b>
+              </label>
+              <br />
+              <label style="color: black;font-size: 30px;color: #f17e2d;">
+                <b>
+                  <u style="font-size: 20px;">{{count.nurseappcount}}</u>
+                </b>
+              </label>
+            </div>
+            <br />
+            <br />
+          </div>
+          <div class="col-lg-3" *ngFor="let count of allcounts">
+            <div class="optionsboxdown" style="cursor: pointer;border-radius: 10px;">
+              <br />
+              <label style="color: black;font-size: 30px;color: white;">
+                <b style="font-size: 15px;">{{labels.deliveryOrders}}</b>
+              </label>
+              <br />
+              <br>
+              <label style="color: black;font-size: 30px;color: #f17e2d;">
+                <b>
+                  <u style="font-size: 20px;"></u>
+                </b>
+              </label>
+            </div>
+            <br />
+            <br />
+          </div>
+    </div>
+</div>

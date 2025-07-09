@@ -1,0 +1,253 @@
+<app-sms></app-sms>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <h5 class="headings">{{labels.doctorDashboard}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="addnew" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="search"> 
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div><br>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetTypeID($event)" [(ngModel)]="typeid" name="typeid">
+              <option value="0">{{labels.select}}</option>
+              <option value="1">{{labels.hospital}}</option>
+              <option value="2">{{labels.clinic}}</option>
+              <option value="3">{{labels.independentDoctor}}</option>
+              <option value="4">{{labels.independentNurses}}</option>
+              <option value="5">{{labels.independentPhysiotherapist}}</option>
+              <option value="6">{{labels.independentmidwife}}</option>
+              <option value="7">{{labels.pharmacy}}</option>
+              <option value="8">{{labels.diagnosticCenter}}</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <select class="form-control" (change)="GetYear($event)" [(ngModel)]="year" name="year">
+              <option value="0">{{labels.select}}</option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <select class="form-control" (change)="GetMonth($event)" [(ngModel)]="month" name="month">
+              <option value="0">{{labels.select}}</option>
+              <option value="1">{{labels.january}}</option>
+              <option value="2">{{labels.february}}</option>
+              <option value="3">{{labels.march}}</option>
+              <option value="4">{{labels.april}}</option>
+              <option value="5">{{labels.may}}</option>
+              <option value="6">{{labels.june}}</option>
+              <option value="7">{{labels.july}}</option>
+              <option value="8">{{labels.august}}</option>
+              <option value="9">{{labels.september}}</option>
+              <option value="10">{{labels.october}}</option>
+              <option value="11">{{labels.november}}</option>
+              <option value="12">{{labels.december}}</option>
+            </select>
+          </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-8">
+        </div>
+        <div class="col-lg-2">
+          <label style="float: right;"><b>{{labels.grandToral}} : {{GrandTotal}} </b></label>&nbsp;&nbsp;&nbsp;
+        </div>
+        <div class="col-lg-2">
+          <label style="float: right;"><b>{{labels.count}} : {{count}} </b></label>
+        </div>
+      </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table" id="download">
+                <tr>
+                    <th>{{labels.actions}}</th>
+                    <th>{{labels.name}}</th>
+                    <th>{{labels.totalRevenue}}</th>
+                    <th>{{labels.voiladocRevenue}}</th>
+                    <th>{{labels.paymentDue}}</th>
+                    <th *ngIf="typeid==1||typeid==2">{{labels.contactPersonName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.emailID}}</th>
+                    <th>{{labels.month}}</th>
+                    <!-- <th>Subscription</th> -->
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{labels.inClinicAppointments}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{labels.inClinicRevenue}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{labels.inClinicCommission}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{labels.videocallAppointmnets}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{labels.videocallRevenue}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{labels.videocallCommission}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{labels.homevisitAppointmnets}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{labels.homevisitRevenue}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{labels.homeVisitCommission}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='4'">{{labels.nurseAppointmnets}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='4'">{{labels.nurseRevenue}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='4'">{{labels.nurseCommission}}</th>    
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='5'">{{labels.physiotherapistAppointments}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='5'">{{labels.physiotherapistRevenue}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='5'">{{labels.physiotherapistCommission}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='6'">{{labels.midwifeAppointments}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='6'">{{labels.midwifeRevenue}}</th>
+                    <th *ngIf="typeid=='1'||typeid=='2'||typeid=='6'">{{labels.midwifeCommission}}</th>
+                    <th *ngIf="typeid=='7'||typeid=='8'">{{labels.totalOrders}}</th>
+                    <th *ngIf="typeid=='7'||typeid=='8'">{{labels.totalAmount}}</th>
+                    <th *ngIf="typeid=='7'||typeid=='8'">{{labels.voiladocCommission}}</th>
+                    <th *ngIf="typeid=='7'||typeid=='8'">{{labels.deliveryCommission}}</th>
+                  </tr>
+                  <tr *ngFor="let details of alldetails|filter:search| paginate: { id: 'foo', itemsPerPage: 5, currentPage: p}">
+                    <td>
+                      <button  (click)="GetList(details)" class="add" >Pay</button>
+                    </td>
+                    <td>{{details.providername}}</td>
+                    <td>{{details.grandTotalAmount| number:'1.2-2'|noComma}}Ar</td>
+                    <td>{{details.totalCommissionsAmount| number:'1.2-2'|noComma}}Ar</td>
+                    <td>{{details.grandTotalAmount - details.totalCommissionsAmount|number:'1.2-2'|noComma}}Ar</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'">{{details.contactPersonName}}</td>
+                    <td>{{details.contactPersonPhNo}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>{{details.month}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{details.inClinicAppointmentCount}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{details.inclincRevenue}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{details.inclinicCommissionAmount| number:'1.2-2'|noComma}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{details.videoCallAppointmentsCount}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{details.totalVideoCallRevenue}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{details.videoCallCommissionAmount| number:'1.2-2'|noComma}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{details.homeVisitAppointmentCount}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{details.homeVisitRevenue}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='3'">{{details.homeVisitCommissionAmount| number:'1.2-2'|noComma}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='4'">{{details.nurseAppintmentCount}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='4'">{{details.totalNurseAmount}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='4'">{{details.nurseCommissionAmount| number:'1.2-2'|noComma}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='5'">{{details.physioAppointmentCount}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='5'">{{details.totalPhysioAmount}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='5'">{{details.physioCommissionAmount| number:'1.2-2'|noComma}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='6'">{{details.midwifeAppointmentCount}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='6'">{{details.totalMidwifeAmount}}</td>
+                    <td *ngIf="typeid=='1'||typeid=='2'||typeid=='6'">{{details.midwifeCommissionAmount| number:'1.2-2'|noComma}}</td>
+                    <td *ngIf="typeid=='7'||typeid=='8'">{{details.totalOrders}}</td>
+                    <td *ngIf="typeid=='7'||typeid=='8'">{{details.totalAmount}}</td>
+                    <td *ngIf="typeid=='7'||typeid=='8'">{{details.voiladocCommission}}</td>
+                    <td *ngIf="typeid=='7'||typeid=='8'">{{details.deliveryCharges}}</td> 
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>
+
+<div class="modal fade" id="alldetails" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content card card-hover">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{labels.paymentTransactions}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="content">
+          <div class="row">
+               <div class="col-lg-6">
+                   <img src="assets/Icons/telehealth.png" style="width: 150px;">
+               </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 text-alignments ">
+              <h6 style="background:#303577;color:white;padding: 10px;">{{labels.client}} : {{hospitalname}}</h6>
+              <label>{{labels.address}} : {{address}}</label><br>
+              <label>{{labels.pinCode}} : {{pincode}}</label><br>
+              <label>{{labels.phoneNumber}} : {{phoneNo}}</label><br>
+              <label>{{labels.emailID}} : {{emailid}}</label><br>
+            </div>
+            <div class="col-lg-4 text-alignments">
+              <br><br>
+              <label>{{labels.statementDate}} : {{todaydate}} </label><br>
+              <label>{{labels.statementNo}} : {{invoicenumber}}</label><br>
+              <label>{{labels.clientNo}} : {{socialSeccurityNo}}</label><br>
+              <label>{{labels.clientIceNo}} : {{businessid}} </label><br>
+              <label>{{labels.contactNumber}} : {{phoneNo}} </label><br>
+              <label>{{labels.year}} : {{year}}</label><br>
+              <label>{{labels.month}} : {{monthName}} </label><br>
+            </div>
+          </div><br>
+          <div class="row">
+            <h5>{{labels.paymentTrasactionvoila}}</h5>
+            <div class="col-lg-12">
+              <table>
+                <tr>
+                  <th>{{labels.provideName}}</th>
+                  <th>{{labels.date}}</th>
+                  <th>{{labels.totalAppointments}}</th>
+                  <th>{{labels.description}}</th>
+                  <th>{{labels.amount}}</th>
+                  <th>{{labels.voiladocCommission}}</th>
+                  <th>{{labels.netAmount}}</th>
+                </tr>
+                <tr *ngFor="let details of monthlyStatement">
+                  <td>{{details.doctorName}}</td>
+                  <td>{{details.date}}</td>
+                  <td>{{details.totalAppointments}}</td>
+                  <td>Service Voiladoc </td>
+                  <td>{{details.paidAmount}}</td>
+                  <td>{{details.indDcotorRevenue}}</td>
+                  <td>{{details.deductedAmount}}</td>
+                </tr>
+                <tr style="background-color: lightgray;color: black; font-weight: 900;">    
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>{{labels.grandToral}}</td>
+                  <td>{{totrevenue|number:'1.2-2'|noComma}}Ar</td>
+                  <td>{{totalcommission|number:'1.2-2'|noComma}}Ar</td>
+                  <td>{{paymentdue|number:'1.2-2'|noComma}}Ar</td>
+                  </tr>
+              </table>
+            </div><br>
+          </div><br><br>
+          <div class="row">
+            <div class="col-lg-8">
+              <table>
+                <tr>
+                  <th>{{labels.telehealth}} :</th>
+                </tr>
+                <tr>
+                  <label>{{labels.bankName}} : {{nameofthebank}}</label><br>
+                  <label>{{labels.accountname}} : {{accountName}}</label><br>
+                  <label>{{labels.accountNumber}} : {{accountNumber}}</label><br>
+                </tr>
+              </table>
+            </div><br>
+            <div class="col-lg-4 text-alignments">
+              <span>{{labels.amount}} : {{totrevenue|number:'1.2-2'|noComma}}Ar</span><br>
+              <span>{{labels.voiladocCommission}} : {{totalcommission|number:'1.2-2'|noComma}}Ar</span><br>
+              <span>{{labels.tva}} : {{vatAmount}}</span><br>
+              <span>{{labels.netTotal}} : {{paymentdue|number:'1.2-2'|noComma}}Ar</span><br>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+          <button type="button" class="save" (click)="SavePDF()">{{labels.sendStatement}}</button>
+        </div>
+      </div>
+    </div>
+  </div>

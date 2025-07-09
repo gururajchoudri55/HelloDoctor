@@ -1,0 +1,67 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{labels.physiotherapistServices}}</p>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectcaregiver" [settings]="physiodd"
+                    [data]="physiolist" (onSelect)="getphysioid($event)">
+                </ng-multiselect-dropdown><br>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Hospital Name"
+                        disabled [(ngModel)]="hospital_ClinicName" name="hospital_ClinicName">
+                    <label for="floatingInput" class="floatingLabel">{{labels.hospitalname}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectday" [settings]="daysdd" [data]="dayslist"
+                    (onSelect)="GetDaysID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+        </div> <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <select class="form-control" required (change)="changeStarttime($event)">
+                    <option value="0">{{labels.startTime}}</option>
+                    <option *ngFor="let day of Timeings" value={{day.id}}>{{day.slotName}}
+                    </option>
+                </select><br>
+            </div>
+            <div class="col-lg-3">
+                <select class="form-control" required (change)="changeEndtime($event)">
+                    <option value="0">{{labels.endTime}}</option>
+                    <option *ngFor="let day of endslotlist" value={{day.id}}>{{day.slotName}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-1">
+                <button type="button" class="save" (click)="InsertPhysiotherapyHospitalDetailsAdmin()">{{labels.adder}}</button>&nbsp;
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" routerLink="/countrymanager/CareGiverPlanning">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>
+    <br>
+
+
+
+
+
+
+</div>

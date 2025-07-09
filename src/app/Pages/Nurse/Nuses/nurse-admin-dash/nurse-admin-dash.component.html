@@ -1,0 +1,125 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+   <div class="row">
+       <div class="col-lg-8 col-sm-6">
+           <h5 class="headings">{{labels.activityDashboard}}</h5>
+       </div>
+   </div>  
+</div>
+<div class="container-fluid headercard card-hover headerspace">
+   <div class="row">
+    <div class="col-lg-3">
+      <input type="text"
+      placeholder="Select Date"
+      class="form-control"
+      bsDaterangepicker
+      [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+[bsConfig]="{ showWeekNumbers:false }"
+      [bsConfig]="{ isAnimated: true }">
+  </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-3" >
+          <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="Dashboard(1)">
+            <br>
+            <label style="color: black;font-size: 30px;color: white;">
+              <b style="font-size: 15px;">{{labels.appointments}}</b> </label><br><br>
+            <label style="color: black;font-size: 30px;color: #f17e2d;">
+              <b>
+                <u style="font-size: 20px;">{{count}}</u>
+              </b>
+            </label>
+          </div>
+          
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-3">
+          <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="Dashboard(2)">
+            <br>
+            <label style="color: black;font-size: 30px;color: white;">
+              <b style="font-size: 15px;">{{labels.pendingAcceptance}}</b>
+            </label><br><br>
+  
+            <label style="color: black;font-size: 30px;color: #f17e2d;">
+              <b>
+                <u style="font-size: 20px;">{{pendingacceptence}}</u>
+              </b>
+            </label>
+          </div>
+  
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-3">
+          <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="Dashboard(3)">
+            <br>
+            <label style="color: black;font-size: 30px;color: white;">
+              <b style="font-size: 15px;">{{labels.accepted}}</b>
+            </label> <br><br>
+  
+            <label style="color: black;font-size: 30px;color: #f17e2d;">
+              <b>
+                <u style="font-size: 20px;">{{acceptcount}}</u>
+              </b>
+            </label>
+          </div>
+  
+        </div>
+        <div class="col-lg-1"></div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-3" >
+          <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="Dashboard(4)">
+            <br>
+            <label style="color: black;font-size: 30px;color: white;">
+              <b style="font-size: 15px;">{{labels.patientVisited}}</b> </label><br><br>
+            <label style="color: black;font-size: 30px;color: #f17e2d;">
+              <b>
+                <u style="font-size: 20px;">{{patientvisitcount}}</u>
+              </b>
+            </label>
+          </div>
+          <br />
+          <br />
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-3">
+          <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="Dashboard(5)">
+            <br>
+            <label style="color: black;font-size: 30px;color: white;">
+              <b style="font-size: 15px;">{{labels.patientNoShow}}</b>
+            </label><br><br>
+  
+            <label style="color: black;font-size: 30px;color: #f17e2d;">
+              <b>
+                <u style="font-size: 20px;">{{patientnotvisitcount}}</u>
+              </b>
+            </label>
+          </div>
+  
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-3">
+          <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="Dashboard(6)">
+            <br>
+            <label style="color: black;font-size: 30px;color: white;">
+              <b style="font-size: 15px;">{{labels.cancelled}}</b>
+            </label> <br><br>
+  
+            <label style="color: black;font-size: 30px;color: #f17e2d;">
+              <b>
+                <u style="font-size: 20px;">{{cancelcount}}</u>
+              </b>
+            </label>
+          </div>
+  
+        </div>
+        <div class="col-lg-1"></div>
+      </div>
+</div>
+
+

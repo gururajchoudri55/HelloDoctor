@@ -1,0 +1,80 @@
+<app-sms></app-sms>
+<div class="container-fluid" *ngIf="typeID==26">
+    <div class="row">
+        <div class="col-lg-12">
+            <table>
+                <tr>
+                    <th>{{labels.vaccineName}}</th>
+                    <th>Date</th>
+                </tr>
+                <tr *ngFor="let vaccine of vaccinationList">
+                    <td>{{vaccine.vaccinationName}}</td>
+                    <td>{{vaccine.vaccinationDate}}</td>
+                </tr>
+            </table>
+        </div>
+
+    </div><br><br><br>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="vaccine Name"
+                    [(ngModel)]="vaccineName" name="vaccineName">
+                <label for="floatingInput" class="floatingLabel">{{labels.vaccineName}}</label>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" placeholder="{{labels.vaccineDate}}" class="form-control" [(ngModel)]="vaccinedate" bsDatepicker
+                [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
+                (ngModelChange)="getVaccineDate(vaccinedate)">
+        </div>
+
+        <div class="col-lg-4"></div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <button class="save" (click)="insertDetails()">{{labels.save}}</button>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div class="container-fluid" *ngIf="typeID==27">
+    <div class="row">
+        <div class="col-lg-12">
+            <table>
+                <tr>
+                    <th>{{labels.allergies}}</th>
+                    <th>Actions</th>
+                </tr>
+                <tr *ngFor="let allergilist of myarray">
+                    <td>{{allergilist.Showallergies}}</td>
+                    <td>
+                        <img src="assets/Icons/delete.png" (click)="deletealergeies(allergilist.Snoo)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" placeholder="vaccine Name"
+                    [(ngModel)]="addallergies" name="addallergies">
+                <label for="floatingInput" class="floatingLabel">{{labels.allergies}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <button class="save" (click)="updatedetsils()">{{labels.save}}</button>
+        </div>
+    </div>
+</div>

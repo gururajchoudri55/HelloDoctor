@@ -1,0 +1,86 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+
+<app-sms></app-sms>
+
+<div class="container-fluid">
+    <div class="row" *ngIf="typeID==7">
+        <div class="col-lg-6">
+            <img src="{{details.prescriptionUrl}}" *ngIf="details.filetype=='2'" style="width: 100%;"
+                (click)="openNewwindow(details.prescriptionUrl)">
+            <img src="assets/Icons/pdf.png" *ngIf="details.filetype=='1'" style="width: 100%;"
+                (click)="openNewwindow(details.prescriptionUrl)">
+        </div>
+        <div class="col-lg-2" *ngIf="details.filetype=='2'">
+            <span>Cliquez pour voir ou faites un clic droit pour enregistrer/télécharger</span>
+        </div>
+    </div>
+    <div class="row" *ngIf="typeID==8">
+        <div class="col-lg-6" *ngFor="let photo of photosList">
+            <a>
+                <img src="{{photo.photoUrl}}" (click)="openNewwindow(photo.photoUrl)" *ngIf="photo.typeID==1"
+                    style="width: 120px;height: auto;"><br><br>
+            </a>
+            <a>
+                <img src="assets/Icons/pdf.png" (click)="openNewwindow(photo.photoUrl)" *ngIf="photo.typeID==2"
+                    style="width: 120px;height: auto;"><br><br>
+            </a>
+            <p style="margin-top: -50px; color: black;" *ngIf="photo.typeID==1">
+                {{labels.message}}
+            </p>
+        </div>
+        <!-- <div *ngIf="photosList.typeID==1" class="col-lg-2" >
+            <span>Cliquez pour voir ou faites un clic droit pour enregistrer/télécharger</span>
+        </div> -->
+        <br><br>
+    </div>
+    <br>
+    <div class="row" *ngIf="details.showUpdate==1">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" [(ngModel)]="photoAmount"
+                selected disabled   placeholder="name@example.com">
+                <label  for="floatingInput">{{labels.amount}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="details.showUpdate==0">     
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" [(ngModel)]="amount"
+                    placeholder="name@example.com">
+                <label for="floatingInput">{{labels.amount}}</label>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                <ngx-dropzone-label>{{labels.attachments}}</ngx-dropzone-label>
+                <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                </ngx-dropzone-preview>
+            </ngx-dropzone>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" [(ngModel)]="comments">
+                <label for="floatingInput">{{labels.comments}}</label>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="details.showUpdate==0">
+        <div class="col-lg-9">
+        </div>
+        <div class="col-lg-3">
+            <button class="save" (click)="updateamount()">{{labels.update}}</button>
+        </div>
+    </div>
+    <div class="row" *ngIf="details.showUpdate==1">
+        <h4 class="text-center">{{labels.pharmacyUpdatedComments}}</h4>
+        <div class="col-lg-6">
+            <img src="assets/Icons/pdf.png" *ngIf="details.subPhotoType=='1'" style="width: 120px;height: auto;"
+                (click)="openNewwindow(details.subPhotoUrl)">
+                
+            <img src="{{details.subPhotoUrl}}" *ngIf="details.subPhotoType=='2'" style="width: 50%;">
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.facilityMaster}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <label>{{labels.type}}</label> &nbsp;
+                <input type="radio" value="1" name="pharmicies"> {{labels.pharmacy}} &nbsp;
+                <input type="radio" value="2" name="diagnostic"> {{labels.diagnosticCenter}} &nbsp;
+            </div>
+            <div class="col-lg-3">
+                <label>{{labels.masterSetting}}</label> &nbsp;
+                <input type="radio" value="1" name="gender"> {{labels.yes}} &nbsp;
+                <input type="radio" value="2" name="gender"> {{labels.no}} &nbsp;
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="deliverycharges">
+                    <label for="floatingInput" class="floatingLabel">{{labels.deliveryCharges}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control inputfield" id="floatingInput" placeholder="voiladoc commission"
+                      name="voiladoccommission">
+                    <label for="floatingInput" class="floatingLabel">{{labels.voildocCommission}}</label>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-1">
+                <button type="button" class="save">{{labels.save}}</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" routerLink="/Masters/HomeDeliveryFees">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>
+</div>

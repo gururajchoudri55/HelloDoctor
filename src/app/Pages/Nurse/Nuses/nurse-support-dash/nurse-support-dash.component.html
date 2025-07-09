@@ -1,0 +1,143 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.supportDash}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="addnew" routerLink="/Nurse/NurseSupport">{{labels.raiseIssue}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" placeholder="Select Date" class="form-control" bsDaterangepicker 
+            [bsConfig]="{ showWeekNumbers:false }"
+                [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="term">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-4"></div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}}</label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.ticketno}}</th>
+                    <th>{{labels.raiseddate}}</th>
+                    <th>{{labels.issue}}</th>
+                    <th>{{labels.description}}</th>
+                    <th>{{labels.photo}}</th>
+                    <th>{{labels.resolveddescription}}</th>
+                    <th>{{labels.resolvedphoto}}</th>
+                    <th>{{labels.status}}</th>
+                </tr>
+                <tr *ngFor="let issue of issuelist|filter:term">
+                    <td>{{issue.id}}</td>
+                    <td>{{issue.raiseddate}}</td>
+                    <td>{{issue.issue}}</td>
+                    <td>
+                        <p style="margin-top:10px" [innerHTML]="issue.description"></p>
+                    </td>
+                    <td>
+                        <img src="assets/Icons/attachment_16.png" title="images" (click)="GetImageUrl(issue.photoURL)"
+                            data-bs-toggle="modal" data-bs-target="#IssuePhoto" />&nbsp;
+                    </td>
+                    <td>
+                        <p style="margin-top: 12px;" [innerHTML]="issue.resolveDescription"></p>
+                    </td>
+                    <td>
+                        <img src="assets/Icons/attachment_16.png" title="Resolve Photo"
+                            (click)="GetResolvePhotoUrl(issue.resolvePhotoURL)" *ngIf="issue.resolved=='1'"
+                            data-bs-toggle="modal" data-bs-target="#ResolvePhoto" />&nbsp;
+                    </td>
+                    <td>
+                        <label *ngIf="issue.resolved=='0'&&issue.accepted=='0'" style="color:red">{{labels.pending}}</label>
+                        <label *ngIf="issue.resolved=='0'&&issue.accepted=='1'" style="color:red">{{labels.accepted}}</label>
+                        <label *ngIf="issue.resolved=='1'" style="color:green">{{labels.resolved}}</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="Previous" nextLabel="Next"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div> -->
+</div>
+
+
+
+
+
+<div class="modal fade" id="IssuePhoto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.issuePhoto}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <img src="{{photourl}}" class="imageSize" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="ResolvePhoto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.resolvedphoto}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <br>
+                            <img src="{{resolvephotourl}}" style="height: auto;width:100%" />
+                            <br>
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>

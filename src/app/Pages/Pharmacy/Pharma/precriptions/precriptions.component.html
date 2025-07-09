@@ -1,0 +1,258 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.prescriptions}}</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" placeholder="Select Date" class="form-control" bsDaterangepicker
+                [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }"
+                [bsConfig]="{ showWeekNumbers:false }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" [(ngModel)]="term"
+                    placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-4"></div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}}</label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.orderDate}}</th>
+                    <th>{{labels.orderNumber}}</th>
+                    <th>{{labels.prescriptionType}}</th>
+                    <th>{{labels.pickUptype}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <!-- <th>Email ID</th> -->
+                    <th>{{labels.deliveryAddress}}</th>
+                    <th>{{labels.paymentType}}</th>
+                    <th>{{labels.patientPrice}}</th>
+                    <th>{{labels.medicines}}</th>
+                    <th>{{labels.referenceNumber}}</th>
+                    <th>{{labels.status}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr [style.background-color]="details.appointmentColorCode"
+                    *ngFor="let details of ordersList|filter:term| paginate: { id: 'foo', itemsPerPage: 5, currentPage: p}">
+                    <td>{{details.date|date:'dd-MM-yyyy'}}</td>
+
+                    <td>{{details.id}}</td>
+                    <td>
+                        <span *ngIf="details.orderType=='1'">{{labels.online}}</span>
+                        <span *ngIf="details.orderType=='2'">{{labels.photo}}</span>
+                        <span *ngIf="details.orderType=='3'">{{labels.uploadedFile}}</span>
+                    </td>
+                    <td>
+                        <!-- <span
+                            *ngIf="details.selfPickUP=='0'&&details.readyfordelivery=='1'">{{labels.homedelivery}}
+                        </span> -->
+                        <span
+                            *ngIf="details.selfPickUP=='1'&&details.readyfordelivery=='1'">{{labels.selfPickup}}
+                        </span>
+                        <span *ngIf="details.readyfordelivery=='0'">{{labels.progressing}}</span>
+                    </td>
+                    <td>{{details.relationpatentname}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <!-- <td>{{details.relationemailid}}</td> -->
+                    <td>
+
+                        <img src="assets/Icons/location.png" (click)="getAddress(details.address)"
+                            data-bs-toggle="modal" data-bs-target="#location">
+                    </td>
+                    <td>{{details.paymentType}}</td>
+                    <td>{{details.paidAmount|number:'1.2-2'}}</td>
+                    <td>
+                        <img src="assets/Icons/medicines.png" (click)="getTypeID(details,6)"
+                            *ngIf="details.orderType=='1'">
+                        <img src="assets/Icons/photoprescription.png" (click)="getTypeID(details,7)"
+                            *ngIf="details.orderType=='2'">
+                        <img src="assets/Icons/photoprescription.png" (click)="getTypeID(details,8)"
+                            *ngIf="details.orderType=='3'">
+
+                    </td>
+                    <td>{{details.referenceNumber}}</td>
+                    <td>
+                        <label style="color:green"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.fullyAvailableBit=='0'&&details.partialBit=='0'&&details.readyfordelivery=='0'&&details.showUpdate=='0'">{{labels.accepted}}</label>
+                        <label style="color:red"
+                            *ngIf="details.approved=='0'&&details.pharmacyCancelled=='1'||details.cancelled=='1'&&details.delivered=='0'">{{labels.cancelled}}</label>
+                        <label style="color:green"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='1'">{{labels.delivered}}</label>
+
+                        <label style="color:green"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.paidStatus=='1'&&details.partialBit=='1'">
+                            {{labels.readyForDelivery}}</label>
+
+
+                        <label style="color:green"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.orderPaid=='0'&&details.paidStatus=='1'">
+                            {{labels.pay}}
+                        </label>
+
+                        <label style="color:green"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.partialBit=='0' && details.orderRedy=='0' && details.paidStatus=='1' && details.orderPaid=='1'">
+                            {{labels.orderIsPreparing}}</label>
+                            <label style="color:green"
+                            *ngIf="details.orderRedy=='1' && details.delivered=='0'">
+                            {{labels.orderReady}}</label>
+
+                           
+
+                        <label style="color:green"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.partialBit=='1'&& details.selfPickUP=='0'">
+                            {{labels.deliveryCompany}}</label>
+
+
+                        <label style="color:green"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.readyfordelivery=='1'&&details.paidStatus=='1'&&details.partialBit=='0'&&details.paymentTypeID==2&&details.orderRedy=='0'">
+                            {{labels.creditcardpayment}}</label>
+                        <label style="color:green"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.readyfordelivery=='1'&&details.paidStatus=='1'&&details.partialBit=='0'&&details.paymentTypeID==1 &&details.orderRedy=='0' &&  details.OrderPaid=='0'">
+                            {{labels.wallet}} </label>
+
+                        <label style="color:green"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.readyfordelivery=='1'&&details.paidStatus=='1'&&details.partialBit=='0'&&details.paymentTypeID==3&&details.orderRedy=='0'">
+                            {{labels.cod}}</label>
+                        <label style="color:green"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.readyfordelivery=='0'&&details.paidStatus=='0'&&details.showUpdate=='1'&&details.orderRedy=='0'&&details.partialBit=='0'">
+                            {{labels.priceSenttoPatient}}</label>
+                    </td>
+                    <td>
+                        <!-- Accept -->
+                        <button class="Accept"
+                            *ngIf="details.approved=='0'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'"
+                            (click)="getTypeID(details,1)">{{labels.accept}}</button>
+                        <!-- Cancel -->
+
+                        <button class="Cancel"
+                            *ngIf="details.approved=='0'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'"
+                            (click)="getTypeID(details,2)">{{labels.cancel}}</button>
+
+                        <!-- Order Ready -->
+                        <button class="orderready"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.orderPaid=='0'&&details.paidStatus=='1'"
+                            (click)="getTypeID(details,3)">{{labels.orderPaid}}</button>
+
+                        <!-- delivery company -->
+                        <!-- <button class="deliverycompany"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.partialBit=='0'&&details.selfPickUP=='0'&&details.paidStatus=='1'"
+                            (click)="getTypeID(details,4)">{{labels.deliveryCompany}}</button> -->
+
+                        <!-- Delivered -->
+                        <button class="delivery"
+                            *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.selfPickUP=='1'&&details.orderPaid=='1' && details.orderRedy=='0' "
+                            (click)="getTypeID(details,5)">{{labels.orderReady}}</button>
+
+
+                            <button class="delivery"
+                            *ngIf="details.orderRedy=='1' && details.delivered=='0'"
+                            (click)="getTypeID(details,9)">{{labels.collected}}</button>
+
+                        <button (click)="getTypeID(details,10)" class="chatbox">Chat
+                            <span class="badge">{{details.chatcount}}</span>
+                        </button>
+                        <button *ngIf=" details.delivered=='1'" (click)="getTypeID(details,22)"  class="delivery">{{labels.receipt}}
+                        </button> 
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="medicines" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel" (click)="closeModal()" *ngIf="typeID=='6'">
+                    {{labels.orderedMedicines}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" (click)="closeModal()" *ngIf="typeID=='7'">
+                    {{labels.uploadedPrescription}}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel" (click)="closeModal()" *ngIf="typeID=='8'">
+                    {{labels.uploadedPrescription}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"(click)="refresh()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div *ngIf="typeID==6" id="content">
+                        <app-ordered-medicines [OrdersList]="selectedOrder" (showLoader)="showLoader()"
+                            (error)="error($event)" (close)="close($event)" *ngIf="typeID==6"></app-ordered-medicines>
+                    </div>
+                    <div *ngIf="typeID==7">
+                        <app-uploaded-prescription [OrdersList]="selectedOrder" (showLoader)="showLoader()"
+                            [typeID]="typeID" (error)="error($event)" (close)="close($event)" *ngIf="typeID==7">
+                        </app-uploaded-prescription>
+                    </div>
+                    <div *ngIf="typeID==8">
+                        <app-uploaded-prescription [OrdersList]="selectedOrder" [typeID]="typeID"
+                            (showLoader)="showLoader()" (error)="error($event)" (close)="close($event)"
+                            *ngIf="typeID==8"></app-uploaded-prescription>
+                    </div>
+                    <div *ngIf="typeID=='22'">
+                        <app-pharmacy-payment-receipt [Details]="[selectedOrder]" (showLoader)="showLoader()"
+                            (closeReceipt)="closeReceipt($event)" *ngIf="typeID==22">
+                        </app-pharmacy-payment-receipt>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" data-bs-dismiss="modal"
+                    (click)="closeModal()">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="location" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    {{location}}
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- (closechatMessage)="closechatMessage()" -->
+
+<div class="chat" *ngIf="typeID==10">
+    <app-pharmacy-chat [Details]="selectedOrder" (closechatMessage)="closechatMessage()" *ngIf="typeID==10">
+    </app-pharmacy-chat>
+</div>

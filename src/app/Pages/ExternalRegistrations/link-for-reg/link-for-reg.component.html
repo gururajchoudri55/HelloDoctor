@@ -1,0 +1,80 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.generateLink}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <select class="form-control" (change)="GetTypeName($event)">
+                    <option value="0">{{labels.selectType}}</option>
+                    <option value="1">{{labels.hospital}}</option>
+                    <option value="2">{{labels.inClinic}}</option>
+                    <option value="3">{{labels.independentDoctor}}</option>
+                    <option value="4">{{labels.independentNurse}}</option>
+                    <option value="5">{{labels.independentPhysiotherapist}}</option>
+                    <option value="6">{{labels.independentMidwife}}</option>
+                    <option value="7">{{labels.pharmacy}}</option>
+                    <option value="8">{{labels.diagnosticCenter}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Phone no"
+                        [(ngModel)]="email" name="email">
+                    <label for="floatingInput" class="floatingLabel">{{labels.email}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Phone no"
+                        [(ngModel)]="username" name="username">
+                    <label for="floatingInput" class="floatingLabel">{{labels.username}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Phone no"
+                        name="password" (ngModelChange)="isValidpassword(password)" [(ngModel)]="password">
+                    <label for="floatingInput" class="floatingLabel">{{labels.password}}</label>
+                    <span *ngIf="valid == false" class="emailvalidation">{{
+                        labels.phonevalidtest
+                        }}</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                        [(ngModel)]="address" disabled name="address" style="height: 100px;"></textarea>
+                    <label for="floatingTextarea">{{labels.description}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                        [(ngModel)]="notes" name="notes" disabled style="height: 100px;"></textarea>
+                    <label for="floatingTextarea">{{labels.remarks}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-1">
+                <button type="button" class="save" (click)="Insertdetails()">{{labels.saveandcontinue}}</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" routerLink="/Registrations/LinkFordash">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>

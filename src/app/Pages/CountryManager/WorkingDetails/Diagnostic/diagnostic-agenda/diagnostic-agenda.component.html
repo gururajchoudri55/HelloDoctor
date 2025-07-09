@@ -1,0 +1,656 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.diagnosticAgenda}}</h5>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <br>
+    <div class="row">
+      <div class="tab">
+        <button class="tablinks" (click)="openCity($event, 'Diagnosticcenter')"
+          id="defaultOpen">{{labels.diaCenter}}
+        </button>
+        <button class="tablinks" (click)="openCity($event, 'Homesample')">{{labels.homeSample}}</button>
+      </div>
+    </div>
+  
+    <div id="Diagnosticcenter" class="tabcontent">
+      <div class="row" style="margin-top:10px;">
+        <div class="col-lg-3">
+          <select class="form-control" (change)="GetDiagnosticcenterID($event)">
+            <option value="0">{{labels.selectDiagnostic}}</option>
+            <option *ngFor="let dia of diagnosticlist" value="{{dia.id}}">{{dia.diagnosticCenterName}}</option>
+          </select>
+        </div>
+  
+        <div class="col-lg-3">
+            <input type="text" class="form-control" placeholder="{{labels.selectdate}}"
+            [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="todaydate1"
+            (ngModelChange)="GetDoctorDates($event)" [minDate]="today" bsDatepicker>
+
+          <!-- <input *ngIf="languageid==1" type="text" class="form-control" placeholder="Select Date"
+            [bsConfig]="{ showWeekNumbers:false }" [(ngModel)]="todaydate1" (ngModelChange)="GetDoctorDates($event)"
+            [minDate]="today" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" bsDatepicker>
+  
+          <input *ngIf="languageid==6" type="text" class="form-control" placeholder="Sélectionner une date"
+            [bsConfig]="{ showWeekNumbers:false }" [minDate]="today" 
+            (bsValueChange)="GetDoctorDates($event)" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" bsDatepicker> -->
+        </div>
+        <div class="col-lg-2" *ngIf="typeidss=='2'">
+          <span style="margin-left: 56px;">{{labels.changeSchedule}}</span>
+        </div>
+        <div class="col-lg-4" *ngIf="typeidss=='2'">
+          <input type="radio" [(ngModel)]="typeID" name="typeID" data-bs-toggle="modal" data-bs-target="#EditDayWiseSlots" 
+            (click)="GetTypeID($event)" value="1">{{labels.dayWise}} &nbsp;
+          <input type="radio" [(ngModel)]="typeID" name="typeID"  data-bs-toggle="modal" data-bs-target="#TimeWise"
+            (click)="GetTypeID($event)" value="2">{{labels.timeWise}}
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="term" name="term">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+    
+      </div><br>
+      <div class="row">
+        <div class="col-lg-12" style="overflow: auto;">
+          <table>
+            <thead>
+                <tr>
+                    <th>{{labels.timings}}</th>
+                    <th>
+                      {{date1|date:'dd-MM-yyyy'}}<br>
+                      {{day1}}</th>
+                    <th>
+                      {{date2|date:'dd-MM-yyyy'}}<br>
+                      {{day2}}</th>
+                    <th>
+                      {{date3|date:'dd-MM-yyyy'}}<br>
+                      {{day3}}</th>
+                    <th>
+                      {{date4|date:'dd-MM-yyyy'}}<br>
+                      {{day4}}</th>
+                    <th>
+                      {{date5|date:'dd-MM-yyyy'}}<br>
+                      {{day5}}</th>
+                    <th>
+                      {{date6|date:'dd-MM-yyyy'}}<br>
+                      {{day6}}</th>
+                    <th>
+                      {{date7|date:'dd-MM-yyyy'}}<br>
+                      {{day7}}</th>
+                  </tr>
+              <tr *ngFor="let details of Workingdetails|filter:term">
+                <td>{{details.slotname}}</td>
+                <td [style.background-color]="details.mondayColor" style="color:white">{{details.monday}}<br>
+                  <p [style.color]="details.mondayAvailabiltyColor">{{details.mondayAvailabilty}}</p>
+  
+                  <table style="box-shadow:none;overflow: auto;">
+                    <tr *ngFor="let ptientdeatils of details.day1patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.appointmentStatus}}
+                      </td>
+                    </tr>
+                  </table>
+                
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise"   *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay1Details(details)">
+                 
+                </td>
+                <td [style.background-color]="details.tuesdayColor" style="color:white">{{details.tuesday}}<br>
+                  <p [style.color]="details.mondayAvailabiltyColor">{{details.tuesdayAvailabilty}}</p>
+                  <table style="box-shadow:none;overflow: auto;">
+                    <tr *ngFor="let ptientdeatils of details.day2patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <!-- <td style="border:none">
+                        {{ptientdeatils.appointmentStatus}}
+                      </td> -->
+                    </tr>
+                  </table>
+  
+                 
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise"  *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay2Details(details)">
+                 
+                </td>
+                <td [style.background-color]="details.wednesdayColor" style="color:white">{{details.wednesday}}<br>
+                  <p [style.color]="details.wednessdayAvailabiltyColor">{{details.wednessdayAvailabilty}}</p>
+  
+                  <table style="box-shadow:none;overflow: auto;">
+                    <tr *ngFor="let ptientdeatils of details.day3patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <!-- <td style="border:none">
+                        {{ptientdeatils.appointmentStatus}}
+                      </td> -->
+                    </tr>
+                  </table>        
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise"  *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay3Details(details)">        
+                </td>
+  
+                <td [style.background-color]="details.thursdayColor" style="color:white">{{details.thursday}}<br>
+                  <p [style.color]="details.thursadayAvailabiltyColor"> {{details.thursadayAvailabilty}}</p>
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day4patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <!-- <td style="border:none">
+                        {{ptientdeatils.appointmentStatus}}
+                      </td> -->
+                    </tr>
+                  </table>
+  
+                
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise" *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay4Details(details)">
+                 
+                </td>
+                <td [style.background-color]="details.fridayColor" style="color:white">{{details.friday}}<br>
+                  <p [style.color]="details.fridayAvailabiltyColor">{{details.fridayAvailabilty}}</p>
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day5patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <!-- <td style="border:none">
+                        {{ptientdeatils.appointmentStatus}}
+                      </td> -->
+                    </tr>
+                  </table>
+               
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise"  *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay5Details(details)">
+                 
+                </td>
+                <td [style.background-color]="details.saturdayColor" style="color:white">{{details.saturday}}<br>
+                  <p [style.color]="details.saturdayAvailabiltyColor">{{details.saturdayAvailabilty}}</p>
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day6patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <!-- <td style="border:none">
+                        {{ptientdeatils.appointmentStatus}}
+                      </td> -->
+                    </tr>
+                  </table>
+                
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise"  *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay6Details(details)">
+                
+                </td>
+                <td [style.background-color]="details.sundayColor" style="color:white">{{details.sunday}}<br>
+                  <p [style.color]="details.sundayAvailabiltyColor"> {{details.sundayAvailabilty}}</p>
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day7patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <!-- <td style="border:none">
+                        {{ptientdeatils.appointmentStatus}}
+                      </td> -->
+                    </tr>
+                  </table>
+                 
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise"  *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay7Details(details)">
+            
+  
+                </td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+  
+    <div id="Homesample" class="tabcontent">
+      <div class="row" style="margin-top:10px;">
+        <div class="col-lg-3">
+          <select class="form-control" (change)="GetDiagnosticcenterID($event)">
+            <option value="0">{{labels.selectDiagnostic}}</option>
+            <option *ngFor="let dia of diagnosticlist" value="{{dia.id}}">{{dia.diagnosticCenterName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="form-control" placeholder="{{labels.selectdate}}"
+            [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="todaydate1"
+            (ngModelChange)="GetDoctorDates($event)" [minDate]="today" bsDatepicker>
+
+          <!-- <input *ngIf="languageid==1" type="text" class="form-control" placeholder="Select Date"
+            [bsConfig]="{ showWeekNumbers:false }" [(ngModel)]="todaydate1" (ngModelChange)="GetDoctorDates($event)"
+            [minDate]="today" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" bsDatepicker>
+  
+          <input *ngIf="languageid==6" type="text" class="form-control" placeholder="Sélectionner une date"
+            [bsConfig]="{ showWeekNumbers:false }" [minDate]="today" 
+            (bsValueChange)="GetDoctorDates($event)" [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }" bsDatepicker> -->
+        </div>
+        <div class="col-lg-2" *ngIf="typeidss=='1'">
+          <span style="margin-left: 56px;">{{labels.changeSchedule}}</span>
+        </div>
+        <div class="col-lg-4" *ngIf="typeidss=='1'">
+          <input type="radio" [(ngModel)]="typeID" name="typeID"  data-bs-toggle="modal" data-bs-target="#EditDayWiseSlots" 
+            (click)="GetTypeID($event)" value="1">{{labels.dayWise}} &nbsp;
+          <input type="radio" [(ngModel)]="typeID" name="typeID" data-bs-toggle="modal" data-bs-target="#TimeWise"   
+            (click)="GetTypeID($event)" value="2">{{labels.timeWise}}
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search" [(ngModel)]="term" name="term1">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+      </div><br>
+      <div class="row">
+        <div class="col-lg-12" style="overflow: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>{{labels.timings}}</th>
+                <th>
+                  {{date1|date:'dd-MM-yyyy'}}<br>
+                  {{day1}}</th>
+                <th>
+                  {{date2|date:'dd-MM-yyyy'}}<br>
+                  {{day2}}</th>
+                <th>
+                  {{date3|date:'dd-MM-yyyy'}}<br>
+                  {{day3}}</th>
+                <th>
+                  {{date4|date:'dd-MM-yyyy'}}<br>
+                  {{day4}}</th>
+                <th>
+                  {{date5|date:'dd-MM-yyyy'}}<br>
+                  {{day5}}</th>
+                <th>
+                  {{date6|date:'dd-MM-yyyy'}}<br>
+                  {{day6}}</th>
+                <th>
+                  {{date7|date:'dd-MM-yyyy'}}<br>
+                  {{day7}}</th>
+              </tr>
+              <tr *ngFor="let details of Workingdetails|filter:term1">
+                <td>{{details.slotname}}</td>
+                <td [style.background-color]="details.mondayColor" style="color:white">{{details.monday}}<br>
+                  <p [style.color]="details.mondayAvailabiltyColor">{{details.mondayAvailabilty}}</p>
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day1patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.agentname}}
+                      </td>
+                    </tr>
+                  </table>
+              
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise"  *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay1Details(details)">
+              
+                </td>
+                <td [style.background-color]="details.tuesdayColor" style="color:white">{{details.tuesday}}<br>
+  
+                  <p [style.color]="details.tuesdayAvailabiltyColor">{{details.tuesdayAvailabilty}}</p>
+  
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day2patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.agentname}}
+                      </td>
+                    </tr>
+                  </table>
+                 
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise"  *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay2Details(details)">
+                
+  
+                </td>
+                <td [style.background-color]="details.wednesdayColor" style="color:white">{{details.wednesday}}<br>
+                  <p [style.color]="details.wednessdayAvailabiltyColor">{{details.wednessdayAvailabilty}}</p>
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day3patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.agentname}}
+                      </td>
+                    </tr>
+                  </table>
+                 
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise" *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay3Details(details)">
+                 
+                </td>
+  
+                <td [style.background-color]="details.thursdayColor" style="color:white">{{details.thursday}}<br>
+                  <p [style.color]="details.thursadayAvailabiltyColor"> {{details.thursadayAvailabilty}}</p>
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day4patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.agentname}}
+                      </td>
+                    </tr>
+                  </table>
+                
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise" *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay4Details(details)">
+               
+                </td>
+  
+                <td [style.background-color]="details.fridayColor" style="color:white">{{details.friday}}<br>
+                  <p [style.color]="details.fridayAvailabiltyColor">{{details.fridayAvailabilty}}</p>
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day5patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.agentname}}
+                      </td>
+                    </tr>
+                  </table>
+                 
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise"  *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay5Details(details)">
+               
+                </td>
+                <td [style.background-color]="details.saturdayColor" style="color:white">{{details.saturday}}<br>
+                  <p [style.color]="details.saturdayAvailabiltyColor">{{details.saturdayAvailabilty}}</p>
+  
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day6patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.agentname}}
+                      </td>
+                    </tr>
+                  </table>
+              
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise" *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay6Details(details)">
+                  
+                </td>
+                <td [style.background-color]="details.sundayColor" style="color:white">{{details.sunday}}<br>
+                  <p [style.color]="details.sundayAvailabiltyColor"> {{details.sundayAvailabilty}}</p>
+                  <table style="box-shadow:none">
+                    <tr *ngFor="let ptientdeatils of details.day7patientdetails ">
+                      <td style="border:none">
+                        {{ptientdeatils.patientName}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.mobileNumber}}
+                      </td>
+                      <td style="border:none">
+                        {{ptientdeatils.agentname}}
+                      </td>
+                    </tr>
+                  </table>
+            
+                    <img src="assets/Icons/edit.png" data-bs-toggle="modal" data-bs-target="#SlotWise"  *ngIf="showedit=='1'" 
+                      style="width: 18px" (click)="GetDay7Details(details)">
+               
+                </td>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+    <br>
+  </div>
+  <br>
+
+
+
+
+
+  <div class="modal fade" id="SlotWise" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content card card-hover">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{labels.edit}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <span *ngIf="typeidss=='1'">
+                <input type="radio" [(ngModel)]="typeid" name="typeid" [value]="1"> &nbsp;
+               {{labels.homeSample}} &nbsp;
+              </span>
+              <span *ngIf="typeidss=='2'">
+                <input type="radio" [(ngModel)]="typeid" name="typeid" [value]="2"> &nbsp;
+               {{labels.diagnosticCenter}} &nbsp;
+              </span>
+              <input type="radio" [(ngModel)]="typeid" name="typeid" [value]="4"> &nbsp;
+               {{labels.notAvailable}} &nbsp;
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-3">
+              <span *ngIf="typeid!='4'">{{labels.slotcapacity}}</span>
+            </div>
+            <div class="col-lg-6">
+              <input type="text" class="form-control" *ngIf="typeid!='4'" [(ngModel)]="totalappointments"
+              placeholder="{{labels.slotcapacity}}"  name="totalappointments">
+            </div>
+          </div><br>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close"  (click)="insertdetails()" data-bs-dismiss="modal">{{labels.update}}</button>
+          <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="modal fade" id="EditDayWiseSlots" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content card card-hover">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{labels.edit}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="width: 600px;">
+          <div class="row">
+            <div class="col-lg-3">
+              <span>{{labels.date}}</span>
+            </div>
+            <div class="col-lg-6">
+
+              <input type="text" class="form-control" placeholder="{{labels.selectdate}}"
+              [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="daychangedate"
+              (ngModelChange)="GetdaychangeDate($event)" [minDate]="today" bsDatepicker>
+
+
+            </div>
+          </div><br>
+          <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+              <span *ngIf="typeidss=='2'">
+                <input type="radio" [(ngModel)]="Daywiseappointmentid" name="Daywiseappointmentid" [value]="2"> &nbsp;
+               {{labels.diagnosticCenter}}&nbsp;
+              </span>
+              <span *ngIf="typeidss=='1'">
+                <input type="radio" [(ngModel)]="Daywiseappointmentid" name="Daywiseappointmentid" [value]="1"> &nbsp;
+               {{labels.homeSample}} &nbsp;
+              </span>
+              <input type="radio" [(ngModel)]="Daywiseappointmentid" name="Daywiseappointmentid" [value]="4"> &nbsp;
+             {{labels.notAvailable}} &nbsp;
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-3">
+              <span  *ngIf="Daywiseappointmentid!='4'">{{labels.slotcapacity}}</span>
+            </div>
+            <div class="col-lg-6">
+              <input type="text" class="form-control" [(ngModel)]="totalappointments" *ngIf="Daywiseappointmentid!='4'"
+              placeholder="Slot Capacity"   name="totalappointments">
+            </div>
+          </div><br>
+         
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="save"  (click)="InsertDayWiseSlots()" data-bs-dismiss="modal">{{labels.update}}</button>
+          <button type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="TimeWise" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content card card-hover">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{labels.edit}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="width: 600px;">
+          <div class="row">
+            <div class="col-lg-3">
+              <span>{{labels.date}}</span>
+            </div>
+            <div class="col-lg-6">
+
+              <input type="text" class="form-control" placeholder="{{labels.selectdate}}"
+              [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }" [(ngModel)]="timechangedate"
+              (ngModelChange)="GetTimewisechangedate($event)" [minDate]="today" bsDatepicker>
+
+          
+            </div>
+          </div><br>
+          <div class="row">
+            <div class="col-lg-3">
+              <span>{{labels.startTime}}</span>
+            </div>
+            <div class="col-lg-6">
+              <select class="form-control" (change)="getmrngfrom($event)" [(ngModel)]="mrngfromid" name="mrngfromid">
+                <option value="">{{labels.startTime}}</option>
+                <option *ngFor="let mrngfrm of mrngfromlist" value="{{ mrngfrm.id }}">{{ mrngfrm.slotName }}</option>
+              </select>
+            </div>
+          </div><br>
+          <div class="row">
+            <div class="col-lg-3">
+              <span>{{labels.endTime}}</span>
+            </div>
+            <div class="col-lg-6" style="margin-top: 0px;">
+              <select class="form-control" (change)="getmrngto($event)" [(ngModel)]="mrngtoid" name="mrngtoid">
+                <option value="">{{labels.endTime}}</option>
+                <option *ngFor="let mrngto of mrngtolist" value="{{ mrngto.id }}">{{ mrngto.slotName
+                  }}</option>
+              </select>
+            </div>
+          </div><br>
+          <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+              <span *ngIf="typeidss=='2'">
+                <input type="radio" [(ngModel)]="timewiseappointmentid" name="timewiseappointmentid" [value]="2"> &nbsp;
+              {{labels.diagnosticCenter}} &nbsp;
+              </span>
+              <span *ngIf="typeidss=='1'">
+                <input type="radio" [(ngModel)]="timewiseappointmentid" name="timewiseappointmentid" [value]="1"> &nbsp;
+              {{labels.homeSample}} &nbsp;
+              </span>
+              <input type="radio" [(ngModel)]="timewiseappointmentid" name="timewiseappointmentid" [value]="4"> &nbsp;
+            {{labels.notAvailable}} &nbsp;
+  
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-lg-3">
+              <span  *ngIf="timewiseappointmentid!='4'">{{labels.slotcapacity}}</span>
+            </div>
+            <div class="col-lg-6">
+              <input type="text" class="form-control" *ngIf="timewiseappointmentid!='4'" [(ngModel)]="totalappointments"
+               placeholder="Slot Capacity" name="totalappointments">
+            </div>
+          </div><br>
+         
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="close"  (click)="InsertTimeWiseSlots()" data-bs-dismiss="modal">{{labels.update}}</button>
+          <button type="button" class="close" data-bs-dismiss="modal">{{labels.close}}</button>
+        </div>
+      </div>
+    </div>
+  </div>

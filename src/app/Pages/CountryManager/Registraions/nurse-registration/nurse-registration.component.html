@@ -1,0 +1,481 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <form #nurseForm="ngForm">
+        <div class="row">
+            <div class="col-lg-12">
+                <p class="headings">{{labels.nurseRegistration}}</p>
+            </div>
+            <div class="col-lg-8"></div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="row">
+                <h4 class="sideheading">{{labels.personalInformation}}</h4>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Name"
+                            [(ngModel)]="name" name="name" required>
+                        <label for="floatingInput" class="floatingLabel">{{labels.name}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input (keypress)="numberOnly($event)" type="text" class="form-control inputfield"
+                            id="floatingInput" placeholder="Phone Number" [(ngModel)]="phoneNumber" name="phoneNumber"
+                            (ngModelChange)="preventZero(phoneNumber)" required>
+                        <label for="floatingInput" class="floatingLabel">{{labels.phoneNumber}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Email"
+                            [(ngModel)]="email" name="email" (ngModelChange)="isValidEmail(email)">
+                        <label for="floatingInput" class="floatingLabel">{{labels.emailID}}<span
+                                class="required">*</span></label>
+                        <span *ngIf="valid==false" class="emailvalidation">{{labels.validEmail}}</span>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <label>{{labels.gender}}<span class="required">*</span> : </label> &nbsp;
+                    <input type="radio" [(ngModel)]="gender" name="gender" value="1"> {{labels.male}} &nbsp;
+                    <input type="radio" [(ngModel)]="gender" name="gender" value="2"> {{labels.female}} &nbsp;
+                </div>
+            </div> <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                            [(ngModel)]="address" name="address" required></textarea>
+                        <label for="floatingTextarea">{{labels.address}}<span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <button class="addnew" (click)="geocode()">{{labels.getLocation}}</button>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea (keypress)="lattitudeValidation($event)" class="form-control"
+                            placeholder="Leave a comment here" id="floatingTextarea" [(ngModel)]="latitude"
+                            name="latitude"></textarea>
+                        <label for="floatingTextarea">{{labels.lattitude}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+
+                    <div class="form-floating">
+                        <textarea (keypress)="lattitudeValidation($event)" class="form-control"
+                            placeholder="Leave a comment here" id="floatingTextarea" required [(ngModel)]="longitude"
+                            name="longitude"></textarea>
+                        <label for="floatingTextarea">longitude</label>
+                    </div>
+                </div>
+
+
+            </div> <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <select class="form-control" (change)="getCountryID($event)">
+                        <option value="">{{labels.country}}</option>
+                        <option *ngFor="let cou of countryList" value="{{cou.id}}">{{cou.short}}</option>
+
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                    <ng-multiselect-dropdown [placeholder]="region" [settings]="regiondd" [data]="regionList"
+                        (onSelect)="GetRegionID($event)">
+                    </ng-multiselect-dropdown>
+                </div>
+                <div class="col-lg-3">
+                    <ng-multiselect-dropdown [placeholder]="province" [settings]="citydd" [data]="cityList"
+                        (onSelect)="GetCityID($event)">
+                    </ng-multiselect-dropdown>
+                </div>
+                <div class="col-lg-3">
+                    <ng-multiselect-dropdown [placeholder]="city" [settings]="areadd" [data]="areaList"
+                        (onSelect)="GetAreaID($event)">
+                    </ng-multiselect-dropdown>
+                </div>
+
+
+            </div> <br>
+            <div class="row">
+                <div class="col-lg-3" *ngIf="dummHospitalID==null">
+                    <ng-multiselect-dropdown [placeholder]="selecthospital" [settings]="hospitadd"
+                        [data]="hospitalClinicList" (onSelect)="getHospitalID($event)">
+                    </ng-multiselect-dropdown>
+                </div>
+                <div class="col-lg-3">
+                    <ng-multiselect-dropdown [placeholder]="selectspecialization" [settings]="specilisatiodd"
+                        [data]="specilizationList" (onSelect)="GetSpecilizationID($event)">
+                    </ng-multiselect-dropdown>
+
+                </div>
+                <div class="col-lg-3">
+                    <label>{{labels.homecare}}<span class="required">*</span> :</label>&nbsp;
+                    <input type="radio"> {{labels.yes}} &nbsp;
+                    <input type="radio"> {{labels.no}} &nbsp;
+                </div>
+                <div class="col-lg-3">
+                    <select class="form-control" (change)="getSlotDurationID($event)">
+                        <option value="0" selected>{{labels.selectSlotType}}</option>
+                        <option value="1">30 Minutes</option>
+                        <option value="4">60 Minutes</option>
+                        <option value="2">90 Minutes</option>
+                        <option value="3">2 Hours</option>
+
+                    </select>
+                </div>
+            </div> <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input (keypress)="numberOnly($event)" type="text" class="form-control inputfield"
+                            id="floatingInput" placeholder="experience" [(ngModel)]="experience" name="experience"
+                            required>
+                        <label for="floatingInput" class="floatingLabel">{{labels.experience}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+
+            </div> <br>
+            <div class="row">
+
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Education"
+                            [(ngModel)]="education" name="education" required>
+                        <label for="floatingInput" class="floatingLabel">{{labels.education}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            [(ngModel)]="spokenLanguages" name="spokenLanguages" placeholder="SpokenLanguages">
+                        <label for="floatingInput" class="floatingLabel">{{labels.speakingLanguages}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                            [(ngModel)]="professionalProfile" name="professionalProfile" required></textarea>
+                        <label for="floatingTextarea">{{labels.proffessionalProfile}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <!-- <label>Photo</label><br> -->
+                    <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                        <ngx-dropzone-label>{{labels.identityPhoto}}!</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+                <div class="col-lg-3">
+                    <!-- <label>Identity Proof</label><br> -->
+                    <ngx-dropzone class="dropZone" (change)="onSelectIdentityPhotos($event)">
+                        <ngx-dropzone-label>{{labels.photo}}!</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files1" [removable]="true"
+                            (removed)="onIdentityRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+            </div> <br>
+            <div class="row">
+
+                <div class="col-lg-1">
+                  <div class="form-floating mb-3">
+                    <input (keypress)="numberOnly($event)" type="email" class="form-control inputfield" id="floatingInput"
+                      placeholder="Phone no" [(ngModel)]="docnearesNumber" name="docnearesNumber" required />
+                    <label for="floatingInput" class="floatingLabel">KM<span
+                        class="required">*</span></label>
+                  </div>
+                </div>
+                <div class="col-lg-3">
+                  <div class="form-floating mb-3">
+                    <input  type="email" class="form-control inputfield" id="floatingInput"
+                      placeholder="Phone no" [(ngModel)]="docNearestkm" name="docNearestkm" required />
+                    <label for="floatingInput" class="floatingLabel">Distance<span
+                        class="required">*</span></label>
+                  </div>
+                </div>
+              </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="row">
+                <h4 class="sideheading">{{labels.businessRegistrationAndInvoicing}}</h4>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input (keypress)="numberOnly($event)" type="text" class="form-control inputfield"
+                            id="floatingInput" [(ngModel)]="taxIdentification" name="taxIdentification"
+                            placeholder="Tax identification ">
+                        <label for="floatingInput" class="floatingLabel">{{labels.taxIdentification}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Business ID"
+                            [(ngModel)]="businessID" name="businessID">
+                        <label for="floatingInput" class="floatingLabel">{{labels.businessID}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Commercial registration & city" [(ngModel)]="commercialCity"
+                            name="commercialCity">
+                        <label for="floatingInput"
+                            class="floatingLabel">{{labels.commercialRegistrationAndCity}}</label>
+                    </div>
+                </div>
+
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Tax professional" [(ngModel)]="taxProfessional" name="taxProfessional">
+                        <label for="floatingInput" class="floatingLabel">{{labels.taxProffessional}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Social security fund no" [(ngModel)]="socialSeccurityFundno"
+                            name="socialSeccurityFundno">
+                        <label for="floatingInput" class="floatingLabel">{{labels.socialSecurityfundno}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="row">
+                <h4 class="sideheading">{{labels.bankDetails}}</h4>
+            </div><br>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Name Of The Bank" [(ngModel)]="nameOfBank" name="nameOfBank">
+                        <label for="floatingInput" class="floatingLabel">{{labels.nameofthebank}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Account Name"
+                            [(ngModel)]="accountName" name="accountName">
+                        <label for="floatingInput" class="floatingLabel">{{labels.accountName}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput"
+                            placeholder="Account Number" [(ngModel)]="accountNumber" name="accountNumber">
+                        <label for="floatingInput" class="floatingLabel">{{labels.accountNumber}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <label>{{labels.exonerated}} :</label>&nbsp;
+                    <input type="radio" value="1" [(ngModel)]="vatCheck" name="vatCheck"
+                        (click)="checkVatvalue(1)">&nbsp;{{labels.yes}}&nbsp;
+                    <input type="radio" value="0" [(ngModel)]="vatCheck" name="vatCheck"
+                        (click)="checkVatvalue(0)">&nbsp;{{labels.no}}
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input (keypress)="numberOnly($event)" type="text" class="form-control inputfield"
+                            id="floatingInput" placeholder="Vat percentage" [(ngModel)]="vatPercentage"
+                            name="vatPercentage">
+                        <label for="floatingInput" class="floatingLabel">{{labels.vatPercentage}}</label>
+                    </div>
+                </div>
+                <div class="col-lg-3" *ngIf="vatCheck==1">
+                    <input type="text" placeholder="{{labels.startdate}}" class="form-control"
+                        [(ngModel)]="exonerationPeriodFromDate" name="exonerationPeriodFromDate" bsDatepicker
+                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
+                        (ngModelChange)="getExonerationPerioddate(exonerationPeriodFromDate)">
+                </div>
+                <div class="col-lg-3" *ngIf="vatCheck==1">
+                    <input type="text" placeholder="{{labels.enddate}}" class="form-control"
+                        [(ngModel)]="exonerationPerioToDate" name="exonerationPerioToDate" bsDatepicker
+                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
+                        (ngModelChange)="getexoneationPeriodToDate(exonerationPerioToDate)">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10">
+                    <label>{{labels.subscriptionType}}</label> &nbsp;&nbsp;
+                    <input type="radio" value="1" [(ngModel)]="subscriptionTypeID"
+                        name="subscriptionTypeID">&nbsp;&nbsp;{{labels.monthly}}
+                    <input type="radio" value="2" [(ngModel)]="subscriptionTypeID"
+                        name="subscriptionTypeID">&nbsp;&nbsp;{{labels.appointmentPercentage}} &nbsp;&nbsp;
+                    <input type="radio" value="3" [(ngModel)]="subscriptionTypeID"
+                        name="subscriptionTypeID">&nbsp;&nbsp;{{labels.both}}
+                    &nbsp;&nbsp;
+                </div>
+            </div><br>
+            <div class="row">
+                <div class="col-lg-3" *ngIf="subscriptionTypeID==1||subscriptionTypeID==3">
+                    <div class="form-floating mb-3">
+                        <input (keypress)="numberOnly($event)" type="text" class="form-control inputfield"
+                            id="floatingInput" placeholder="Exoneration period to" [(ngModel)]="montlySubscription"
+                            name="montlySubscription">
+                        <label for="floatingInput" class="floatingLabel">{{labels.monthly}}</label>
+                    </div>
+                </div><br>
+                <div class="col-lg-3" *ngIf="subscriptionTypeID==2||subscriptionTypeID==3">
+                    <div class="form-floating mb-3">
+                        <input (keypress)="numberOnly($event)" type="text" class="form-control inputfield"
+                            id="floatingInput" placeholder="AppointmentPercentage" [(ngModel)]="AppointmentPercentage"
+                            name="AppointmentPercentage">
+                        <label for="floatingInput" class="floatingLabel">{{labels.appointmentPercentage}}</label>
+                    </div>
+                </div><br>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <select class="form-control" (change)="getMonthCycleID($event)" [(ngModel)]="cycleID" name="cycleID"
+                        required>
+                        <option value="">{{labels.selectPaymentCycle}}</option>
+                        <option *ngFor="let deta of paymenyCycleList" value="{{deta.id}}">{{deta.monthlyType}}</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-5">
+                    <label>{{labels.paymentType}} : &nbsp;</label>
+                    <input type="radio" [(ngModel)]="typeOfPayment" name="typeOfPayment" [value]="1"
+                        required />&nbsp;{{labels.recurrent}}&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="typeOfPayment" name="typeOfPayment" [value]="2"
+                        required />&nbsp;{{labels.unique}}
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <div class="card">
+            <div class="row">
+                <h4 class="sideheading">{{ labels.directPayment }}</h4>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Doctor name"
+                            [(ngModel)]="accountNames" name="accountNames" required />
+                        <label for="floatingInput" class="floatingLabel">{{labels.accountNames}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input (keypress)="numberOnly($event)" type="text" class="form-control inputfield"
+                            id="floatingInput" placeholder="Doctor name" [(ngModel)]="accountNumbers"
+                            name="accountNumbers" required />
+                        <label for="floatingInput" class="floatingLabel">{{labels.accountNumbers}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Doctor name"
+                            [(ngModel)]="paymentCompany" name="paymentCompany" required />
+                        <label for="floatingInput" class="floatingLabel">{{labels.paymentCompany}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+
+
+        <div class="card">
+            <div class="row">
+                <h4 class="sideheading">{{ labels.modeOfPayments }}</h4>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-1">
+                    <label>{{ labels.cash }}</label>
+                </div>
+                <div class="col-lg-2">
+                    <input type="radio" [(ngModel)]="cash" name="cash" [value]="true" required />&nbsp;{{ labels.yes
+                    }}&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="cash" name="cash" [value]="false" required />&nbsp;{{ labels.no
+                    }}&nbsp;&nbsp;
+                </div>
+
+                <div class="col-lg-1">
+                    <label>{{ labels.wallet }}</label>
+                </div>
+                <div class="col-lg-2">
+                    <input type="radio" [(ngModel)]="wallet" name="wallet" required [value]="true" />&nbsp;{{ labels.yes
+                    }}&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="wallet" name="wallet" required [value]="false" />&nbsp;{{ labels.no
+                    }}&nbsp;&nbsp;
+                </div>
+
+                <div class="col-lg-1">
+                    {{ labels.creditcard }}
+                </div>
+                <div class="col-lg-2">
+                    <input type="radio" [(ngModel)]="creditCard" name="creditCard" required [value]="true" />&nbsp;{{
+                    labels.yes }}&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="creditCard" name="creditCard" required [value]="false" />&nbsp;{{
+                    labels.no }}&nbsp;&nbsp;
+                </div>
+                <div class="col-lg-1">
+                    {{ labels.providerPay }}
+                </div>
+                <div class="col-lg-2">
+                    <input type="radio" [(ngModel)]="ProviderPay" name="ProviderPay" required [value]="true" />&nbsp;{{
+                    labels.yes }}&nbsp;&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="ProviderPay" name="ProviderPay" required [value]="false" />&nbsp;{{
+                    labels.no }}&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="col-lg-1">
+                    {{ labels.MvolaPay }}
+                  </div>
+                <div class="col-lg-2">
+                    <input type="radio" [(ngModel)]="MvolaPay" name="MvolaPay" required [value]="true" />&nbsp;{{ labels.yes
+                    }}&nbsp;&nbsp;&nbsp;
+                    <input type="radio" [(ngModel)]="MvolaPay" name="MvolaPay" required [value]="false" />&nbsp;{{ labels.no
+                    }}&nbsp;&nbsp;&nbsp;
+                  </div>
+            </div><br>
+            <div class="row">
+                <div class="col-lg-10"></div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" (click)="inserDetails()"
+                        [disabled]="nurseForm.form.invalid">{{labels.save}}</button>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" routerLink="/countrymanager/Nurse">{{labels.back}}</button>
+                </div>
+            </div>
+        </div>
+
+        <br>
+    </form>
+</div>

@@ -1,0 +1,173 @@
+.inputfield {
+  border-radius: 12px;
+  height: 40px;
+}
+
+.floatingLabel {
+  line-height: 0px;
+}
+
+
+.Accept {
+  padding: 5px;
+  border: 2px solid green;
+  color: green;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+}
+
+
+.Accept:hover {
+  padding: 5px;
+  border: 2px solid green;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  background-color: green;
+  color: white;
+}
+
+
+.Cancel {
+  padding: 5px;
+  border: 2px solid red;
+  color: red;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+}
+
+.Cancel:hover {
+  padding: 5px;
+  border: 2px solid red;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+  background-color: red;
+}
+
+
+
+.services {
+  padding: 5px;
+  border: 2px solid #35BDD0;
+  color: #35BDD0;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+}
+
+.services:hover {
+  padding: 5px;
+  border: 2px solid #35BDD0;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+  background-color: #35BDD0;
+}
+
+
+
+
+.visited {
+  padding: 5px;
+  border: 2px solid #00D84A;
+  color: #00D84A;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+}
+
+.visited:hover {
+  padding: 5px;
+  border: 2px solid #00D84A;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+  background-color: #00D84A;
+}
+
+
+
+
+
+.soap {
+  padding: 5px;
+  border: 2px solid #E03B8B;
+  color: #E03B8B;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+}
+
+.soap:hover {
+  padding: 5px;
+  border: 2px solid #E03B8B;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+  background-color: #E03B8B;
+}
+
+
+.dropzone {
+  width: 100%;
+  height: 70px;
+}
+
+.Receipt {
+  padding: 5px;
+  border: 2px solid #2827CC;
+  color: #2827CC;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+}
+
+
+.Receipt:hover {
+  padding: 5px;
+  border: 2px solid #2827CC;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  background-color: #2827CC;
+  color: white;
+}
+
+.refund {
+  color: #758283;
+  border: 2px solid #758283;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.refund:hover {
+  padding: 5px;
+  border: 2px solid #758283;
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  width: 100px;
+  margin-top: 5px;
+  background-color: #758283;
+}

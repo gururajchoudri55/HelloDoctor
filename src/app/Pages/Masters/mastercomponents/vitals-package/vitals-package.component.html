@@ -1,0 +1,42 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.vitalsPackage}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+          
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control inputfield" id="floatingInput" placeholder="amount"
+                        required name="amount" [(ngModel)]="amount">
+                    <label for="floatingInput" class="floatingLabel">{{labels.amount}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control inputfield" id="floatingInput" placeholder="quentity"
+                        required name="quentity" [(ngModel)]="quentity">
+                    <label for="floatingInput" class="floatingLabel">{{labels.quentity}}</label>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-2">
+                <button type="button" class="save" *ngIf="showbit=='0'" (click)="insertdetails()">{{labels.save}}</button>
+                <button type="button" class="save" *ngIf="showbit=='1'" (click)="updatedetails()">{{labels.update}}</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" routerLink="/Masters/VitalsPackageMaster">{{labels.cancel}}</button>
+            </div>
+        </div>
+    </div>
+</div>

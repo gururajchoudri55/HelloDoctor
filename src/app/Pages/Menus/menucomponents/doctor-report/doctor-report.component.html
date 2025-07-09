@@ -1,0 +1,77 @@
+<!-- <app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup> -->
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.doctorReport}}</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-7"></div>
+        <div class="col-lg-2">
+            <label class="count">{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+                    <th>{{labels.photo}}</th>
+                    <th>{{labels.doctorname}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.registrationNumber}}</th>
+                    <th>{{labels.specialization}}</th>
+                    <th>{{labels.address}}</th>
+                    <th>{{labels.type}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let details of doctorlist|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td><img src="{{details.photoURL}}" style="height: 50px;width: 50px;" /></td>
+                    <td>{{details.doctorName}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>{{details.registrationNo}}</td>
+                    <td>{{details.departmentname}}</td>
+                    <td>{{details.address}}</td>
+                    <td>{{details.hospital_ClinicName}}</td>
+                    <td>
+                        <!-- <img src="assets/Images/medical.png" data-bs-toggle="modal" data-bs-target="#mymodalss"
+                            (click)="GetAllPrescription(details.id,details.emailID)">&nbsp; -->
+
+                        <img class="image" src="assets/Icons/active.png" *ngIf="details.enabledisble=='0'"
+                            (click)="disabledoctor(details.id)">&nbsp;
+
+                        <img class="image" src="assets/Icons/dactive.png" *ngIf="details.enabledisble=='1'"
+                            (click)="enabledoctor(details.id)">&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+
+
+
+

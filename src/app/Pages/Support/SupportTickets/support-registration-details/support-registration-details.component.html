@@ -1,0 +1,102 @@
+<!-- <app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms> -->
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.supportRegistration}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput"
+                        placeholder="Name" name="supportname">
+                    <label for="floatingInput" class="floatingLabel">{{labels.name}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Phone Number"
+                    name="phoneno">
+                    <label for="floatingInput" class="floatingLabel">{{labels.mobileNumber}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Email">
+                    <label for="floatingInput" class="floatingLabel">{{labels.emailID}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <label>{{labels.gender}} : </label>
+                &nbsp;
+                <input type="radio" value="1"  name="gender" />
+                {{labels.male}} &nbsp;
+                <input type="radio" value="2"  name="gender" />
+               {{labels.female}} &nbsp;
+              </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating">
+                  <textarea class="form-control" placeholder="Address" id="floatingTextarea" name="address"></textarea>
+                  <label for="floatingTextarea">{{labels.address}}</label>
+                </div>
+              </div>
+            <div class="col-lg-3">
+                <select class="form-control" (change)="getCountryID($event)">
+                    <option value="">{{labels.selectCountry}}</option>
+                    <option *ngFor="let cou of countryList" value="{{cou.id}}">{{cou.short}}</option>
+                </select>
+            </div>
+            <div class="col-lg-3" >
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="regiondd" [data]="regionList"
+                    (onSelect)="GetRegionID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="citydd" [data]="cityList"
+                    (onSelect)="GetCityID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="'Select'" [settings]="areadd" [data]="areaList"
+                    (onSelect)="GetAreaID($event)">
+                </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput"
+                        placeholder="username">
+                    <label for="floatingInput" class="floatingLabel">{{labels.userName}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput"
+                        placeholder="password">
+                    <label for="floatingInput" class="floatingLabel">{{labels.password}}</label>
+                </div>
+            </div>
+        </div> <br>
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-2">
+                <button type="button" class="save">{{labels.save}}</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" routerLink="/Support/SupportRegistration">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>

@@ -1,0 +1,111 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-10 col-sm-6">
+            <h5 class="headings">{{labels.reports}}</h5>
+        </div>
+        <div class="col-lg-2">
+            <button class="save" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" placeholder="{{labels.selectDate}}" class="form-control" bsDaterangepicker
+                [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div><br>
+        <div class="col-lg-3" *ngIf="showdrop=='1'">
+            <select class="form-control" (change)="GetPharmacyID($event)">
+              <option selected value="0">{{labels.selectPharmacy}}</option>
+              <option *ngFor="let pha of pharmacylist" value="{{pha.id}}">{{labels.pharmacyName}}</option>
+            </select>
+          </div>
+          <div class="col-lg-3">
+            <select class="form-control" (change)="getget($event)">
+              <option selected value="1">{{labels.select}}</option>
+              <option value="2">{{labels.delivered}}</option>
+              <option value="3">{{labels.cancelled}}</option>
+            </select>
+          </div>
+          <div class="col-lg-2" style="text-align: end; width: 100%;" >
+            <label>{{labels.count}} : {{count}} </label>
+          </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-striped" id="download">
+                <tr>
+                    <th>{{labels.appointmentDate}}</th>
+                    <th>{{labels.appointmnetID}}</th>
+                    <th>{{labels.diagnosticCenterName}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.address}}</th>
+                    <th>{{labels.homesample}}</th>
+                    <!-- <th>{{labels.details}}</th>
+                    <th>{{labels.appointmentTime}}</th>
+                    <th>{{labels.reason}}</th> -->
+                    <th>{{labels.status}}</th>
+                </tr>
+                <tr *ngFor="let details of reportlist|filter:search">
+                    <td>{{details.date}}</td>
+                    <td>{{details.id}}</td>
+                    <td >{{details.pharmacyName}}</td>
+                    
+                    <td>{{details.patientName}}</td>
+                   
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.patientemail}}</td>
+                    <td>{{details.address}}</td>
+                     <td>
+                      <span *ngIf="details.orderType=='1'">{{labels.online}}</span>
+                      <span *ngIf="details.orderType=='2'">{{labels.photo}}</span>
+                    </td>
+                    <!-- <td>{{details.amountToPay}}</td> -->
+                    <!-- <td>
+                      <ng-template #tipcontent12>{{labels[0].medicines}}</ng-template>
+                      <a [ngbTooltip]="tipcontent12">
+                        <img src="assets/Images/phaprescripton.png" *ngIf="details.orderType=='1'" style="height:30px;"
+                          data-toggle="modal" data-target="#exampleModal" (click)="GetMedicines(details.id)" />
+                      </a>
+        
+                      <ng-template #tipcontent890>Photo</ng-template>
+                      <a [ngbTooltip]="tipcontent890">
+                        <img src="assets/Images/phaprescripton.png" *ngIf="details.orderType=='2'" style="height:30px;"
+                          data-toggle="modal" data-target="#exampleModal2"
+                          (click)="GetPrescriptionUrl(details.prescriptionUrl)" />
+                      </a>
+                    </td> -->
+                    <td>
+                      <label style="color:green"
+                        *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='0'&&details.fullyAvailableBit=='0'&&details.partialBit=='0'">{{labels.accepted}}</label>
+                      <label style="color:red"
+                        *ngIf="details.approved=='0'&&details.pharmacyCancelled=='1'||details.rejected=='1'&&details.delivered=='0'">{{labels.cancelled}}</label>
+                      <label style="color:green"
+                        *ngIf="details.approved=='1'&&details.pharmacyCancelled=='0'&&details.cancelled=='0'&&details.delivered=='1'">{{labels.delivered}}</label>
+                    </td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>

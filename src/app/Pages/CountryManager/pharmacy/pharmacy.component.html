@@ -1,0 +1,125 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.abonnementPhaemacies}}</h5>
+        </div>
+        <div class="col-lg-4 buttonsss">
+            <button class="addnew" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+            <button class="addnew" routerLink="/countrymanager/PharmacyRegistration">{{labels.add}}</button>
+        </div>
+
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="term"
+                    placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-9 countClass">
+            <label>{{labels.count}} : {{count}}</label>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12">
+            <table class="table table-hover" id="download">
+                <tr>
+                    <th>{{labels.photo}}</th>
+                    <th>{{labels.name}}</th>
+                    <th>{{labels.contactPerson}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.emailID}}</th>
+                    <!-- <th>{{labels.pinCode}}</th> -->
+                    <th>{{labels.licenceNumber}}</th>
+                    <th>{{labels.address}}</th>
+                    <th>{{labels.monthlySubscription}}</th>
+                    <th>{{labels.partner}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr
+                    *ngFor="let details of paharmcyList|filter:term| paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td><img src="{{details.photoURL}}" style=" height: 50px;width: 50px;" />
+                    </td>
+                    <td>{{details.pharmacyName}}</td>
+                    <td>{{details.contactName}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.email}}</td>
+                    <!-- <td>{{details.pincode}}</td> -->
+                    <td>{{details.licenseNo}}</td>
+                    <td>{{details.address}}</td>
+                    <td>{{details.monthlySubscription}}</td>
+                    <td>{{details.partner==false?'No':'Yes'}}</td>
+                    <td>
+                        <img src="assets/Icons/edit.png" (click)="edit(details.id)">
+                        <img src="assets/Icons/delete.png" *ngIf="showdelete==1" (click)="deletepharmacy(details.id)">
+                        <!-- <img src="assets/Icons/imagephoto.png" alt="" data-bs-toggle="modal" data-bs-target="#photos"
+                            style="width: 35px;" (click)="GetPhotos(details.id)"> -->
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="photos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Photos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6" *ngFor="let photo of photos">
+                            <br>
+                            <img src="{{photo.photoUrl}}" alt="" style="width: 80%;">
+                          
+                            <br>
+                        </div><br>
+                    </div><br>
+                    <div class="row" *ngIf="showMul==true">
+                       
+                        <div class="col-lg-3">
+                            <!-- <label>Upload Resume</label><br> -->
+                            <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                                <ngx-dropzone-label>{{labels.uploadPharmacyPhoto}}</ngx-dropzone-label>
+                                <ngx-dropzone-preview *ngFor="let f of files" [removable]="true"
+                                    (removed)="onRemove(f)">
+                                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                                </ngx-dropzone-preview>
+                            </ngx-dropzone>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <button class="add" (click)="InsertPharmcyPhotos()"  data-bs-dismiss="modal"> Save</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="close" (click)="addPhotos()">Add</button>
+                <button type="button" class="close" data-bs-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>

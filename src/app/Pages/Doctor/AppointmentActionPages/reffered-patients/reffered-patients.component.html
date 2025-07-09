@@ -1,0 +1,180 @@
+<!-- <app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup> -->
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <h5 class="headings">{{labels.receivedRefferals}}</h5>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" placeholder="Select Date" class="form-control" bsDaterangepicker
+                [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" [(ngModel)]="search"
+                    placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-6 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-striped">
+                <tr>
+                    <th>{{labels.patientID}}</th>
+                    <th>{{labels.patientname}}</th>
+                    <th>{{labels.phonenumber}}</th>
+                    <th>{{labels.emialID}}</th>
+                    <th>{{labels.refferedToDoctor}}</th>
+                    <th>{{labels.refferedDoctorNo}}</th>
+                    <th>{{labels.reffereddocEmail}}</th>
+                    <th>{{labels.lettersAndAttachments}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let doc of docreferels|filter:search">
+                    <td>{{doc.patientID}}</td>
+                    <td>{{doc.patientName}}</td>
+                    <td>{{doc.pMobileNo}}</td>
+                    <td>{{doc.pEmail}}</td>
+                    <td>{{doc.refereddoctor}}</td>
+                    <td>{{doc.referdoctorphno}}</td>
+                    <td>{{doc.refereddoctoremail}}</td>
+                    <td>
+                        <img src="assets/Icons/attachment_16.png" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop6" (click)="GetPatientCondition(doc.referalNotes)" />
+
+                        <img src="assets/Icons/view_16.png" data-bs-toggle="modal" data-bs-target="#staticBackdrop5"
+                            (click)="GetAppointmentID(doc.appointmentID)" />
+                    </td>
+                    <td>
+                        <img src="assets/Icons/view_16.png" *ngIf="doc.soapbit=='1'" style="height:20px;"
+                        data-bs-toggle="modal" data-bs-target="#exampleModalCenter90"
+                            (click)="GetSopaNotesID(doc.appointmentID)" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-lg-1">
+        <button class="save" routerLink="/Doctor/Dashboard">{{labels.back}}</button>
+      </div>
+      <div class="col-lg-11" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+    </div>
+</div>
+<br>
+
+
+<div class="modal fade" id="staticBackdrop6" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.patientCondition}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p innerHtml="{{referalnotes}}"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="staticBackdrop5" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content  card">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{labels.patientCondition}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-6" *ngFor="let att of attachments">
+                  <img src="assets/Icons/pdf.png" (click)="GetPdf(att.attchments)">
+                </div>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="exampleModalCenter90" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content card">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{labels.soapNotes}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                  <table class="table table-striped">
+                    <tr>
+                      <th>{{labels.department}}</th>
+                      <th>{{labels.doctorName}}</th>
+                      <th>{{labels.subjective}}</th>
+                      <th>{{labels.objective}}</th>
+                      <th>{{labels.assessment}}</th>
+                      <th>{{labels.plan}}</th>
+                      <th>{{labels.diagnosisCode}}</th>
+                      <th>{{labels.diagnosisDescription}}</th>
+                      <th>{{labels.followUpPlan}}</th>
+                      <th>{{labels.signature}}</th>
+                      <th>{{labels.notes}}</th>
+                      <th>{{labels.actions}}</th>
+                    </tr>
+                    <tr *ngFor="let soap of soaplist" >
+                      <td>{{soap.departmentname}}</td>
+                      <td >{{soap.doctorName}}</td>
+                      <td >{{soap.subjective}}</td>
+                      <td >{{soap.objective}}</td>
+                      <td >{{soap.assessment}}</td>
+                      <td>{{soap.plan}}</td>
+                      <td >{{soap.icrDescription}}</td>
+                      <td>{{soap.diagnosisCode}}</td>
+                      <td>{{soap.followUpPlan}}</td>
+                      <td >{{soap.signature}}</td>
+                      <td >{{soap.notes}}</td>
+                      <!-- <td>
+                          <img src="assets/Icons/edit.png" *ngIf="soap.showmyediticon=='1'" data-toggle="modal"
+                            data-target="#EditSoapnotes" (click)="GetEditPrevioussoap(soap)">
+                       
+                      </td> -->
+                    </tr>
+                  </table>
+                </div>
+              </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{labels.close}}</button>
+        </div>
+      </div>
+    </div>
+  </div>

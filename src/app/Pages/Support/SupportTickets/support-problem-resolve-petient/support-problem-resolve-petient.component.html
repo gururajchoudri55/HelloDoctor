@@ -1,0 +1,123 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.resolvedTickets}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="save" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+        <input type="text"
+        placeholder="{{labels.selectDate}}"
+        class="form-control"
+        bsDaterangepicker
+        [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+        [bsConfig]="{ isAnimated: true }">
+    </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" [(ngModel)]="term" placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-6 countClass">
+            <label>{{labels.count}} : {{count}}</label>
+        </div>
+    </div>
+ 
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+                    <th>{{labels.ticketno}}</th>
+                    <th>{{labels.date}}</th>
+                    <th>{{labels.time}}</th>
+                    <th>{{labels.patientID}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.mobileNumber}}</th>
+                    <th>{{labels.emailID}}</th>
+                    <th>{{labels.message}}</th>
+                    <th>{{labels.photo}}</th>
+                    <th>{{labels.resolveddescription}}</th>
+                    <th>{{labels.resolvedphoto}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let details of supportlist|filter:term">
+                    <td>{{details.id}}</td>
+                    <td>{{details.date}}</td>
+                    <td>{{details.time}}</td>
+                    <td>{{details.patientID}}</td>
+                    <td>{{details.patientName}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>{{details.message}}</td>
+
+                    <td>
+                        <img src="assets/Icons/view_16.png" (click)="GetImageUrl(details.photoURL)" data-bs-toggle="modal"
+                            data-bs-target="#showPhoto">
+                    </td>
+
+                    <td>{{details.comments}}</td>
+                    <td>
+                        <img src="assets/Icons/view_16.png" (click)="GetResolvePhotoUrl(details.resolvePhotoURL)" data-bs-toggle="modal"
+                        data-bs-target="#showPhoto">
+                    </td>
+                    <td>
+
+                        <label>{{labels.resolved}}</label>
+                    </td>
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="showPhoto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content card card-hover">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{labels.attachment}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <br>
+              <img src="{{photourl}}" class="imgclass" />
+              <br>
+            </div>
+          </div>
+          <br>
+          <br>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="save" data-bs-dismiss="modal">{{labels.close}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

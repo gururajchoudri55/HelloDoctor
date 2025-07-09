@@ -1,0 +1,186 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+   <div class="row">
+       <div class="col-lg-8 col-sm-6">
+           <h5 class="headings">{{labels.dashboard}}</h5>
+       </div>
+   </div>  
+</div>
+<div class="container-fluid headercard card-hover headerspace">
+   <div class="row">
+    <div class="col-lg-3">
+      <input type="text"
+      placeholder="Select Date"
+      class="form-control"
+      bsDaterangepicker
+      [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" 
+     
+      [bsConfig]="{ isAnimated: true }"  [bsConfig]="{ showWeekNumbers:false }">
+  </div>
+    </div>
+    <br>
+   <div class="row">
+      <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="goToDashboard(1)">
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.appointmentsTotal}}</b>
+           </label>
+           <br>  <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;" >{{count}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br><br>
+       <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="goToDashboard(7)"> 
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.inClinic}}</b>
+           </label>
+           <br>   <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;">{{cliniccount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+       <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;"(click)="goToDashboard(8)">   
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.videoCall}}</b>
+           </label>
+           <br>    <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;" >{{videoappcount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+       <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;"(click)="goToDashboard(9)">     
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.homeCare}}</b>
+           </label>
+           <br>     <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;" >{{homecallscount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+   </div>
+   <div class="row">
+      <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;"(click)="goToDashboard(6)">     
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.pendingAcceptance}}</b>
+           </label>
+           <br>      <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;" >{{pendingcount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+       <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="goToDashboard(5)">      
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.accepted}}</b>
+           </label>
+           <br>    <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;">{{accptcount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+       <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="sentrefferals()" >     
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.sentRefferals}}</b>
+           </label>
+           <br>    <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;">{{sentrefereralscount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+       <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="receivedreferals()">      
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.receivedRefferals}}</b>
+           </label>
+           <br>   <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;">{{receivedreferlcount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+   </div>
+   <div class="row">
+      <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="goToDashboard(2)">       
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.patientsVisited}}</b>
+           </label>
+           <br>   <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;">{{visitedcount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+       <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="goToDashboard(3)">      
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.patientsNoShow}}</b>
+           </label>
+           <br>   <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;">{{notvisitedcount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+       <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="goToDashboard(4)">     
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.cancelledByPatient}}</b>
+           </label>
+           <br>     <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;">{{cancelledcount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+       <div class="col-lg-3">
+         <div class="optionsboxdown" style="cursor: pointer;border-radius: 16px;" (click)="goToDashboard(10)">      
+           <label style="color: black;font-size: 30px;color: white;">
+             <b style="font-size: 14px;">{{labels.cancelledByDoctor}}</b>
+           </label>
+           <br>    <br>
+           <label style="color: black;font-size: 30px;color: #f17e2d;;">
+             <b>
+               <u style="font-size: 20px;">{{doccancelledcount}}</u>
+             </b>
+           </label>
+         </div><br>  
+       </div><br>
+   </div>
+</div>
+

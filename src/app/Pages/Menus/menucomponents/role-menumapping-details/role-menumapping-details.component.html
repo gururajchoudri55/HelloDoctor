@@ -1,0 +1,50 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">Role menu mapping</h5>
+        </div>
+        <div class="col-lg-4 buttonsss">
+            <button class="save" routerLink="/menus/RoleMenumapping">{{labels.add}}</button>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="search"
+                        placeholder="Search">
+                    <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row ">
+        <div class="col-lg-12">
+            <table class="table table-hover" id="download">
+                <tr>
+                    <th>Role</th>
+                    <th>Menu</th>
+                    <th>Sub Menu</th>
+                    <th>Actions</th>
+                </tr>
+                <tr *ngFor="let rolemap of RoleMappinglist|filter:search">
+                    <td>{{rolemap.short}}</td>
+                    <td>{{rolemap.menus}}</td>
+                    <td>{{rolemap.subMenuName}}</td>
+                    
+                    <td>
+                        <img src="assets/Icons/edit.png" (click)="edit(rolemap.id)">
+                        <img src="assets/Icons/delete.png" (click)="DeleteRoleMapping(rolemap.id)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

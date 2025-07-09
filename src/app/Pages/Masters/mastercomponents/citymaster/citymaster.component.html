@@ -1,0 +1,48 @@
+<app-sms></app-sms>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.cityMaster}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <select class="form-control" (change)="GetProvinceID"  required [(ngModel)]="cityid" name="cityid">
+                  <option value="0">{{labels.selectProvince}}</option>
+                  <option *ngFor="let pro of provincelist" value={{pro.id}}>{{pro.short}}</option>
+                </select>
+              </div>
+              <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="city" required
+                     [(ngModel)]="areaname" name="areaname">
+                    <label for="floatingInput" class="floatingLabel">{{labels.cityname}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="pincode" required
+                     [(ngModel)]="pincode" name="pincode">
+                    <label for="floatingInput" class="floatingLabel">{{labels.zipCode}}</label>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-2">
+                <button type="button" class="save" *ngIf="showbit=='0'" (click)="insertdetails()">{{labels.save}}</button>
+                <button type="button" class="save" *ngIf="showbit=='1'" (click)="updatedetails()">{{labels.update}}</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" (click)="cancel()">{{labels.cancel}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,104 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{labels.midwifeServices}}</p>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <form #ServiceDetailsForm="ngForm">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div *ngIf="showDropdown=='1'">
+                        <select class="form-control" (change)="GetPhysioID($event)" [(ngModel)]="midwifeid"
+                            name="midwifeid">
+                            <option value="0">{{labels.select}}</option>
+                            <option *ngFor="let phsio of nurselist" value="{{phsio.id}}">{{phsio.name}}</option>
+                        </select>
+                    </div>
+                    <div *ngIf="showDropdown=='0'">
+                        <input type="text" disabled class="form-control" [(ngModel)]="user" name="user">
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput"
+                            placeholder="Service Name" [(ngModel)]="servicename" name="servicename" required>
+                        <label for="floatingInput" class="floatingLabel">{{labels.serviceName}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput" [(ngModel)]="charges"
+                            name="charges" placeholder="Service Name" required>
+                        <label for="floatingInput" class="floatingLabel">{{labels.charges}}<span
+                                class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                            [(ngModel)]="description" name="description"></textarea>
+                        <label for="floatingTextarea">{{labels.description}}</label>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-lg-10"></div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" *ngIf="showbit=='0'" (click)="insertdetails()"
+                    [disabled]="ServiceDetailsForm.form.invalid">{{labels.add}}</button>&nbsp;
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" *ngIf="showbit=='0'"
+                        routerLink="/countrymanager/MidwifeService">{{labels.back}}</button>
+                </div>
+            </div><br>
+            <div class="row" *ngIf="tablecount=='1'">
+                <div class="col-lg-12">
+                    <table>
+                        <tr>
+                            <th>{{labels.serviceName}}</th>
+                            <th>{{labels.description}}</th>
+                            <th>{{labels.charges}}</th>
+                            <th>{{labels.actions}}</th>
+                        </tr>
+                        <tr *ngFor="let det of qwerty">
+                            <td>{{det.ServiceName}}</td>
+                            <td>{{det.ServiceDescription}}</td>
+                            <td>{{det.ServiceCharges}}</td>
+                            <td>
+                                <img src="assets/Icons/delete.png" (click)="delete(det.Sno)">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div> <br>
+
+            <div class="row">
+                <div class="col-lg-9">
+                </div>
+                <div class="col-lg-2">
+                    <button type="button" text_align="center" *ngIf="showbit==0&&tablecount=='1'"
+                        class="btn btn-block btn-md allbtns btncolor"   (click)="SaveDetails()">{{labels.save}}</button>
+                    <button type="button" *ngIf="showbit==1" class="save"
+                    (click)="updatedetails()">{{labels.update}}</button>&nbsp;
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" *ngIf="showbit==1"
+                        routerLink="/countrymanager/MidwifeService">{{labels.back}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br>
+</div>

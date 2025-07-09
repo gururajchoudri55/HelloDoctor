@@ -1,0 +1,146 @@
+<!-- <app-loader *ngIf="loader==true"></app-loader> -->
+<app-sms></app-sms>
+<div class="container-fluid">
+    <form #SoapForm="ngForm">
+        <div class="row">
+            <div class="col-lg-5">
+                <select class="dropdown" (change)="GetTemplateID($event)">
+                    <option value="0">{{labels.chooseFromTemplate}}</option>
+                    <option *ngFor="let temp of templateList" value="{{temp.id}}">{{temp.templateName}}</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="row">
+            <h6 class="text-center">{{labels.orFillthedetailsbelow}}</h6>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Subjective"
+                        required [(ngModel)]="subjective" name="subjective">
+                    <label for="floatingInput" class="floatingLabel">{{labels.subjective}}<span
+                            class="required">*</span></label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Objective"
+                        required [(ngModel)]="objective" name="objective">
+                    <label for="floatingInput" class="floatingLabel">{{labels.objective}}<span
+                            class="required">*</span></label>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Assessment"
+                        required [(ngModel)]="assesment" name="assesment">
+                    <label for="floatingInput" class="floatingLabel">{{labels.assessment}}<span
+                            class="required">*</span></label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Plan" required
+                        [(ngModel)]="plan" name="plan">
+                    <label for="floatingInput" class="floatingLabel">{{labels.plan}}<span
+                            class="required">*</span></label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Diagnosis"
+                        required [(ngModel)]="diagnosis" name="diagnosis" (ngModelChange)="SearchIcrCode()">
+                    <label for="floatingInput" class="floatingLabel">{{labels.diagnostic}}<span
+                            class="required">*</span></label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" disabled class="form-control inputfield" id="floatingInput"
+                        placeholder="Doctor name" [(ngModel)]="diagnosisCode" name="diagnosisCode">
+                    <label for="floatingInput" class="floatingLabel">{{labels.diagnosisCode}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="showSoap==true">
+            <div class="col-lg-12 tableHeight">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.diagnosisCode}}</th>
+                            <th>{{labels.actions}}</th>
+                        </tr>
+                        <tr *ngFor="let code of icdCodeList|  slice:0:10131|filter:diagnosis">
+                            <td (click)="GetIcrCodeID(code.id,code.description,code.icdCode)">
+                                {{code.description}}</td>
+                            <td>
+                                <input type="checkbox" (click)="GetIcrCodeID(code.id,code.description,code.icdCode)">
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <br>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Followup Plan"
+                        required [(ngModel)]="followUpPlan" name="followUpPlan">
+                    <label for="floatingInput" class="floatingLabel">{{labels.followUpPlan}}<span
+                            class="required">*</span></label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Signature"
+                        disabled [(ngModel)]="signature" name="signature">
+                    <label for="floatingInput" class="floatingLabel">{{labels.signature}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <!-- <label>Photo</label><br> -->
+                <ngx-dropzone (change)="onSelectAttchment($event)" class="dropzone">
+                    <ngx-dropzone-label>{{labels.attachments}}</ngx-dropzone-label>
+                    <ngx-dropzone-preview *ngFor="let f of files1" [removable]="true" (removed)="onAttachmentRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+                </ngx-dropzone>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Notes"
+                        [(ngModel)]="notes" name="notes">
+                    <label for="floatingInput" class="floatingLabel">{{labels.notes}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-4">
+                <label>{{labels.saveAsTemplate}}:</label>&nbsp;&nbsp;
+                <input type="radio" [value]="true" [(ngModel)]="saveAsTemplate"
+                    name="saveAsTemplate">&nbsp;{{labels.yes}}&nbsp;&nbsp;
+                <input type="radio" [value]="false" [(ngModel)]="saveAsTemplate"
+                    name="saveAsTemplate">&nbsp;{{labels.no}}
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-4" *ngIf="saveAsTemplate==true">
+                    <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="templateName"
+                        name="templateName" placeholder="Doctor name">
+                    <label for="floatingInput" class="floatingLabel">{{labels.templateName}}</label>
+                </div>
+            </div>
+            <div class="col-lg-4 text-end">
+                <button class="add" (click)="insertSoapNotes()"
+                    [disabled]="SoapForm.form.invalid">{{labels.save}}</button>
+            </div>
+        </div>
+    </form>
+</div>

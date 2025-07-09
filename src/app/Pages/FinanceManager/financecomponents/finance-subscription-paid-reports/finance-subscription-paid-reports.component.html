@@ -1,0 +1,155 @@
+<app-sms></app-sms>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <h5 class="headings">{{labels.invoices}}</h5>
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div><br>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetType($event)" [(ngModel)]="typeid" name="typeid">
+                <option selected value="">{{labels.select}}</option>
+                <option value="1">{{labels.hospital}}</option>
+                <option value="2">{{labels.clinic}}</option>
+                <option value="3">{{labels.independentDoctor}}</option>
+                <option value="4">{{labels.independentNurses}}</option>
+                <option value="5">{{labels.independentPhysiotherapist}}</option>
+                <option value="6">{{labels.independentmidwife}}</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetYear($event)" [(ngModel)]="year" name="year">
+                <option value="0">{{labels.select}}</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetMonth($event)" [(ngModel)]="month" name="month">
+                <option value="0">{{labels.select}}</option>
+                <option value="1">{{labels.january}}</option>
+                <option value="2">{{labels.february}}</option>
+                <option value="3">{{labels.march}}</option>
+                <option value="4">{{labels.april}}</option>
+                <option value="5">{{labels.may}}</option>
+                <option value="6">{{labels.june}}</option>
+                <option value="7">{{labels.july}}</option>
+                <option value="8">{{labels.august}}</option>
+                <option value="9">{{labels.september}}</option>
+                <option value="10">{{labels.october}}</option>
+                <option value="11">{{labels.november}}</option>
+                <option value="12">{{labels.december}}</option>
+            </select>
+        </div>
+        <!-- <div class="col-lg-3 countClass">
+            <label>Count : </label>
+        </div> -->
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table ">
+
+                <tr>
+                    <th *ngIf="typeid==1">{{labels.hospital}}</th>
+                    <th *ngIf="typeid==2">{{labels.clinic}}</th>
+                    <th *ngIf="typeid==3">{{labels.independentDoctor}}</th>
+                    <th *ngIf="typeid==4">{{labels.independentNurses}}</th>
+                    <th *ngIf="typeid==5">{{labels.independentPhysiotherapist}}</th>
+                    <th *ngIf="typeid==6">{{labels.independentmidwife}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.emailID}}</th>
+                    <th>{{labels.month}}</th>
+                    <th>{{labels.invoiceAmount}}</th>
+                    <th>{{labels.invoices}}</th>
+                </tr>
+                <tr *ngFor="let details of reportList">
+                    <td>{{details.hospital_ClinicName}}</td>
+                    <td>{{details.phoneNo}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>{{details.monthName}}</td>
+                    <td>{{details.invoiceAmount|number:'1.2-2'|noComma}}Ar</td>
+                    <td>
+                        <button class="save" *ngIf="details.paid=='0'" data-bs-toggle="modal" data-bs-target="#invoiceModal"
+                        (click)="amountPaid(details)">{{labels.paid}}</button>
+                        <label *ngIf="details.paid=='1'" class="addnew">{{labels.paid}}</label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+</div>
+<br>
+
+
+<div class="modal fade" id="invoiceModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.paymentDue}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>{{labels.paidAmount}} : </label>
+                    </div>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" disabled [(ngModel)]="paidAmount" name="paidAmount">
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>{{labels.transactionPhoto}} : </label>
+                    </div>
+                    <div class="col-lg-5">
+                        <ngx-dropzone (change)="onSelect($event)" style="width:100% ;height: auto;">
+                            <ngx-dropzone-label>{{labels.uploadClinicphoto}}</ngx-dropzone-label>
+                            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                            </ngx-dropzone-preview>
+                        </ngx-dropzone>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label>{{labels.comments}} : </label>
+                    </div>
+                    <div class="col-lg-5">
+                        <textarea rows="4" class="form-control" placeholder="Comments" [(ngModel)]="comments"
+                            name="comments"></textarea>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-5">
+                    </div>
+                    <div class="col-lg-2">
+                        <button (click)="InsertPayments()" class="btn btn-primary" data-toggle="modal"
+                            data-target="#invoiceModal">{{labels.pay}}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="addnew" data-bs-dismiss="modal">{{labels.close}}</button>
+                <button type="button" class="addnew">{{labels.sendInvoice}}</button>
+            </div>
+        </div>
+    </div>
+</div>

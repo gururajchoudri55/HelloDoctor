@@ -1,0 +1,73 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.homeservice}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="addnew" (click)="exportexcel()">{{labels.exportExcel}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <input type="text" placeholder="{{labels.selectdate}}" class="form-control" bsDaterangepicker
+                [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)" [bsConfig]="{ isAnimated: true }">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="GetPaymentTypeID($event)">
+                <option value="0">{{labels.selectPaymentType}}</option>
+                <option value="1">{{labels.wallet}}</option>
+                <option value="2">{{labels.creditcard}}</option>
+                <option value="3">{{labels.cod}}</option>
+            </select>
+        </div>
+        <div class="col-lg-3 countClass">
+            <label>{{labels.amount}} : {{GrandTotal|number:'1.2-2'|noComma}}Ar</label>&nbsp;
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+                    <th>{{labels.orderID}}</th>
+                    <th>{{labels.date}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.payment}}</th>
+                    <th>{{labels.amountPaid}}</th>
+                    <th>{{labels.voiladocFees}}</th>
+                    <th>{{labels.revenueNet}}</th>
+                </tr>
+                <tr *ngFor="let details of DiagnosticChargeslist|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{details.id}}</td>
+                    <td>{{details.date}}</td>
+                    <td>{{details.patientName}}</td>
+                    <td>{{details.mobileNumber}}</td>
+                    <td>{{details.emailID}}</td>
+                    <td>{{details.paymentType}}</td>
+                    <td>{{details.paidAmount|number:'1.2-2'|noComma}}Ar</td>
+                    <td>{{details.meridionalCommission|number:'1.2-2'|noComma}}Ar</td>
+                    <td>{{details.totalAmount|number:'1.2-2'|noComma}}Ar</td>
+                  </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>

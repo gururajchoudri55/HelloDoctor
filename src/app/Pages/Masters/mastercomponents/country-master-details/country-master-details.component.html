@@ -1,0 +1,36 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.countrymaster}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <br>
+        <form #countryForm="ngForm">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="country" [(ngModel)]="countryname" name="countryname" >
+                    <label for="floatingInput" class="floatingLabel">{{labels.country}}</label>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-2">
+                <button type="button" class="save" (click)="insertdetails()"  *ngIf="showbit==0" >{{labels.save}}</button>
+                <button type="button" class="save" (click)="updatedetails()"  *ngIf="showbit==1" >{{labels.update}}</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" (click)="cancel()">{{labels.back}}</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.vitalsPromo}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+            <button class="save" routerLink="/Masters/VitalsPromocode">{{labels.add}}</button>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput"   placeholder="Search" [(ngModel)]="search" name="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+              </div>
+        </div>
+        <div class="col-lg-3">
+            <input type="text"
+            placeholder="Select Date"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            >
+        </div>
+        <div class="col-lg-4"></div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">New Promo Code</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Utilized Promo Code</button>
+        </li>
+      
+      </ul>
+    <br>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">  <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.id}}</th>
+                    <th>{{labels.promocode}}</th>
+                    <th>{{labels.scans}}</th>
+                    <th>{{labels.createDate}}</th>              
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr *ngFor="let list of charges|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{list.id}}</td>
+                    <td>{{list.promoCodeText}}</td>
+                    <td>{{list.scans}}</td>
+                    <td>{{list.date|date:'dd-MM-yyyy'}}</td>                   
+                    <td>
+                     
+                        <img class="image" src="assets/Icons/active.png" *ngIf="list.enabled=='1'"
+                            (click)="GetDisableFess(list.id)">
+                        <img class="image" src="assets/Icons/dactive.png" *ngIf="list.disabled=='1'"
+                            (click)="EnableFess(list.id)">
+                            <img src="assets/Icons/upload.png" (click)="UpdateVitalsPromoCodePublish(list.id)">
+                            <img src="assets/Icons/edit.png" (click)="GetDetails(list.id)" *ngIf="list.publish==0">
+                    </td>
+                </tr>
+            </table>
+        </div></div>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">  <table class="table table-hover">
+            <tr>
+                <th>{{labels.id}}</th>
+                <th>{{labels.promocode}}</th>
+                <th>{{labels.scans}}</th>
+                <th>{{labels.createDate}}</th>              
+                <!-- <th>{{labels.actions}}</th> -->
+            </tr>
+            <tr *ngFor="let list of charges|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                <td>{{list.id}}</td>
+                <td>{{list.promoCodeText}}</td>
+                <td>{{list.scans}}</td>
+                <td>{{list.date|date:'dd-MM-yyyy'}}</td>                   
+                <!-- <td>
+                    <img src="assets/Icons/edit.png" (click)="GetDetails(list.id)"> 
+                   <img class="image" src="assets/Icons/active.png" *ngIf="list.enabled=='1'"
+                        (click)="GetDisableFess(list.id)">
+                    <img class="image" src="assets/Icons/dactive.png" *ngIf="list.disabled=='1'"
+                        (click)="EnableFess(list.id)">
+                </td> -->
+            </tr>
+        </table></div>
+       
+      </div>
+      <br>
+   
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+

@@ -1,0 +1,363 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<div class="container-fluid">
+    <form #prescriptionForm="ngForm">
+        <div class="row">
+            <div class="col-lg-5">
+                <select class="dropdown" (change)="GetDoctorPrecriptioTemplateID($event)">
+                    <option selected="selected" value="0">{{labels.chooseFromTemplate}}</option>
+                    <option *ngFor="let pretemp of doctorTemplateList" value="{{pretemp.id}}">{{pretemp.templateName}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-lg-7">
+                <label>{{labels.manuallyEnterDrugName}}: </label>&nbsp;&nbsp;
+                <input type="radio" [value]="true" [(ngModel)]="manuallyEnter" name="manuallyEnter">&nbsp;
+                {{labels.yes}} &nbsp;&nbsp;
+                <input type="radio" [value]="false" [(ngModel)]="manuallyEnter" name="manuallyEnter">&nbsp;{{labels.no}}
+            </div>
+        </div>
+        <div class="row">
+            <h6 class="text-center">{{labels.orFillthedetailsbelow}}</h6>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-floating mb-3" *ngIf="manuallyEnter==false">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Doctor name"
+                        [(ngModel)]="medicineName" name="medicineName" required
+                        (ngModelChange)="SerchDrugName(medicineName)">
+                    <label for="floatingInput" class="floatingLabel">{{labels.medicalName}}</label>
+                </div>
+                <div class="form-floating mb-3" *ngIf="manuallyEnter==true">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Doctor name"
+                        [(ngModel)]="medicineName" name="medicineName" required>
+                    <label for="floatingInput" class="floatingLabel">{{labels.medicalName}}</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-4">
+                    <input type="text" class="form-control inputfield" id="floatingInput" required
+                        placeholder="Doctor name" [(ngModel)]="sig" name="sig">
+                    <label for="floatingInput" class="floatingLabel">{{labels.sig}}</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-4">
+                    <input type="text" class="form-control inputfield" id="floatingInput" required
+                        placeholder="Doctor name" [(ngModel)]="dispenseQuantity" name="dispenseQuantity">
+                    <label for="floatingInput" class="floatingLabel">{{labels.dispenseQuality}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="SerachOn=='1'">
+            <div class="col-lg-12 tableheight">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.nonCommercial}}</th>
+                            <th>{{labels.principleActif}}</th>
+                            <th>{{labels.dosage}}</th>
+                            <th>{{labels.actions}}</th>
+                        </tr>
+                        <tr *ngFor="let code of drugNameList| slice:0:2273|filter:medicineName">
+                            <td (click)="GetDrugID(code)">{{code.medicament}}</td>
+                            <td (click)="GetDrugID(code)">{{code.denomination}}</td>
+                            <td (click)="GetDrugID(code)">{{code.dosage}}</td>
+                            <td>
+                                <input type="checkbox" (click)="GetDrugID(code)">
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-floating mb-4">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Doctor name"
+                        required [(ngModel)]="howManyRefills" name="howManyRefills">
+                    <label for="floatingInput" class="floatingLabel">{{labels.howManyrefills}}</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <label>{{labels.substituePermitted}}: </label>&nbsp;&nbsp;
+                <input type="radio" [value]="1" [(ngModel)]="substistuePermitted" required
+                    name="substistuePermitted">&nbsp;&nbsp;{{labels.yes}}&nbsp;&nbsp;
+                <input type="radio" [value]="2" [(ngModel)]="substistuePermitted" required
+                    name="substistuePermitted">&nbsp;&nbsp;{{labels.no}}
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-4">
+                    <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="noteToPharmacist"
+                        name="noteToPharmacist" placeholder="Doctor name">
+                    <label for="floatingInput" class="floatingLabel">{{labels.notetoPharmacist}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <label>{{labels.saveAsTemplate}}: </label>&nbsp;&nbsp;
+                <input type="radio" [value]="true" [(ngModel)]="saveAsTemplate"
+                    name="saveAsTemplate">&nbsp;{{labels.yes}}&nbsp;&nbsp;
+                <input type="radio" [value]="false" [(ngModel)]="saveAsTemplate"
+                    name="saveAsTemplate">&nbsp;{{labels.no}}
+            </div>
+            <div class="col-lg-4">
+                <div class="form-floating mb-4" *ngIf="saveAsTemplate==true">
+                    <input type="text" class="form-control inputfield" id="floatingInput" [(ngModel)]="templateName"
+                        name="templateName" placeholder="Doctor name">
+                    <label for="floatingInput" class="floatingLabel">{{labels.templateName}}</label>
+                </div>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-lg-8"></div>
+            <div class="col-lg-4 text-end">
+                <button class="add" (click)="addPrescription()"
+                    [disabled]="prescriptionForm.form.invalid">{{labels.add}}</button>
+            </div>
+        </div><br>
+        <div class="row" *ngIf="showTable==true">
+            <div class="col-lg-12">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{{labels.drugName}}</th>
+                            <th>{{labels.sig}}</th>
+                            <th>{{labels.dispenseQuality}}</th>
+                            <th>{{labels.howManyrefills}}</th>
+                            <th>{{labels.substisute}}</th>
+                            <th>{{labels.notetoPharmacist}}</th>
+                            <th>{{labels.actions}}</th>
+                        </tr>
+                        <tr *ngFor="let medicinelist of medicineArray">
+                            <td>{{medicinelist.MedicineName}}</td>
+                            <td>{{medicinelist.SIG}}</td>
+                            <td>{{medicinelist.DispenseQuantity}}</td>
+                            <td>{{medicinelist.HowmanyRefills}}</td>
+                            <td>
+                                <span *ngIf="medicinelist.SubstainablenotPermitted=='1'">{{labels.yes}}</span>
+                                <span *ngIf="medicinelist.SubstainablenotPermitted=='2'">{{labels.no}}</span>
+                            </td>
+                            <td>{{medicinelist.NoteToPharmasist}}</td>
+                            <td>
+                                <img src="assets/Icons/delete.png" (click)="deleteMedicines(medicinelist.Sno)">
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div><br>
+        <div class="row" *ngIf="showTable==true">
+            <div class="col-lg-12">
+                <button class="save" style="margin-left: 10px;" (click)="downloadpdf()">{{labels.print}}</button> &nbsp;
+                &nbsp;
+
+                <!-- <button *ngIf="Details[0].pharmacybit == 0" class="save" (click)="insertPrescription()">{{labels.save}}</button> -->
+                <button *ngIf="Details[0].pharmacybit == 0"  class="save" (click)="insertPrescription()">{{labels.save}}</button>
+
+            </div>
+        </div>
+    </form>
+
+    <div id="prescription">
+        <div>
+            <div class="container-fluid">
+                <div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center" style="margin-top: 7px;">
+                        <h6><b>{{labels.prescriptionforpdf}}</b></h6>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <h6>{{labels.appointmentDate}} : {{Details[0].appdate}}</h6>
+                    </div>
+                </div>
+
+                <hr class="new4">
+                <hr class="new5">
+                <br><br><br>
+                <!-- <hr style="color:#333;background-color:#333;"> -->
+                <div class="row" style="letter-spacing:0.7px;">
+                    <div class="col-lg-5">
+                        <p><b>{{labels.doctorName}}</b> : {{Details[0].doctorName}}</p><br>
+                        <!-- <p>{{labels.department}} :  -->
+                        <p>{{Details[0].departmentname}}</p><br>
+                        <p>{{labels.address}} : {{Details[0].docaddress}}</p><br>
+                        <p>{{labels.registration}} : {{Details[0].registrationNo}}</p><br>
+                        <p>{{labels.emialID}} : {{Details[0].docemailid}}
+                        <p> </p><br>
+
+                    </div>
+                    <div class="col-lg-3">
+                        <!-- <h6><b>{{labels.appointmentDate}}</b></h6>
+                        <span><b style="margin-left: 20px;">{{Details[0].appointmentdate}}</b></span> -->
+                    </div>
+
+
+                    <div class="col-lg-4">
+                        <p><b>{{labels.patientName}}</b> : {{Details[0].patientName}}</p><br>
+                        <p><b>{{labels.phoneNumber}}</b> : {{Details[0].mobileNumber}}</p><br>
+                        <p><b>{{labels.emialID}}</b> : {{Details[0].emailID}}</p><br>
+                        <p><b>{{labels.nationalIDNo}}</b> : {{Details[0].nationalidno}}</p><br>
+                        <p><b>{{labels.age}}</b> : {{Details[0].age}}</p><br>
+                        <p><b>{{labels.dateofBirth}}</b> : {{Details[0].dateofbirth}}</p><br>
+                        <p><b>{{labels.gender}}</b> : {{Details[0].gender}}</p><br>
+                        <p><b>{{labels.appointmentNumber}}</b> : {{appointmentID}}</p><br>
+                    </div>
+                    <br>
+                </div><br><br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>{{labels.drugName}}</th>
+                                    <th>{{labels.sig}}</th>
+                                    <th>{{labels.dispenseQuality}}</th>
+                                    <th>{{labels.substisute}}</th>
+
+                                    <th>{{labels.howManyrefills}}</th>
+                                    <th>Note</th>
+
+                                </tr>
+                                <tr *ngFor="let medicinelist of medicineArray">
+                                    <td>{{medicinelist.MedicineName}}</td>
+                                    <td>{{medicinelist.SIG}}</td>
+                                    <td>{{medicinelist.DispenseQuantity}}</td>
+                                    <td>
+                                        <span *ngIf="medicinelist.SubstainablenotPermitted=='1'">{{labels.yes}}</span>
+                                        <span *ngIf="medicinelist.SubstainablenotPermitted=='2'">{{labels.no}}</span>
+                                    </td>
+                                    <td>{{medicinelist.HowmanyRefills}}</td>
+
+                                    <td>{{medicinelist.NoteToPharmasist}}</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-12">
+                    </div><br><br><br><br><br><br><br>
+                </div><br><br>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+                            style="width: 100px;height:50px"><br>
+                        <b>Dr. {{Details[0].doctorName}}</b><br>
+                        <label><b>{{labels.registration}} : {{Details[0].registrationNo}}</b></label><br>
+                    </div>
+                    <div class="col-lg-8">
+
+
+                    </div>
+
+                </div><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div id="htmlData">
+        <div>
+            <div class="container-fluid">
+                <div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 text-center" style="margin-top: 7px;">
+                        <h6><b>{{labels.prescriptionforpdf}}</b></h6>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <h6>{{labels.appointmentDate}} : {{Details[0].appdate}}</h6>
+                    </div>
+                </div>
+
+                <hr class="new4">
+                <hr class="new5">
+                <br><br><br>
+                <!-- <hr style="color:#333;background-color:#333;"> -->
+                <div class="row" style="letter-spacing:0.7px;">
+                    <div class="col-lg-5">
+                        <p><b>{{labels.doctorName}}</b> : {{Details[0].doctorName}}</p><br>
+                        <!-- <p>{{labels.department}} :  -->
+                        <p>{{Details[0].departmentname}}</p><br>
+                        <p>{{labels.address}} : {{Details[0].docaddress}}</p><br>
+                        <p>{{labels.registration}} : {{Details[0].registrationNo}}</p><br>
+                        <p>{{labels.emialID}} : {{Details[0].docemailid}}
+                        <p> </p><br>
+
+                    </div>
+                    <div class="col-lg-3">
+                        <!-- <h6><b>{{labels.appointmentDate}}</b></h6>
+                        <span><b style="margin-left: 20px;">{{Details[0].appointmentdate}}</b></span> -->
+                    </div>
+
+
+                    <div class="col-lg-4">
+                        <p><b>{{labels.patientName}}</b> : {{Details[0].patientName}}</p><br>
+                        <p><b>{{labels.phoneNumber}}</b> : {{Details[0].mobileNumber}}</p><br>
+                        <p><b>{{labels.emialID}}</b> : {{Details[0].emailID}}</p><br>
+                        <p><b>{{labels.nationalIDNo}}</b> : {{Details[0].nationalidno}}</p><br>
+                        <p><b>{{labels.age}}</b> : {{Details[0].age}}</p><br>
+                        <p><b>{{labels.dateofBirth}}</b> : {{Details[0].dateofbirth}}</p><br>
+                        <p><b>{{labels.gender}}</b> : {{Details[0].gender}}</p><br>
+                        <p><b>{{labels.appointmentNumber}}</b> : {{appointmentID}}</p><br>
+                    </div>
+                    <br>
+                </div><br><br>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>{{labels.drugName}}</th>
+                                    <th>{{labels.sig}}</th>
+                                    <th>{{labels.dispenseQuality}}</th>
+                                    <th>{{labels.substisute}}</th>
+
+                                    <th>{{labels.howManyrefills}}</th>
+                                    <th>Note</th>
+
+                                </tr>
+                                <tr *ngFor="let medicinelist of medicineArray">
+                                    <td>{{medicinelist.MedicineName}}</td>
+                                    <td>{{medicinelist.SIG}}</td>
+                                    <td>{{medicinelist.DispenseQuantity}}</td>
+                                    <td>
+                                        <span *ngIf="medicinelist.SubstainablenotPermitted=='1'">{{labels.yes}}</span>
+                                        <span *ngIf="medicinelist.SubstainablenotPermitted=='2'">{{labels.no}}</span>
+                                    </td>
+                                    <td>{{medicinelist.HowmanyRefills}}</td>
+
+                                    <td>{{medicinelist.NoteToPharmasist}}</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-12">
+                    </div><br><br><br><br><br><br><br>
+                </div><br><br>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <img src="{{signatureUrl}}" style="width: 100px;height:50px"><img src="{{stamp}}"
+                            style="width: 100px;height:50px"><br>
+                        <b>Dr. {{Details[0].doctorName}}</b><br>
+                        <label><b>{{labels.registration}} : {{Details[0].registrationNo}}</b></label><br>
+                    </div>
+                    <div class="col-lg-8">
+
+
+                    </div>
+
+                </div><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            </div>
+        </div>
+    </div>
+</div>

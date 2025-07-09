@@ -1,0 +1,54 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.support}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <form #doctorsupportForm="ngForm">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Issue"
+                            [(ngModel)]="issuename" name="issuename" required>
+                        <label for="floatingInput" class="floatingLabel">{{labels.issue}}<span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"
+                            [(ngModel)]="description" name="description" required></textarea>
+                        <label for="floatingTextarea">{{labels.description}}<span class="required">*</span></label>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                        <ngx-dropzone-label>{{labels.photo}}</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                    </ngx-dropzone>
+                </div>
+            </div> <br>
+            <div class="row">
+                <div class="col-lg-10"></div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" (click)="insertdetails()" [disabled]="doctorsupportForm.form.invalid">{{labels.save}}</button>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" class="save" routerLink="/Doctor/DoctorSupportDash">{{labels.back}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <br>
+
+
+
+</div>

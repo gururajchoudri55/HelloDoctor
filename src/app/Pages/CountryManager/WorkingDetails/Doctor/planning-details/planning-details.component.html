@@ -1,0 +1,123 @@
+<br>
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <p class="headings">{{labels.planningDetails}}</p>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectDoctor" [settings]="docdd" [disabled]="tablecount=='1'"
+                    [data]="doctorlist" (onSelect)="GetDoctorID($event)">
+                </ng-multiselect-dropdown>
+                <br>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="email" disabled class="form-control inputfield" id="floatingInput"
+                        placeholder="Hospital Name" [(ngModel)]="hospital_ClinicName" id="hospital_ClinicName">
+                    <label for="floatingInput" class="floatingLabel">{{labels.hospitalname}}</label>
+                </div><br>
+            </div>
+            <div class="col-lg-3">
+                <ng-multiselect-dropdown [placeholder]="selectday" [disabled]="tablecount=='1'" [settings]="daysdd"
+                    [data]="dayslist" (onSelect)="GetDaysID($event)" (onDeSelect)="onItemDeslectDay($event)">
+                </ng-multiselect-dropdown>
+                <br>
+            </div>
+            <div class="col-lg-3">
+                <select class="form-control" (change)="GetAppointmentTypeID($event)" [(ngModel)]="mrngAppointmenttype"
+                    name="mrngAppointmenttype">
+                    <option value="0">{{labels.select}}</option>
+                    <option value="1">{{labels.inClinic}}</option>
+                    <option value="2">{{labels.video}}</option>
+                    <option value="5">{{labels.homeVisit}}</option>
+                    <option value="6">{{labels.meeting}}</option>
+                </select><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <select class="form-control" (change)="getmrngfrom($event)" [(ngModel)]="mrngfromid" name="mrngfromid">
+                    <option value="">{{labels.startTime}}</option>
+                    <option *ngFor="let mrngfrm of mrngfromlist" value="{{ mrngfrm.id }}">{{ mrngfrm.slots }}</option>
+                </select><br>
+            </div>
+            <div class="col-lg-3">
+                <select class="form-control" (change)="getmrngto($event)" [(ngModel)]="mrngtoid" name="mrngtoid">
+                    <option value="">{{labels.endTime}}</option>
+                    <option *ngFor="let mrngto of mrngtolist" value="{{ mrngto.id }}">{{ mrngto.slots}}</option>
+                </select><br>
+            </div>
+            <div class="col-lg-3" *ngIf="mrngAppointmenttype!=6">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Fees"
+                        [(ngModel)]="fees" required name="fees">
+                    <label for="floatingInput" class="floatingLabel">{{labels.fees}}</label>
+                </div><br>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-6 tableoverflow">
+                <!-- <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                    <button type="button" class="btn color">{{labels.inClinic}}</button>
+                    <button type="button" class="btn button2">{{labels.video}}</button>
+                    <button type="button" class="btn button3">{{labels.homeVisit}}</button>
+                    <button type="button" class="btn button4">{{labels.notAvailable}}</button>
+                    <button type="button" class="btn button5">{{labels.meeting}}</button>
+                </div> -->
+            </div>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-1">
+                <button type="button" class="save" (click)="adddetails()">{{labels.add}}</button>&nbsp;  
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" routerLink="/countrymanager/Planning">{{labels.back}}</button>
+            </div>
+        </div><br>
+        <div class="row" *ngIf="tablecount=='1'">
+            <div class="col-lg-12 tableoverflow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th *ngIf="hospitalid!='3'">{{labels.hospital}}</th>
+                            <th>{{labels.startTime}}</th>
+                            <th>{{labels.endTime}}</th>
+                            <th>{{labels.fees}}</th>
+                            <th>{{labels.actions}}</th>
+                        </tr>
+                        <tr *ngFor="let details of qwerty">
+                            <td>{{details.Hospital_Clinic}}</td>
+                            <td [style.background-color]="details.MrngColorCode" style="color:white">
+                                {{details.StartTime}}
+                            </td>
+                            <td [style.background-color]="details.MrngColorCode" style="color:white">
+                                {{details.EndTime}}</td>
+                            <td> {{details.Fees}}</td>
+                            <td>
+                                <img src="assets/Icons/delete.png" (click)="delete(details.Sno)"
+                                    style="width: 20px;margin-left: 10px;">
+
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div><br>
+        <div class="row" *ngIf="tablecount=='1'">
+            <div class="col-lg-10"></div>
+            <div class="col-lg-2">
+                <button class="save" (click)="insertdetails()">{{labels.save}}</button>
+            </div>
+        </div>
+    </div>
+    <br>
+
+</div>

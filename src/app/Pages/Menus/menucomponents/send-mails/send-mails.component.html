@@ -1,0 +1,147 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.emailService}}</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search" name="search" (keyup)="Search()">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-control" (change)="SelectTypeID($event)" [(ngModel)]="typeid" [(ngModel)]="typeid">
+                <option value="0">{{labels.selectType}}</option>
+                <option value="1">{{labels.patients}}</option>
+                <option value="2">{{labels.doctor}}</option>
+                <option value="3">{{labels.nurse}}</option>
+                <option value="4">{{labels.physiotherapist}}</option>
+                <option value="5">{{labels.midwife}}</option>
+                <option value="6">Hôpital / Cliniques</option>
+            </select>
+        </div>
+        <div class="col-lg-2">
+            <input type="checkbox"  (change)="GetPatientSelectAll($event)"> {{labels.selectALL}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img class="checkbox" src="assets/Icons/email.png" data-bs-toggle="modal" data-bs-target="#email"
+                (click)="getpatientEmails('selectall')">
+        </div>
+        <div class="col-lg-2"> <input type="checkbox" > Selected Provider
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img class="checkbox" src="assets/Icons/email.png" data-bs-toggle="modal" data-bs-target="#email"
+                (click)="getpatientEmails('provider')"></div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover" id="download">
+                <tr>
+                    <th>{{labels.patientID}}</th>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phoneNumber}}</th>
+                    <th>{{labels.email}}</th>
+                    <th>{{labels.actions}}</th>
+                </tr>
+                <tr
+                    *ngFor="let list of filteredList|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{list.id}}</td>
+                    <td>{{list.patientName}}</td>
+                    <td>{{list.mobileNumber}}</td>
+                    <td>{{list.emailID}}</td>
+                    <td>
+                        <input type="checkbox" [(ngModel)]="list.checked"
+                            (change)="GetPatientSendemailslist($event,list)">&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="email" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">{{labels.email}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <br>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                               disabled [(ngModel)]="fromEmail" name="fromEmail" style="height: 100px"></textarea>
+                            <label for="floatingTextarea2">{{labels.from}}</label>
+                        </div>
+
+
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                               disabled [(ngModel)]="selectedprovidersemail" name="showpatientemails"
+                                style="height: 100px"></textarea>
+                            <label for="floatingTextarea2">{{labels.to}}</label>
+                        </div>
+
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                                [(ngModel)]="Subject" name="Subject" style="height: 100px"></textarea>
+                            <label for="floatingTextarea2">{{labels.subject}}</label>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-floating">
+                            <!-- <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                                [(ngModel)]="message" name="message" style="height: 100px"></textarea> -->
+                                <ckeditor data="" [(ngModel)]="message" name="message"placeholder="Leave a comment here" id="floatingTextarea2"></ckeditor>
+                         
+                        </div>
+
+                    </div>
+                </div><br>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ngx-dropzone (change)="onSelect($event)" class="dropZone">
+                            <ngx-dropzone-label>{{labels.attachment}}</ngx-dropzone-label>
+                            <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                                <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                            </ngx-dropzone-preview>
+                        </ngx-dropzone>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="add" (click)="ClearEmail()">{{labels.clear}}</button>
+                <button type="button" class="add" (click)="SendEmail(selectedall)" data-bs-dismiss="modal">{{labels.send}}</button>
+                <button type="button" class="add" data-bs-dismiss="modal">{{labels.close}}</button>
+            </div>
+        </div>
+    </div>
+</div>

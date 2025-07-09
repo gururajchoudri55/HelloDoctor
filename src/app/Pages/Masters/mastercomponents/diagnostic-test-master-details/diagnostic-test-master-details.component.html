@@ -1,0 +1,53 @@
+<app-toastpopup [messageID]="messageID" [typeofPopUp]="typeofPopUp" *ngIf="showPopup==1"></app-toastpopup>
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h5 class="headings">{{labels.diagnosticTestMaster}}</h5>
+        </div>
+        <div class="col-lg-8"></div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="row">
+            <div class="col-lg-4">
+                <!-- <select class="form-control" (change)="GetTestsID($event)" [(ngModel)]="testsid" name="testsid">
+                  <option value="0">{{labels.select}}</option>
+                  <option *ngFor="let test of testslist" value="{{test.id}}">{{test.name}}</option>
+                </select> -->
+
+                <ng-multiselect-dropdown [placeholder]="searchtext" [settings]="patientdd" [data]="testslist"
+                (onSelect)="GetTestsID($event)" >
+                  </ng-multiselect-dropdown>
+
+              </div>
+
+            <div class="col-lg-3">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control inputfield" id="floatingInput" placeholder="Testname"
+                        required [(ngModel)]="testname" name="testname">
+                    <label for="floatingInput" class="floatingLabel">{{labels.testName}}</label>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Description" id="floatingTextarea"
+                        [(ngModel)]="description" name="description"></textarea>
+                    <label for="floatingTextarea">{{labels.description}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-2">
+                <button type="button" class="save" *ngIf="showbit=='0'"  (click)="insertdetails()">{{labels.save}}</button>
+                <button type="button" class="save" *ngIf="showbit=='1'"  (click)="updatedetails()">{{labels.update}}</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="save" (click)="cancel()">{{labels.back}}</button>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>

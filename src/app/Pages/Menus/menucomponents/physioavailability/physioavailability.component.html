@@ -1,0 +1,71 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8 col-sm-6">
+            <h5 class="headings">{{labels.caregiver}}</h5>
+        </div>
+        <div class="col-lg-4 col-sm-6 buttonsss">
+
+        </div>
+    </div>
+</div>
+<br>
+<div class="container-fluid card card-hover">
+    <div class="row">
+        <!-- <div class="col-lg-3">
+            <input type="text"
+            placeholder="Select Date"
+            class="form-control"
+            bsDaterangepicker
+            [(ngModel)]="bsRangeValue" (ngModelChange)="selectDate(bsRangeValue)"
+            [bsConfig]="{ isAnimated: true }">
+        </div> -->
+        <div class="col-lg-3">
+            <input type="text" placeholder="{{labels.enddate}}" class="form-control" [(ngModel)]="AppointmentDate" name="AppointmentDate"
+            bsDatepicker [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD' }"
+            (ngModelChange)="getAppointmentDate(AppointmentDate)">
+        </div>
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div><br>
+       
+        <div class="col-lg-6 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-striped" id="download">
+                <tr>
+                    <th>{{labels.date}}</th>
+                    <th>{{labels.physiotherapist}}</th>
+                    <th>{{labels.mobilenumber}}</th>
+                    <th>{{labels.email}}</th>
+                   
+                </tr>
+                <tr *ngFor="let details of ReportList|filter:search| paginate: { id: 'foo', itemsPerPage: 15, currentPage: p}">
+                    <td>{{AppointmentDate}}</td>
+                    <td>{{details.name}}</td>
+                    <td>{{details.phoneNo}}</td>
+                    <td>{{details.email}}</td>
+                
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}"
+            nextLabel="{{labels.next}}" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+<br>

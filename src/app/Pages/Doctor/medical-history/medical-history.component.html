@@ -1,0 +1,78 @@
+<app-loader *ngIf="loader==true"></app-loader>
+<app-sms></app-sms>
+<div class="container-fluid headercard card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-8">
+            <h5 class="headings">{{labels.emr}}</h5>
+        </div>
+    </div>
+</div>
+<div class="container-fluid card card-hover headerspace">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control inputfield" id="floatingInput" placeholder="Search"
+                    [(ngModel)]="search">
+                <label for="floatingInput" class="floatingLabel">{{labels.search}}</label>
+            </div>
+        </div>
+        <div class="col-lg-7"></div>
+        <div class="col-lg-2 countClass">
+            <label>{{labels.count}} : {{count}} </label>
+        </div>
+    </div>
+    <br>
+    <div class="row ">
+        <div class="col-lg-12 tableoverflow">
+            <table class="table table-hover">
+                <tr>
+                    <th>{{labels.patientName}}</th>
+                    <th>{{labels.phonenumber}}</th>
+                    <th>{{labels.emialID}}</th>
+                    <th>{{labels.address}}</th>
+                    <th>{{labels.dme}}</th>
+                </tr>
+                <tr
+                    *ngFor="let details of appointmentlist|filter:search|paginate: { id: 'foo', itemsPerPage: 10, currentPage: p}">
+                    <td>{{details.patientName}}</td>
+                    <td>+{{details.countryCodeNew}} {{details.mobileNumber}}</td>
+                    <td>{{details.emailID}}</td>
+                    <!-- <td>{{details.address}}</td> -->
+                    <td>
+                        <img src="assets/Icons/location.png" (click)="getAddress(details.address)" 
+                        data-bs-toggle="modal" data-bs-target="#location" >
+                    </td>
+                    <td>
+                        <img class="folder" src="assets/Icons/folder.png" (click)="edit(details.patientID)">
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-12" style="text-align: end">
+        <pagination-controls id="foo" (pageChange)="pageChanged($event)" previousLabel="{{labels.previous}}" nextLabel="{{labels.next}}"
+            screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="location" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" style="float: right;">
+        <div class="modal-content card card-hover">
+            <div class="modal-header">
+                <label class="modal-title" id="staticBackdropLabel"><b>{{labels.address}}</b></label>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    {{location}}
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
